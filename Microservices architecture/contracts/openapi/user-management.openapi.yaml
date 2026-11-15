@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  title: Vairas — User Management API (PROPOSED)
+  version: 0.1.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is
+    mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /internal/v1/users/{userId}/status:
+    get:
+      operationId: checkUserStatus
+      summary: Query authoritative user active status
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatus'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - workloadBearer: []
+  /internal/v1/users/{userId}/contact:
+    get:
+      operationId: getUserContact
+      summary: Authorized contact lookup for notification delivery or document creation
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserContact'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - workloadBearer: []
+  /api/v1/users/me:
+    get:
+      operationId: getMyProfile
+      summary: Fetch business profile of authenticated user
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+    UserStatus:
+      type: object
+      required:
+      - userId
+      - active
+      properties:
+        userId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+    UserContact:
+      type: object
+      required:
+      - userId
+      - email
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+    UserProfile:
+      type: object
+      required:
+      - userId
+      - firstName
+      - lastName
+      properties:
+        userId:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string

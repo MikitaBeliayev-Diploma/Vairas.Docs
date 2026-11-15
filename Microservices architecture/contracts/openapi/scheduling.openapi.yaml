@@ -1,0 +1,350 @@
+openapi: 3.1.0
+info:
+  title: Vairas — Scheduling API (PROPOSED)
+  version: 0.1.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource
+    authorization is mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /api/v1/practical-lessons:
+    post:
+      operationId: createPracticalLesson
+      summary: Atomically reserve student, instructor and vehicle for one timeslot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePracticalLesson'
+      responses:
+        '201':
+          description: Accepted and committed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticalLesson'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+  /api/v1/practical-lessons/{lessonId}:
+    get:
+      operationId: getPracticalLesson
+      summary: Get authorized lesson by ID
+      parameters:
+      - name: lessonId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticalLesson'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+  /api/v1/practical-lessons/{lessonId}/completion:
+    post:
+      operationId: completePracticalLesson
+      summary: Mark scheduled lesson complete and store LessonCompleted Outbox event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteLesson'
+      responses:
+        '200':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PracticalLesson'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+    CreatePracticalLesson:
+      type: object
+      required:
+      - schoolId
+      - branchId
+      - enrollmentId
+      - studentId
+      - teacherId
+      - vehicleId
+      - category
+      - startsAt
+      - endsAt
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+        branchId:
+          type: string
+          format: uuid
+        enrollmentId:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        teacherId:
+          type: string
+          format: uuid
+        vehicleId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        startsAt:
+          type: string
+          format: date-time
+        endsAt:
+          type: string
+          format: date-time
+    PracticalLesson:
+      type: object
+      required:
+      - lessonId
+      - status
+      - version
+      properties:
+        lessonId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        version:
+          type: integer
+        startsAt:
+          type: string
+          format: date-time
+        endsAt:
+          type: string
+          format: date-time
+    CompleteLesson:
+      type: object
+      required:
+      - expectedVersion
+      properties:
+        expectedVersion:
+          type: integer
+          minimum: 1
+    CreateBlock:
+      type: object
+      required:
+      - operationId
+      - vehicleId
+      - reason
+      - conflictPolicy
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        vehicleId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          enum:
+          - Maintenance
+          - Deactivation
+        conflictPolicy:
+          type: string
+          enum:
+          - RejectIfFutureBookings
+    BlockOutcome:
+      type: object
+      required:
+      - operationId
+      - result
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        blockId:
+          type: string
+          format: uuid
+        result:
+          type: string
+          enum:
+          - Blocked
+          - Rejected
+        errorCode:
+          type: string

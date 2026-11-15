@@ -1,0 +1,388 @@
+asyncapi: 3.0.0
+info:
+  title: Vairas — Vehicle Management Integration Events
+  version: 0.1.0
+  description: PROPOSED AsyncAPI 3.0.0 contract for Vehicle Management. Events are reliable at-least-once messages;
+    see README for exact publishing, ordering, privacy and recovery semantics. Logical channel addresses are broker-neutral.
+    This is a proposed inter-service payload, not a claim of implemented integration.
+defaultContentType: application/json
+channels:
+  maintenanceCompleted:
+    address: vairas.vehicle.maintenance-completed.v1
+    title: MaintenanceCompleted v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      MaintenanceCompleted:
+        $ref: '#/components/messages/MaintenanceCompleted'
+  maintenanceScheduled:
+    address: vairas.vehicle.maintenance-scheduled.v1
+    title: MaintenanceScheduled v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      MaintenanceScheduled:
+        $ref: '#/components/messages/MaintenanceScheduled'
+  maintenanceStarted:
+    address: vairas.vehicle.maintenance-started.v1
+    title: MaintenanceStarted v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      MaintenanceStarted:
+        $ref: '#/components/messages/MaintenanceStarted'
+  vehicleActivated:
+    address: vairas.vehicle.activated.v1
+    title: VehicleActivated v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      VehicleActivated:
+        $ref: '#/components/messages/VehicleActivated'
+  vehicleDeactivated:
+    address: vairas.vehicle.deactivated.v1
+    title: VehicleDeactivated v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      VehicleDeactivated:
+        $ref: '#/components/messages/VehicleDeactivated'
+operations:
+  publishMaintenanceCompleted:
+    action: send
+    title: Publish MaintenanceCompleted
+    channel:
+      $ref: '#/channels/maintenanceCompleted'
+    messages:
+    - $ref: '#/channels/maintenanceCompleted/messages/MaintenanceCompleted'
+  publishMaintenanceScheduled:
+    action: send
+    title: Publish MaintenanceScheduled
+    channel:
+      $ref: '#/channels/maintenanceScheduled'
+    messages:
+    - $ref: '#/channels/maintenanceScheduled/messages/MaintenanceScheduled'
+  publishMaintenanceStarted:
+    action: send
+    title: Publish MaintenanceStarted
+    channel:
+      $ref: '#/channels/maintenanceStarted'
+    messages:
+    - $ref: '#/channels/maintenanceStarted/messages/MaintenanceStarted'
+  publishVehicleActivated:
+    action: send
+    title: Publish VehicleActivated
+    channel:
+      $ref: '#/channels/vehicleActivated'
+    messages:
+    - $ref: '#/channels/vehicleActivated/messages/VehicleActivated'
+  publishVehicleDeactivated:
+    action: send
+    title: Publish VehicleDeactivated
+    channel:
+      $ref: '#/channels/vehicleDeactivated'
+    messages:
+    - $ref: '#/channels/vehicleDeactivated/messages/VehicleDeactivated'
+components:
+  schemas:
+    IntegrationHeaders:
+      type: object
+      additionalProperties: false
+      description: Application headers only; broker protocol-level delivery headers are transport-specific.
+      required:
+      - eventId
+      - eventType
+      - eventVersion
+      - occurredAt
+      - producer
+      - correlationId
+      - aggregateId
+      - aggregateVersion
+      properties:
+        eventId: &id002
+          type: string
+          format: uuid
+        eventType: &id001
+          type: string
+          minLength: 1
+        eventVersion:
+          type: integer
+          const: 1
+        occurredAt:
+          type: string
+          format: date-time
+        producer:
+          type: string
+          enum:
+          - school
+          - scheduling
+          - vehicle
+          - learning
+          - documents
+          - notifications
+          - user
+        correlationId: *id001
+        causationId: *id001
+        aggregateId: *id002
+        aggregateVersion:
+          type: integer
+          minimum: 1
+        traceparent: *id001
+    MaintenanceCompletedPayload:
+      type: object
+      description: Maintenance ended; does not independently mean vehicle is active or a Scheduling block was safely
+        released.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - completedAt
+      properties:
+        schoolId: &id003
+          type: string
+          format: uuid
+        vehicleId: *id003
+        maintenanceId: *id003
+        completedAt:
+          type: string
+          format: date-time
+    MaintenanceScheduledPayload:
+      type: object
+      description: Maintenance is planned; notification to authorized staff is optional. Scheduling conflicts are
+        managed separately.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - scheduledAt
+      - maintenanceType
+      properties:
+        schoolId: &id004
+          type: string
+          format: uuid
+        vehicleId: *id004
+        maintenanceId: *id004
+        scheduledAt:
+          type: string
+          format: date-time
+        maintenanceType:
+          type: string
+          enum:
+          - Service
+          - Repair
+          - Inspection
+    MaintenanceStartedPayload:
+      type: object
+      description: Maintenance actually started after a successful planned-maintenance Saga, or under the separately
+        audited emergency procedure.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - effectiveAt
+      - operationId
+      - mode
+      properties:
+        schoolId: &id005
+          type: string
+          format: uuid
+        vehicleId: *id005
+        maintenanceId: *id005
+        effectiveAt:
+          type: string
+          format: date-time
+        operationId: *id005
+        mode:
+          type: string
+          enum:
+          - Planned
+          - Emergency
+    VehicleActivatedPayload:
+      type: object
+      description: Vehicle operational state is Active, but Scheduling must not release its booking gate merely because
+        this event was received.
+      additionalProperties: false
+      required:
+      - schoolId
+      - branchId
+      - vehicleId
+      - effectiveAt
+      properties:
+        schoolId: &id006
+          type: string
+          format: uuid
+        branchId: *id006
+        vehicleId: *id006
+        effectiveAt:
+          type: string
+          format: date-time
+    VehicleDeactivatedPayload:
+      type: object
+      description: Vehicle became operationally Inactive. Emergency deactivation is authoritative in Vehicle; an event
+        alone is not an atomic booking fence.
+      additionalProperties: false
+      required:
+      - schoolId
+      - branchId
+      - vehicleId
+      - effectiveAt
+      - reason
+      properties:
+        schoolId: &id007
+          type: string
+          format: uuid
+        branchId: *id007
+        vehicleId: *id007
+        effectiveAt:
+          type: string
+          format: date-time
+        reason:
+          type: string
+          minLength: 1
+  messages:
+    MaintenanceCompleted:
+      name: MaintenanceCompleted
+      title: MaintenanceCompleted v1
+      summary: Maintenance ended; does not independently mean vehicle is active or a Scheduling block was safely released.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceCompletedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceCompleted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceCompleted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          completedAt: '2026-11-18T15:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    MaintenanceScheduled:
+      name: MaintenanceScheduled
+      title: MaintenanceScheduled v1
+      summary: Maintenance is planned; notification to authorized staff is optional. Scheduling conflicts are managed
+        separately.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceScheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceScheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceScheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          scheduledAt: '2026-11-18T10:00:00Z'
+          maintenanceType: Inspection
+      x-contract-status: Base DDD event; integration payload proposed
+    MaintenanceStarted:
+      name: MaintenanceStarted
+      title: MaintenanceStarted v1
+      summary: Maintenance actually started after a successful planned-maintenance Saga, or under the separately audited
+        emergency procedure.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceStartedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceStarted
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceStarted
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          effectiveAt: '2026-11-18T10:00:00Z'
+          operationId: 10000000-0000-4000-8000-000000000011
+          mode: Planned
+      x-contract-status: Base DDD event; integration payload proposed
+    VehicleActivated:
+      name: VehicleActivated
+      title: VehicleActivated v1
+      summary: Vehicle operational state is Active, but Scheduling must not release its booking gate merely because
+        this event was received.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/VehicleActivatedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleVehicleActivated
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: VehicleActivated
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000009
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          branchId: 10000000-0000-4000-8000-000000000008
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          effectiveAt: '2026-11-15T15:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    VehicleDeactivated:
+      name: VehicleDeactivated
+      title: VehicleDeactivated v1
+      summary: Vehicle became operationally Inactive. Emergency deactivation is authoritative in Vehicle; an event
+        alone is not an atomic booking fence.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/VehicleDeactivatedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleVehicleDeactivated
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: VehicleDeactivated
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000009
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          branchId: 10000000-0000-4000-8000-000000000008
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          effectiveAt: '2026-11-15T09:00:00Z'
+          reason: Emergency breakdown
+      x-contract-status: Base DDD event; integration payload proposed

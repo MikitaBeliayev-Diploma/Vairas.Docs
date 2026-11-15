@@ -1,0 +1,20 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "MaintenanceStarted",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "vehicle",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000010",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "vehicleId": "10000000-0000-4000-8000-000000000009",
+    "maintenanceId": "10000000-0000-4000-8000-000000000010",
+    "effectiveAt": "2026-11-18T10:00:00Z",
+    "operationId": "10000000-0000-4000-8000-000000000011",
+    "mode": "Planned"
+  }
+}

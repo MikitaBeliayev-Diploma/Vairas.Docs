@@ -1,0 +1,427 @@
+openapi: 3.1.0
+info:
+  title: Vairas — School Management API (PROPOSED)
+  version: 0.1.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource
+    authorization is mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /internal/v1/enrollments/{enrollmentId}/eligibility:
+    get:
+      operationId: checkEnrollmentEligibility
+      summary: Check enrollment eligibility for this school and actor
+      parameters:
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: actingUserId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      - name: teacherId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentEligibility'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - workloadBearer: []
+  /internal/v1/groups/{groupId}/participants:
+    get:
+      operationId: getGroupParticipants
+      summary: Resolve enrolled students to be reserved for a theory lesson
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupParticipants'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - workloadBearer: []
+  /api/v1/schools/{schoolId}/enrollments:
+    post:
+      operationId: createEnrollment
+      summary: Create school-scoped enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnrollment'
+      responses:
+        '201':
+          description: Accepted and committed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+  /api/v1/schools/{schoolId}/memberships:
+    get:
+      operationId: getMemberships
+      summary: Return memberships authorized for this school
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipList'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+    EnrollmentEligibility:
+      type: object
+      required:
+      - enrollmentId
+      - schoolId
+      - studentId
+      - active
+      - category
+      - version
+      - teacherAllowed
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+        category:
+          type: string
+        version:
+          type: integer
+          minimum: 1
+        teacherAllowed:
+          type: boolean
+    GroupParticipants:
+      type: object
+      required:
+      - groupId
+      - schoolId
+      - studentIds
+      - membershipVersion
+      properties:
+        groupId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        studentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        membershipVersion:
+          type: integer
+          minimum: 1
+    CreateEnrollment:
+      type: object
+      required:
+      - studentId
+      - licenseCategory
+      properties:
+        studentId:
+          type: string
+          format: uuid
+        licenseCategory:
+          type: string
+    Enrollment:
+      type: object
+      required:
+      - enrollmentId
+      - schoolId
+      - studentId
+      - status
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+    MembershipList:
+      type: array
+      items:
+        type: object
+        required:
+        - userId
+        - role
+        properties:
+          userId:
+            type: string
+            format: uuid
+          role:
+            type: string

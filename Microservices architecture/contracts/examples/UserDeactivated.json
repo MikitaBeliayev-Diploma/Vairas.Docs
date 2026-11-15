@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "UserDeactivated",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "user",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000007",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "userId": "10000000-0000-4000-8000-000000000007",
+    "deactivatedAt": "2026-11-15T12:00:00Z"
+  }
+}

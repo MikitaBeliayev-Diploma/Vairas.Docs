@@ -1,0 +1,522 @@
+asyncapi: 3.0.0
+info:
+  title: Vairas — Notifications Integration Events
+  version: 0.1.0
+  description: PROPOSED AsyncAPI 3.0.0 contract for Notifications. Events are reliable at-least-once messages; see
+    README for exact publishing, ordering, privacy and recovery semantics. Logical channel addresses are broker-neutral.
+    This is a proposed inter-service payload, not a claim of implemented integration.
+defaultContentType: application/json
+channels:
+  assessmentFailed:
+    address: vairas.learning.assessment-failed.v1
+    title: AssessmentFailed v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      AssessmentFailed:
+        $ref: '#/components/messages/AssessmentFailed'
+  assessmentPassed:
+    address: vairas.learning.assessment-passed.v1
+    title: AssessmentPassed v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      AssessmentPassed:
+        $ref: '#/components/messages/AssessmentPassed'
+  lessonCancelled:
+    address: vairas.scheduling.lesson-cancelled.v1
+    title: LessonCancelled v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      LessonCancelled:
+        $ref: '#/components/messages/LessonCancelled'
+  lessonRescheduled:
+    address: vairas.scheduling.lesson-rescheduled.v1
+    title: LessonRescheduled v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      LessonRescheduled:
+        $ref: '#/components/messages/LessonRescheduled'
+  lessonScheduled:
+    address: vairas.scheduling.lesson-scheduled.v1
+    title: LessonScheduled v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      LessonScheduled:
+        $ref: '#/components/messages/LessonScheduled'
+  maintenanceScheduled:
+    address: vairas.vehicle.maintenance-scheduled.v1
+    title: MaintenanceScheduled v1
+    description: Logical topic name; transport/broker bindings are not selected yet.
+    messages:
+      MaintenanceScheduled:
+        $ref: '#/components/messages/MaintenanceScheduled'
+operations:
+  consumeAssessmentFailed:
+    action: receive
+    title: Consume AssessmentFailed
+    channel:
+      $ref: '#/channels/assessmentFailed'
+    messages:
+    - $ref: '#/channels/assessmentFailed/messages/AssessmentFailed'
+  consumeAssessmentPassed:
+    action: receive
+    title: Consume AssessmentPassed
+    channel:
+      $ref: '#/channels/assessmentPassed'
+    messages:
+    - $ref: '#/channels/assessmentPassed/messages/AssessmentPassed'
+  consumeLessonCancelled:
+    action: receive
+    title: Consume LessonCancelled
+    channel:
+      $ref: '#/channels/lessonCancelled'
+    messages:
+    - $ref: '#/channels/lessonCancelled/messages/LessonCancelled'
+  consumeLessonRescheduled:
+    action: receive
+    title: Consume LessonRescheduled
+    channel:
+      $ref: '#/channels/lessonRescheduled'
+    messages:
+    - $ref: '#/channels/lessonRescheduled/messages/LessonRescheduled'
+  consumeLessonScheduled:
+    action: receive
+    title: Consume LessonScheduled
+    channel:
+      $ref: '#/channels/lessonScheduled'
+    messages:
+    - $ref: '#/channels/lessonScheduled/messages/LessonScheduled'
+  consumeMaintenanceScheduled:
+    action: receive
+    title: Consume MaintenanceScheduled
+    channel:
+      $ref: '#/channels/maintenanceScheduled'
+    messages:
+    - $ref: '#/channels/maintenanceScheduled/messages/MaintenanceScheduled'
+components:
+  schemas:
+    IntegrationHeaders:
+      type: object
+      additionalProperties: false
+      description: Application headers only; broker protocol-level delivery headers are transport-specific.
+      required:
+      - eventId
+      - eventType
+      - eventVersion
+      - occurredAt
+      - producer
+      - correlationId
+      - aggregateId
+      - aggregateVersion
+      properties:
+        eventId: &id002
+          type: string
+          format: uuid
+        eventType: &id001
+          type: string
+          minLength: 1
+        eventVersion:
+          type: integer
+          const: 1
+        occurredAt:
+          type: string
+          format: date-time
+        producer:
+          type: string
+          enum:
+          - school
+          - scheduling
+          - vehicle
+          - learning
+          - documents
+          - notifications
+          - user
+        correlationId: *id001
+        causationId: *id001
+        aggregateId: *id002
+        aggregateVersion:
+          type: integer
+          minimum: 1
+        traceparent: *id001
+    AssessmentFailedPayload:
+      type: object
+      description: Result recorded with Failed outcome. Distribution restricted to authorized notifications handling.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - assessmentId
+      - assessedAt
+      properties:
+        schoolId: &id003
+          type: string
+          format: uuid
+        enrollmentId: *id003
+        assessmentId: *id003
+        assessedAt:
+          type: string
+          format: date-time
+    AssessmentPassedPayload:
+      type: object
+      description: Result recorded with Passed outcome. Do not include student marks, teacher comments or health data
+        in generic event.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - assessmentId
+      - assessedAt
+      properties:
+        schoolId: &id004
+          type: string
+          format: uuid
+        enrollmentId: *id004
+        assessmentId: *id004
+        assessedAt:
+          type: string
+          format: date-time
+    LessonCancelledPayload:
+      type: object
+      description: Lesson cancelled. Recipients must suppress older queued reminders; already-in-flight messages may
+        still be sent.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - cancelledAt
+      properties:
+        schoolId: &id005
+          type: string
+          format: uuid
+        lessonId: *id005
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        teacherId: *id005
+        enrollmentId: *id005
+        groupId: *id005
+        vehicleId: *id005
+        cancelledAt:
+          type: string
+          format: date-time
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    LessonRescheduledPayload:
+      type: object
+      description: A lesson has a new time slot. Source aggregateVersion strictly increases, so stale reminder events
+        may be ignored.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - startsAt
+      - endsAt
+      - previousStartsAt
+      - previousEndsAt
+      properties:
+        schoolId: &id006
+          type: string
+          format: uuid
+        lessonId: *id006
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        teacherId: *id006
+        enrollmentId: *id006
+        groupId: *id006
+        vehicleId: *id006
+        startsAt: &id007
+          type: string
+          format: date-time
+        endsAt: *id007
+        previousStartsAt: *id007
+        previousEndsAt: *id007
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    LessonScheduledPayload:
+      type: object
+      description: Scheduled lesson persisted. Participant identifiers only; recipients resolved with school authorization.
+      additionalProperties: false
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - startsAt
+      - endsAt
+      - teacherId
+      properties:
+        schoolId: &id008
+          type: string
+          format: uuid
+        lessonId: *id008
+        lessonKind:
+          type: string
+          enum:
+          - Practical
+          - Theory
+        startsAt: &id009
+          type: string
+          format: date-time
+        endsAt: *id009
+        teacherId: *id008
+        enrollmentId: *id008
+        groupId: *id008
+        vehicleId: *id008
+      allOf:
+      - if:
+          properties:
+            lessonKind:
+              const: Practical
+          required:
+          - lessonKind
+        then:
+          required:
+          - enrollmentId
+          - vehicleId
+        else:
+          required:
+          - groupId
+    MaintenanceScheduledPayload:
+      type: object
+      description: Maintenance is planned; notification to authorized staff is optional. Scheduling conflicts are
+        managed separately.
+      additionalProperties: false
+      required:
+      - schoolId
+      - vehicleId
+      - maintenanceId
+      - scheduledAt
+      - maintenanceType
+      properties:
+        schoolId: &id010
+          type: string
+          format: uuid
+        vehicleId: *id010
+        maintenanceId: *id010
+        scheduledAt:
+          type: string
+          format: date-time
+        maintenanceType:
+          type: string
+          enum:
+          - Service
+          - Repair
+          - Inspection
+  messages:
+    AssessmentFailed:
+      name: AssessmentFailed
+      title: AssessmentFailed v1
+      summary: Result recorded with Failed outcome. Distribution restricted to authorized notifications handling.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/AssessmentFailedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleAssessmentFailed
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: AssessmentFailed
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: learning
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000013
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          assessmentId: 10000000-0000-4000-8000-000000000013
+          assessedAt: '2026-11-15T13:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    AssessmentPassed:
+      name: AssessmentPassed
+      title: AssessmentPassed v1
+      summary: Result recorded with Passed outcome. Do not include student marks, teacher comments or health data
+        in generic event.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/AssessmentPassedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleAssessmentPassed
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: AssessmentPassed
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: learning
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000013
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          assessmentId: 10000000-0000-4000-8000-000000000013
+          assessedAt: '2026-11-15T13:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonCancelled:
+      name: LessonCancelled
+      title: LessonCancelled v1
+      summary: Lesson cancelled. Recipients must suppress older queued reminders; already-in-flight messages may still
+        be sent.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonCancelledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonCancelled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonCancelled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          cancelledAt: '2026-11-18T14:00:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonRescheduled:
+      name: LessonRescheduled
+      title: LessonRescheduled v1
+      summary: A lesson has a new time slot. Source aggregateVersion strictly increases, so stale reminder events
+        may be ignored.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonRescheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonRescheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonRescheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          startsAt: '2026-11-20T10:00:00Z'
+          endsAt: '2026-11-20T11:30:00Z'
+          previousStartsAt: '2026-11-19T10:00:00Z'
+          previousEndsAt: '2026-11-19T11:30:00Z'
+      x-contract-status: Base DDD event; integration payload proposed
+    LessonScheduled:
+      name: LessonScheduled
+      title: LessonScheduled v1
+      summary: Scheduled lesson persisted. Participant identifiers only; recipients resolved with school authorization.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonScheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleLessonScheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: LessonScheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: scheduling
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000012
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          lessonId: 10000000-0000-4000-8000-000000000012
+          lessonKind: Practical
+          startsAt: '2026-11-19T10:00:00Z'
+          endsAt: '2026-11-19T11:30:00Z'
+          teacherId: 10000000-0000-4000-8000-000000000005
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          vehicleId: 10000000-0000-4000-8000-000000000009
+      x-contract-status: Base DDD event; integration payload proposed
+    MaintenanceScheduled:
+      name: MaintenanceScheduled
+      title: MaintenanceScheduled v1
+      summary: Maintenance is planned; notification to authorized staff is optional. Scheduling conflicts are managed
+        separately.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/MaintenanceScheduledPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: sampleMaintenanceScheduled
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: MaintenanceScheduled
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: vehicle
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000010
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          vehicleId: 10000000-0000-4000-8000-000000000009
+          maintenanceId: 10000000-0000-4000-8000-000000000010
+          scheduledAt: '2026-11-18T10:00:00Z'
+          maintenanceType: Inspection
+      x-contract-status: Base DDD event; integration payload proposed

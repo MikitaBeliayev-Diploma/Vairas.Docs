@@ -1,0 +1,19 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "SchoolMembershipEnded",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "school",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000006",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "membershipId": "10000000-0000-4000-8000-000000000006",
+    "userId": "10000000-0000-4000-8000-000000000007",
+    "role": "Teacher",
+    "endedAt": "2026-11-15T13:00:00Z"
+  }
+}

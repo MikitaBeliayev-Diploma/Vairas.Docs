@@ -1,0 +1,19 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "VehicleDeactivated",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "vehicle",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000009",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "branchId": "10000000-0000-4000-8000-000000000008",
+    "vehicleId": "10000000-0000-4000-8000-000000000009",
+    "effectiveAt": "2026-11-15T09:00:00Z",
+    "reason": "Emergency breakdown"
+  }
+}

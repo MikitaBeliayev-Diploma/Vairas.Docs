@@ -83,7 +83,13 @@ The [correlation document](assets/diagrams/06-correlation-id-propagation.md) def
 
 ## API contracts
 
-OpenAPI and AsyncAPI contracts are separate required submission artifacts. They are not included in this diagram package; the communication diagrams do not replace those contracts.
+The [API contract index](contracts/README.md) includes:
+
+- [8 OpenAPI 3.1 specifications](contracts/openapi/) for REST/HTTP interfaces.
+- [7 AsyncAPI 3.0 specifications](contracts/asyncapi/) for integration events.
+- [21 JSON event examples](contracts/examples/), an [event catalog](contracts/docs/EVENT_CATALOG.md) and [Saga REST contracts](contracts/docs/ADR-007-saga-rest-contracts.md).
+
+The supplied contracts describe proposed interfaces. [MCP tool-definition schemas](contracts/mcp/README.md) remain a separate artifact.
 
 ## Infrastructure references
 

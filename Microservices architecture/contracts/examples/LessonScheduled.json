@@ -1,0 +1,22 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "LessonScheduled",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "scheduling",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000012",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "lessonId": "10000000-0000-4000-8000-000000000012",
+    "lessonKind": "Practical",
+    "startsAt": "2026-11-19T10:00:00Z",
+    "endsAt": "2026-11-19T11:30:00Z",
+    "teacherId": "10000000-0000-4000-8000-000000000005",
+    "enrollmentId": "10000000-0000-4000-8000-000000000002",
+    "vehicleId": "10000000-0000-4000-8000-000000000009"
+  }
+}

@@ -1,0 +1,314 @@
+openapi: 3.1.0
+info:
+  title: Vairas — Learning Tracking API (PROPOSED)
+  version: 0.1.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is
+    mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /internal/v1/student-trainings/{enrollmentId}/confirmed-practical-records:
+    get:
+      operationId: getConfirmedPracticalRecords
+      summary: Read only confirmed current revisions for journal generation
+      parameters:
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmedPracticalRecords'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - workloadBearer: []
+  /api/v1/student-trainings/{enrollmentId}/progress:
+    get:
+      operationId: getStudentProgress
+      summary: Get school scoped progress and hour deficits
+      parameters:
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Progress'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+  /api/v1/practical-records/{recordId}/confirmations:
+    post:
+      operationId: confirmPracticalRecord
+      summary: Confirm the exact current record revision by eligible student/instructor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmationRequest'
+      responses:
+        '200':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationResult'
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+    ConfirmedPracticalRecords:
+      type: object
+      required:
+      - enrollmentId
+      - records
+      - snapshotVersion
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        snapshotVersion:
+          type: string
+        records:
+          type: array
+          items:
+            type: object
+            required:
+            - recordId
+            - revision
+            - actualMinutes
+            properties:
+              recordId:
+                type: string
+                format: uuid
+              revision:
+                type: integer
+              actualMinutes:
+                type: integer
+    Progress:
+      type: object
+      required:
+      - enrollmentId
+      - theoryMinutes
+      - practicalMinutes
+      - percent
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        theoryMinutes:
+          type: integer
+        practicalMinutes:
+          type: integer
+        percent:
+          type: number
+          minimum: 0
+          maximum: 100
+    ConfirmationRequest:
+      type: object
+      required:
+      - revision
+      properties:
+        revision:
+          type: integer
+          minimum: 1
+    ConfirmationResult:
+      type: object
+      required:
+      - recordId
+      - revision
+      - status
+      properties:
+        recordId:
+          type: string
+          format: uuid
+        revision:
+          type: integer
+        status:
+          type: string
+          enum:
+          - Pending
+          - Confirmed
+          - Disputed

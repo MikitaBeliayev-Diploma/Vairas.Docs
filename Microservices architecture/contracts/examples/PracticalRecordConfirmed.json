@@ -1,0 +1,21 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000001",
+    "eventType": "PracticalRecordConfirmed",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "learning",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000014",
+    "aggregateVersion": 3
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "enrollmentId": "10000000-0000-4000-8000-000000000002",
+    "lessonId": "10000000-0000-4000-8000-000000000012",
+    "recordId": "10000000-0000-4000-8000-000000000014",
+    "recordRevision": 2,
+    "creditedDurationMinutes": 60,
+    "confirmedAt": "2026-11-20T14:00:00Z"
+  }
+}
