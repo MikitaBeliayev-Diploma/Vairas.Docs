@@ -1,0 +1,153 @@
+Project Vairas_Vehicle_Management {
+  database_type: 'PostgreSQL'
+  Note: 'PROPOSED MVP schema refined 2026-11-15. Two roots: Vehicle and Maintenance; five tables, local FKs only. Scheduling owns reservations and rescheduling. Maintenance is an operational record, not a calendar reservation. Apply the companion PostgreSQL partial unique index for at most one InProgress maintenance per vehicle. Authorization, external validation, lifecycle, CAS, append-only audit and cross-service ordering require handlers; no deployed implementation is claimed.'
+}
+
+Enum vm_vehicle_status {
+  Active
+  Inactive
+  UnderMaintenance
+}
+Enum vm_transmission {
+  Manual
+  Automatic
+}
+Enum vm_maintenance_type {
+  Service
+  Repair
+  Inspection
+}
+Enum vm_maintenance_status {
+  Scheduled
+  InProgress
+  Completed
+  Cancelled
+}
+Enum vm_channel {
+  Web
+  MCP
+  Internal
+}
+
+Table vehicle {
+  vehicle_id uuid [pk, not null]
+  school_id uuid [not null, note: 'External tenant owner; immutable. Resolve BranchId in this school through School Management.']
+  branch_id uuid [not null, note: 'External School Management ID. Immutable in MVP; transfer requires a separate design.']
+  registration_country_code varchar(2) [not null]
+  registration_number varchar(32) [not null, note: 'Canonical uppercase value; approved country-specific normalization is a handler responsibility. Not VIN.']
+  manufacturer varchar(100) [not null]
+  model varchar(100) [not null]
+  manufacture_year smallint [not null]
+  transmission vm_transmission [not null]
+  status vm_vehicle_status [not null, default: 'Inactive']
+  revision bigint [not null, default: 1]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  indexes {
+    (vehicle_id, school_id) [unique]
+    (school_id, registration_country_code, registration_number) [unique]
+    (school_id, branch_id, status)
+  }
+  checks {
+    `registration_country_code ~ '^[A-Z]{2}$'` [name: 'vm_country_shape']
+    `length(trim(registration_number)) > 0 AND registration_number = upper(trim(registration_number))` [name: 'vm_registration_shape']
+    `length(trim(manufacturer)) > 0 AND length(trim(model)) > 0` [name: 'vm_details_nonblank']
+    `manufacture_year BETWEEN 1886 AND 9999` [name: 'vm_year_storage_range']
+    `revision > 0 AND updated_at >= created_at` [name: 'vm_revision_time']
+  }
+  Note: 'Vehicle root. At least one supported category at creation and thereafter; insert root and nonempty children atomically. Revision advances on every eligibility-relevant root/child change and maintenance start/finish. Year range is a technical bound, not a legal rule. Activation requires current school/branch authority; handlers enforce. No hard delete, tenant/branch move, implicit future bookings or automatic reactivation.'
+}
+
+Table vehicle_supported_category {
+  vehicle_id uuid [not null]
+  school_id uuid [not null]
+  category_code varchar(16) [not null, note: 'External DrivingLicenseCategory code, checked against authoritative catalogue; not a new programme/category owner.']
+  indexes {
+    (vehicle_id, school_id, category_code) [pk]
+  }
+  checks {
+    `length(trim(category_code)) > 0 AND category_code = upper(trim(category_code))` [name: 'vm_category_shape']
+  }
+  Note: 'Vehicle-owned nonempty collection; no independent lifecycle or revision. Removing the last category is rejected for every status; creation and category edits lock/CAS the parent and advance Vehicle.Revision. Collection cardinality and catalogue validity are handler invariants, not row CHECKs.'
+}
+
+Table vehicle_teacher_assignment {
+  vehicle_id uuid [not null]
+  school_id uuid [not null]
+  teacher_id uuid [not null, note: 'External User Management TeacherId; profile existence grants no school permission or qualification.']
+  school_membership_id uuid [not null, note: 'Logical reference to the exact School-owned Teacher membership authorizing this current assignment. No external FK. A later membership requires explicit reassignment.']
+  assigned_at timestamptz [not null]
+  indexes {
+    (vehicle_id, school_id, teacher_id) [pk]
+    (school_id, teacher_id)
+    (school_id, school_membership_id)
+  }
+  Note: 'Vehicle-owned current assignments, several teachers permitted. Verify active UserProfile, TeacherId-to-UserId binding and exact same-school Teacher membership/authority for the whole lesson interval. SchoolMembershipEnded invalidates matching membership-based assignments at effective end; cleanup removes only still-matching links under parent lock/CAS. Current source validation denies use even before cleanup. No auto-restoration on rejoin. Receipt is audit, not assignment history or reservation.'
+}
+
+Table maintenance {
+  maintenance_id uuid [pk, not null]
+  school_id uuid [not null]
+  vehicle_id uuid [not null]
+  type vm_maintenance_type [not null]
+  scheduled_at timestamptz [not null, note: 'Planned instant only; no duration/calendar blocking guarantee.']
+  started_at timestamptz
+  completed_at timestamptz
+  cancelled_at timestamptz
+  status vm_maintenance_status [not null, default: 'Scheduled']
+  comment text
+  revision bigint [not null, default: 1]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  indexes {
+    (maintenance_id, vehicle_id, school_id) [unique]
+    (school_id, vehicle_id, status)
+  }
+  checks {
+    `revision > 0 AND updated_at >= created_at` [name: 'vm_maintenance_revision_time']
+    `(status = 'Scheduled' AND started_at IS NULL AND completed_at IS NULL AND cancelled_at IS NULL) OR (status = 'InProgress' AND started_at IS NOT NULL AND completed_at IS NULL AND cancelled_at IS NULL) OR (status = 'Completed' AND started_at IS NOT NULL AND completed_at IS NOT NULL AND cancelled_at IS NULL) OR (status = 'Cancelled' AND started_at IS NULL AND completed_at IS NULL AND cancelled_at IS NOT NULL)` [name: 'vm_maintenance_lifecycle_shape']
+    `(started_at IS NULL OR started_at >= created_at) AND (completed_at IS NULL OR completed_at >= started_at) AND (cancelled_at IS NULL OR cancelled_at >= created_at)` [name: 'vm_maintenance_time_order']
+    `(started_at IS NULL OR updated_at >= started_at) AND (completed_at IS NULL OR updated_at >= completed_at) AND (cancelled_at IS NULL OR updated_at >= cancelled_at)` [name: 'vm_maintenance_updated_time']
+  }
+  Note: 'Maintenance root. Scheduled->InProgress->Completed; Scheduled->Cancelled. No cancellation after start. Start atomically sets Vehicle UnderMaintenance; finish sets Inactive. Lock vehicle first, maintenance second, check both expected revisions and no other InProgress record, then commit both roots and receipt together. Companion partial unique index enforces single InProgress row; it does not enforce matching vehicle status or allowed transitions. ScheduledAt is not a downtime interval.'
+}
+
+Table vehicle_operation {
+  operation_id uuid [pk, not null]
+  school_id uuid [not null]
+  vehicle_id uuid [not null]
+  maintenance_id uuid [note: 'Optional local maintenance target; composite FK preserves same vehicle and school.']
+  actor_user_id uuid [note: 'External authenticated/delegated UserId for human commands, including MCP.']
+  actor_service varchar(120) [note: 'Authenticated service principal for automated internal cleanup; exclusive with actor_user_id. No fabricated human actor.']
+  channel vm_channel [not null]
+  command_name varchar(80) [not null]
+  request_fingerprint varchar(64) [not null]
+  expected_vehicle_revision bigint
+  expected_maintenance_revision bigint
+  resulting_vehicle_revision bigint [not null]
+  resulting_maintenance_revision bigint
+  reason text
+  confirmation_id uuid
+  confirmed_at timestamptz
+  recorded_at timestamptz [not null]
+  checks {
+    `length(trim(command_name)) > 0 AND request_fingerprint ~ '^[0-9a-f]{64}$'` [name: 'vm_operation_shape']
+    `(expected_vehicle_revision IS NULL OR expected_vehicle_revision > 0) AND resulting_vehicle_revision > 0 AND (resulting_maintenance_revision IS NULL OR resulting_maintenance_revision > 0)` [name: 'vm_operation_revisions']
+    `(actor_user_id IS NOT NULL AND actor_service IS NULL) OR (actor_user_id IS NULL AND actor_service IS NOT NULL AND length(trim(actor_service)) > 0 AND channel = 'Internal')` [name: 'vm_operation_actor']
+    `(maintenance_id IS NULL AND expected_maintenance_revision IS NULL AND resulting_maintenance_revision IS NULL) OR (maintenance_id IS NOT NULL AND resulting_maintenance_revision IS NOT NULL AND (expected_maintenance_revision IS NULL OR expected_maintenance_revision > 0))` [name: 'vm_operation_maintenance_shape']
+    `(expected_vehicle_revision IS NULL OR resulting_vehicle_revision >= expected_vehicle_revision) AND (expected_maintenance_revision IS NULL OR resulting_maintenance_revision > expected_maintenance_revision)` [name: 'vm_operation_revision_order']
+    `(confirmation_id IS NULL) = (confirmed_at IS NULL)` [name: 'vm_confirmation_pair']
+    `channel <> 'MCP' OR confirmation_id IS NOT NULL` [name: 'vm_mcp_confirmation']
+    `confirmed_at IS NULL OR confirmed_at <= recorded_at` [name: 'vm_confirmation_time']
+  }
+  indexes {
+    (school_id, vehicle_id, recorded_at)
+  }
+  Note: 'Retained MVP successful-command receipt, not a domain root, event store, inbox, outbox or full before/after history. Mutation and immutable receipt commit together. Fingerprint covers versioned canonical command, all targets/changes, both expected revisions and source/confirmation basis. Compare fingerprint plus actor/service/school/channel/command/target and reauthorize retries before returning original result; never rerun against newer state. Serialize operation-ID claims; reject mismatched reuse. AddVehicle and new Maintenance have NULL expected revision for the created root; handlers enforce exact command shape. Maintenance-only planning may leave VehicleRevision unchanged. Rejected commands use security logs. Authentic exact MCP consent and audit immutability require handlers/privileges, not non-null fields.'
+}
+
+Ref: vehicle_supported_category.(vehicle_id, school_id) > vehicle.(vehicle_id, school_id) [delete: restrict]
+Ref: vehicle_teacher_assignment.(vehicle_id, school_id) > vehicle.(vehicle_id, school_id) [delete: restrict]
+Ref: maintenance.(vehicle_id, school_id) > vehicle.(vehicle_id, school_id) [delete: restrict]
+Ref: vehicle_operation.(vehicle_id, school_id) > vehicle.(vehicle_id, school_id) [delete: restrict]
+Ref: vehicle_operation.(maintenance_id, vehicle_id, school_id) > maintenance.(maintenance_id, vehicle_id, school_id) [delete: restrict]

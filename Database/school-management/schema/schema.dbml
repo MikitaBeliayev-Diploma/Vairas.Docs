@@ -1,0 +1,368 @@
+Project Vairas_School_Management {
+  database_type: 'PostgreSQL'
+  Note: 'PROPOSED design, 2026-11-15. Seven domain roots, 13 tables including the D-045 School-owned invitation child. Source: latest BA verified identical to workspace copy; see school-management-business-requirements-ru.md. Cross-context IDs are logical references. CHECKs/FKs are local integrity only: authorization, temporal containment, lifecycle, external freshness, immutable evidence, concurrent revision checks and AC-101 activation require handlers/protocols. Native exclusion constraints are specified in school-management-postgresql-constraints.sql; they must accompany generated DDL. No deployed migration, transport, RLS or implementation is asserted.'
+}
+
+Enum sm_status {
+  Active
+  Inactive
+}
+Enum sm_role {
+  Student
+  Teacher
+  Administrator
+}
+Enum sm_permission {
+  Assessor
+  SchoolRuleOwner
+}
+Enum sm_enrollment_status {
+  Active
+  Completed
+  Withdrawn
+  Transferred
+  Cancelled
+}
+Enum sm_operation_status {
+  Pending
+  Committed
+  Rejected
+  ReconciliationPending
+}
+Enum sm_channel {
+  Web
+  MCP
+  Internal
+}
+Enum sm_invitation_status {
+  Pending
+  Accepted
+  Revoked
+}
+
+Table school {
+  school_id uuid [pk, not null]
+  name varchar(200) [not null]
+  status sm_status [not null, default: 'Active']
+  revision bigint [not null, default: 1]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  checks {
+    `length(trim(name)) > 0` [name: 'school_name_nonempty']
+    `revision > 0 AND updated_at >= created_at` [name: 'school_revision_time']
+  }
+  Note: 'School is the tenant and aggregate root. Immutable ID. Provisioning authority is OPEN. No person/contact profile copies.'
+}
+
+Table school_operation {
+  operation_id uuid [not null, note: 'School-scoped idempotency key. Logical uniqueness is (SchoolId, OperationId); physical composite PK order is unchanged. Same UUID in another authorized school is independent.']
+  school_id uuid [not null]
+  command_name varchar(80) [not null]
+  target_kind varchar(60) [not null]
+  target_id uuid [not null]
+  expected_revision bigint
+  resulting_revision bigint
+  coordination_required boolean [not null, default: false]
+  expected_school_revision bigint
+  resulting_school_revision bigint
+  actor_user_id uuid [not null, note: 'External User Management reference; Internal requires accountable actor/service authority.']
+  channel sm_channel [not null]
+  status sm_operation_status [not null]
+  request_fingerprint varchar(64) [not null, note: 'Server-computed exact canonical command digest; compare on retry. Not a saved command payload.']
+  requested_at timestamptz [not null]
+  resolved_at timestamptz
+  reason text
+  outcome_code varchar(80)
+  authority_basis varchar(200) [not null, note: 'Restricted reference/version to checked server authorization basis, not a bearer token.']
+  confirmation_id uuid
+  confirmed_at timestamptz
+  indexes {
+    (operation_id, school_id) [pk]
+    (school_id, target_kind, target_id, requested_at)
+  }
+  checks {
+    `expected_revision IS NULL OR expected_revision > 0` [name: 'operation_expected_revision']
+    `resulting_revision IS NULL OR resulting_revision > 0` [name: 'operation_result_revision']
+    `(coordination_required = false AND expected_school_revision IS NULL AND resulting_school_revision IS NULL) OR (coordination_required = true AND expected_school_revision IS NOT NULL AND expected_school_revision > 0 AND (resulting_school_revision IS NULL OR resulting_school_revision = expected_school_revision + 1))` [name: 'operation_coordination_revisions']
+    `status <> 'Committed' OR coordination_required = false OR resulting_school_revision IS NOT NULL` [name: 'operation_coordinated_commit']
+    `(confirmation_id IS NULL) = (confirmed_at IS NULL)` [name: 'operation_confirmation_pair']
+    `status <> 'Committed' OR channel <> 'MCP' OR confirmation_id IS NOT NULL` [name: 'operation_mcp_confirmation']
+    `(status IN ('Committed','Rejected') AND resolved_at IS NOT NULL) OR (status IN ('Pending','ReconciliationPending') AND resolved_at IS NULL)` [name: 'operation_resolution_shape']
+    `resolved_at IS NULL OR resolved_at >= requested_at` [name: 'operation_resolution_time']
+    `length(trim(command_name)) > 0 AND length(trim(authority_basis)) > 0 AND length(request_fingerprint) = 64` [name: 'operation_required_metadata']
+  }
+  Note: 'Infrastructure metadata, not another domain root. Within the same (SchoolId, OperationId), different actor/channel/command/target/canonical payload including expected revision must reject. Same OperationId in another independently authorized school is a separate key; no global unique OperationId is claimed. coordination_required operations serialize per school using the native partial index. Pending/ReconciliationPending with resulting_school_revision set means local changes recorded but operational eligibility reads remain blocked until Scheduling gate acknowledgment and local finalization; no automatic rollback or gate expiry. Gate ID is the same scoped operation ID; no extra workflow identity. Immutable command metadata; outcome progresses to one terminal result. No command replay payload, durable-delivery or atomic remote-commit guarantee. Rejected unauthorized/foreign-tenant probes go to restricted security audit without FK to foreign objects; no untrusted tenant-derived insert. Exact MCP consent/current policy is handler work.'
+}
+
+Table branch {
+  branch_id uuid [not null]
+  school_id uuid [not null]
+  name varchar(200) [not null]
+  address_line varchar(300)
+  city varchar(120)
+  postal_code varchar(30)
+  country_code varchar(2)
+  status sm_status [not null, default: 'Active']
+  revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes { (branch_id, school_id) [pk] }
+  checks {
+    `length(trim(name)) > 0 AND revision > 0` [name: 'branch_name_revision']
+  }
+  Note: 'Branch root. Address structure is PROPOSED, not verified legal registration fields. SchoolId immutable; no cascade deletion.'
+}
+
+Table school_membership {
+  membership_id uuid [not null]
+  school_id uuid [not null]
+  user_id uuid [not null]
+  role sm_role [not null]
+  started_at timestamptz [not null]
+  ended_at timestamptz
+  revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes {
+    (membership_id, school_id) [pk]
+    (school_id, user_id, role, started_at)
+  }
+  checks {
+    `ended_at IS NULL OR ended_at > started_at` [name: 'membership_period']
+    `revision > 0` [name: 'membership_revision']
+  }
+  Note: 'Root; roles may coexist. Native EXCLUDE rejects overlapping same school/user/role periods, including concurrent first inserts and updates; use the companion SQL. Distinct roles may coexist. Parent/dependency serialization remains handler work. No uniqueness across StudentId/enrollments is implied.'
+}
+
+Table membership_permission_grant {
+  grant_id uuid [not null]
+  school_id uuid [not null]
+  membership_id uuid [not null]
+  permission sm_permission [not null]
+  started_at timestamptz [not null]
+  ended_at timestamptz
+  granted_operation_id uuid [not null]
+  ended_operation_id uuid
+  indexes {
+    (grant_id, school_id) [pk]
+    (membership_id, school_id, permission, started_at)
+  }
+  checks {
+    `ended_at IS NULL OR ended_at > started_at` [name: 'grant_period']
+    `(ended_at IS NULL) = (ended_operation_id IS NULL)` [name: 'grant_end_evidence']
+  }
+  Note: 'SchoolMembership child. Native EXCLUDE prevents duplicate overlapping same-membership/permission periods. Parent period containment and grants across distinct roles remain handler/policy work. Grant/revoke actor from operation. Assessor/SchoolRuleOwner grant-management policy remains OPEN; onboarding/bootstrap invitations use D-045, not these grants. Ending membership closes grants and coordinates readiness invalidation. Grants never infer legal qualification.'
+}
+
+Table student_enrollment {
+  enrollment_id uuid [not null]
+  school_id uuid [not null]
+  student_id uuid [not null, note: 'External canonical StudentId, D-032. User binding verified externally; not another student identity.']
+  category_code varchar(20) [not null]
+  started_at timestamptz [not null]
+  ended_at timestamptz
+  status sm_enrollment_status [not null, default: 'Active']
+  status_changed_at timestamptz [not null, default: `clock_timestamp()`, note: 'Server-assigned local lifecycle-recording instant, not a client effective date. Terminal ended_at equals this value; no future termination command in MVP.']
+  revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes {
+    (enrollment_id, school_id) [pk]
+    enrollment_id [unique, name: 'sm_enrollment_global_identity']
+    (school_id, student_id, status)
+  }
+  checks {
+    `length(trim(category_code)) > 0 AND revision > 0` [name: 'enrollment_category_revision']
+    `ended_at IS NULL OR ended_at > started_at` [name: 'enrollment_period']
+    `isfinite(started_at) AND isfinite(status_changed_at) AND (ended_at IS NULL OR isfinite(ended_at))` [name: 'enrollment_finite_lifecycle']
+    `(status = 'Active' AND ended_at IS NULL) OR (status <> 'Active' AND ended_at IS NOT NULL AND ended_at = status_changed_at)` [name: 'enrollment_lifecycle_shape']
+  }
+  Note: 'Root; concurrent enrollments allowed, including same category by default. No current programme/version, hours or progress column: assignment belongs to Learning Tracking. Category validity externally verified, not a legal category list invented here. Completed requires current external completion evidence. Round 2 Option A: immediate terminal transitions only. Server chooses one t_close inside local apply; ended_at=status_changed_at=t_close; same instant in history. Pending coordinated activation denies operational reads until acknowledgment. No future/backdated close or arbitrary status edits. Defaults/row CHECKs do not stop a privileged writer forging timestamps; trusted handler rejects client effective-time input and verifies the DB clock.'
+}
+
+Table enrollment_status_history {
+  enrollment_id uuid [not null]
+  school_id uuid [not null]
+  enrollment_revision bigint [not null]
+  from_status sm_enrollment_status
+  to_status sm_enrollment_status [not null]
+  effective_at timestamptz [not null]
+  recorded_at timestamptz [not null, default: `clock_timestamp()`]
+  operation_id uuid [not null]
+  completion_evidence_id uuid [note: 'External LT training evidence snapshot ID; required for Completed.']
+  completion_dependency_revision bigint
+  completion_verified_at timestamptz
+  indexes { (enrollment_id, school_id, enrollment_revision) [pk] }
+  checks {
+    `enrollment_revision > 0` [name: 'enrollment_history_revision']
+    `isfinite(effective_at) AND isfinite(recorded_at) AND (to_status = 'Active' OR effective_at = recorded_at)` [name: 'enrollment_history_immediate_terminal']
+    `(from_status IS NULL AND to_status = 'Active') OR (from_status IS NOT NULL AND from_status = 'Active' AND to_status <> 'Active')` [name: 'enrollment_history_transition']
+    `to_status <> 'Completed' OR (completion_evidence_id IS NOT NULL AND completion_dependency_revision IS NOT NULL AND completion_dependency_revision > 0 AND completion_verified_at IS NOT NULL)` [name: 'completion_basis_required']
+  }
+  Note: 'Append-only transition evidence. Record creation and every lifecycle transition; actor/time/reason via immutable operation. Creation row records initial Active basis; terminal history effective_at=recorded_at=current ended_at=status_changed_at from the same server t_close. Current row/history status/revision coherence and fresh authorized completion basis require the same handler transaction and external validation. No scheduled transition queue or future effective termination. No enrollment credit is stored.'
+}
+
+Table training_group {
+  group_id uuid [not null]
+  school_id uuid [not null]
+  branch_id uuid
+  name varchar(200) [not null]
+  category_code varchar(20)
+  started_at timestamptz [not null]
+  ended_at timestamptz
+  revision bigint [not null, default: 1]
+  membership_revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes { (group_id, school_id) [pk] }
+  checks {
+    `length(trim(name)) > 0 AND revision > 0 AND membership_revision > 0` [name: 'group_name_revisions']
+    `ended_at IS NULL OR ended_at > started_at` [name: 'group_period']
+    `category_code IS NULL OR length(trim(category_code)) > 0` [name: 'group_optional_category']
+  }
+  Note: 'Root. Branch/category optional. No programme ownership. membership_revision selects immutable full period-set basis; relevant roster still filtered for concrete lesson interval. Initial empty basis required by handler.'
+}
+
+Table student_group_membership {
+  membership_id uuid [not null]
+  school_id uuid [not null]
+  enrollment_id uuid [not null]
+  group_id uuid [not null]
+  joined_at timestamptz [not null]
+  left_at timestamptz
+  association_program_version_id uuid [not null, note: 'Historical AC-004 evidence of the LT StudentTraining.program_version_id pinned for this EnrollmentId (D-042); no assignment identity or current programme ownership.']
+  association_verified_at timestamptz [not null]
+  revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes {
+    (membership_id, school_id) [pk]
+    (school_id, group_id, joined_at)
+    (school_id, enrollment_id, joined_at)
+    (membership_id, school_id, group_id, enrollment_id) [unique]
+  }
+  checks {
+    `left_at IS NULL OR left_at > joined_at` [name: 'student_group_period']
+    `revision > 0` [name: 'association_revision']
+  }
+  Note: 'Root. Many simultaneous groups per enrollment. Rejoin creates new ID. Native EXCLUDE prevents duplicate enrollment/group period overlap. Same-school category/period containment and current pinned programme basis require handlers. No LT assignment ID/dependency revision is required by D-042. OPEN-GATE-01: target-aware AC-101 protocol is specified, but D-044 does not yet provide verified durable gate/floor/recovery integration. Association cannot activate on a prior availability read; unsupported integration rejects before effects,202 requires a real durable pending operation.'
+}
+
+Table teacher_group_assignment {
+  assignment_id uuid [not null]
+  school_id uuid [not null]
+  teacher_id uuid [not null, note: 'External User Management TeacherId.']
+  group_id uuid [not null]
+  assigned_at timestamptz [not null]
+  ended_at timestamptz
+  revision bigint [not null, default: 1]
+  last_operation_id uuid [not null]
+  indexes {
+    (assignment_id, school_id) [pk]
+    (school_id, group_id, assigned_at)
+    (school_id, teacher_id, assigned_at)
+  }
+  checks {
+    `ended_at IS NULL OR ended_at > assigned_at` [name: 'teacher_assignment_period']
+    `revision > 0` [name: 'teacher_assignment_revision']
+  }
+  Note: 'Root. Verify teacher/user identity and effective school Teacher membership. No implied Assessor right, qualification or automatic lesson assignment. Native EXCLUDE rejects duplicate overlapping same-teacher/group periods; User/Teacher status and membership containment require handlers.'
+}
+
+Table group_roster_revision {
+  group_id uuid [not null]
+  school_id uuid [not null]
+  membership_revision bigint [not null]
+  recorded_at timestamptz [not null]
+  operation_id uuid [not null]
+  indexes { (group_id, school_id, membership_revision) [pk] }
+  checks { `membership_revision > 0` [name: 'roster_revision_positive'] }
+  Note: 'Immutable full membership-period-set revision, including empty roster. Append with group membership_revision in same transaction; no mutable current-participants counter. Consumers filter members for exact lesson interval; this is not a lesson roster or actual attendance.'
+}
+
+Table group_roster_member {
+  group_id uuid [not null]
+  school_id uuid [not null]
+  membership_revision bigint [not null]
+  membership_id uuid [not null]
+  enrollment_id uuid [not null]
+  student_id uuid [not null]
+  enrollment_revision bigint [not null]
+  enrollment_status sm_enrollment_status [not null]
+  category_code varchar(20) [not null]
+  enrollment_started_at timestamptz [not null]
+  enrollment_ended_at timestamptz
+  joined_at timestamptz [not null]
+  left_at timestamptz
+  indexes { (group_id, school_id, membership_revision, membership_id) [pk] }
+  checks {
+    `enrollment_revision > 0 AND length(trim(category_code)) > 0` [name: 'roster_enrollment_basis']
+    `left_at IS NULL OR left_at > joined_at` [name: 'roster_membership_period']
+    `enrollment_ended_at IS NULL OR enrollment_ended_at > enrollment_started_at` [name: 'roster_enrollment_period']
+    `(enrollment_status = 'Active' AND enrollment_ended_at IS NULL) OR (enrollment_status <> 'Active' AND enrollment_ended_at IS NOT NULL)` [name: 'roster_enrollment_shape']
+  }
+  Note: 'Immutable evidence of member periods and source enrollment state at revision; later termination never rewrites old basis. Membership composite FK prevents wrong group/enrollment linking. Handler verifies StudentId/category match exact enrollment revision. Snapshot is organizational evidence, not the complete authorization basis. Scheduling must additionally freeze exact membership, identity and eligibility references from the checked contract. No programme duplication: LT pinned programme resolved separately. Scheduled participant snapshot belongs to Scheduling.'
+}
+
+Table school_invitation {
+  invitation_id uuid [not null]
+  school_id uuid [not null]
+  target_user_id uuid [not null, note: 'External existing User Management UserId; immutable target, never an email/name match.']
+  role sm_role [not null]
+  category_code varchar(20) [note: 'Required only for Student admission; does not own the category catalogue.']
+  issuer_membership_id uuid [note: 'Current school Administrator membership for school-issued Student/Teacher invitations; NULL only for deployment-configured platform operator.']
+  status sm_invitation_status [not null, default: 'Pending']
+  revision bigint [not null, default: 1]
+  created_at timestamptz [not null]
+  expires_at timestamptz [not null, note: 'Server sets created_at + 24 hours in the selected MVP; expiry is checked at use, no cron transition needed.']
+  issued_operation_id uuid [not null]
+  accepted_operation_id uuid
+  accepted_at timestamptz
+  result_membership_id uuid
+  result_enrollment_id uuid
+  revoked_operation_id uuid
+  revoked_at timestamptz
+  indexes {
+    (invitation_id, school_id) [pk]
+    (issued_operation_id, school_id) [unique]
+    (accepted_operation_id, school_id) [unique]
+    (revoked_operation_id, school_id) [unique]
+    (school_id, target_user_id, status, expires_at)
+  }
+  checks {
+    `revision > 0 AND isfinite(created_at) AND isfinite(expires_at) AND expires_at > created_at` [name: 'invitation_revision_expiry']
+    `(role = 'Student' AND category_code IS NOT NULL AND length(trim(category_code)) > 0) OR (role <> 'Student' AND category_code IS NULL)` [name: 'invitation_category_shape']
+    `role <> 'Administrator' OR issuer_membership_id IS NULL` [name: 'invitation_admin_platform_basis']
+    `(status = 'Pending' AND accepted_operation_id IS NULL AND accepted_at IS NULL AND result_membership_id IS NULL AND result_enrollment_id IS NULL AND revoked_operation_id IS NULL AND revoked_at IS NULL) OR (status = 'Accepted' AND accepted_operation_id IS NOT NULL AND accepted_at IS NOT NULL AND result_membership_id IS NOT NULL AND revoked_operation_id IS NULL AND revoked_at IS NULL AND ((role = 'Student' AND result_enrollment_id IS NOT NULL) OR (role <> 'Student' AND result_enrollment_id IS NULL))) OR (status = 'Revoked' AND revoked_operation_id IS NOT NULL AND revoked_at IS NOT NULL AND accepted_operation_id IS NULL AND accepted_at IS NULL AND result_membership_id IS NULL AND result_enrollment_id IS NULL)` [name: 'invitation_state_shape']
+    `accepted_at IS NULL OR (isfinite(accepted_at) AND accepted_at >= created_at AND accepted_at < expires_at)` [name: 'invitation_accept_time']
+    `revoked_at IS NULL OR (isfinite(revoked_at) AND revoked_at >= created_at)` [name: 'invitation_revoke_time']
+  }
+  Note: 'D-045: one necessary School-owned onboarding entity, child of School, not a new root/service. InvitationId is not a bearer secret; only the authenticated target may accept. Status Pending with now >= expires_at is derived Expired/unusable. Immutable target/role/category/issuer/expiry; reissue a new invitation instead of editing them. Issuer actor comes from issued_operation. Application checks exact target, current issuer authority/status, category, result binding and state transitions. Accepted plus resulting rows and operation local result commit together; specified eligibility gate, once actually supported, may keep that result Pending/ReconciliationPending with no operational success until final acknowledgment. New enrollment/effective membership needs coordination; unchanged staff membership reuse is local. OPEN-GATE-01 is not implemented by this table; no fake202/ack is allowed. Reject/revoke races serialize under School then invitation row lock. SQL CHECKs do not implement access policy, expiry-at-now, outcome recovery or global status admission.'
+}
+
+Ref: school_invitation.school_id > school.school_id [delete: restrict]
+Ref: school_invitation.(issuer_membership_id, school_id) > school_membership.(membership_id, school_id) [delete: restrict]
+Ref: school_invitation.(issued_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: school_invitation.(accepted_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: school_invitation.(revoked_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: school_invitation.(result_membership_id, school_id) > school_membership.(membership_id, school_id) [delete: restrict]
+Ref: school_invitation.(result_enrollment_id, school_id) > student_enrollment.(enrollment_id, school_id) [delete: restrict]
+Ref: school_operation.school_id > school.school_id [delete: restrict]
+Ref: branch.school_id > school.school_id [delete: restrict]
+Ref: school_membership.school_id > school.school_id [delete: restrict]
+Ref: student_enrollment.school_id > school.school_id [delete: restrict]
+Ref: training_group.school_id > school.school_id [delete: restrict]
+Ref: training_group.(branch_id, school_id) > branch.(branch_id, school_id) [delete: restrict]
+Ref: branch.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: school_membership.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: student_enrollment.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: training_group.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: membership_permission_grant.(membership_id, school_id) > school_membership.(membership_id, school_id) [delete: restrict]
+Ref: membership_permission_grant.(granted_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: membership_permission_grant.(ended_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: enrollment_status_history.(enrollment_id, school_id) > student_enrollment.(enrollment_id, school_id) [delete: restrict]
+Ref: enrollment_status_history.(operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: student_group_membership.(enrollment_id, school_id) > student_enrollment.(enrollment_id, school_id) [delete: restrict]
+Ref: student_group_membership.(group_id, school_id) > training_group.(group_id, school_id) [delete: restrict]
+Ref: student_group_membership.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: teacher_group_assignment.(group_id, school_id) > training_group.(group_id, school_id) [delete: restrict]
+Ref: teacher_group_assignment.(last_operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: group_roster_revision.(group_id, school_id) > training_group.(group_id, school_id) [delete: restrict]
+Ref: group_roster_revision.(operation_id, school_id) > school_operation.(operation_id, school_id) [delete: restrict]
+Ref: group_roster_member.(group_id, school_id, membership_revision) > group_roster_revision.(group_id, school_id, membership_revision) [delete: restrict]
+Ref: group_roster_member.(membership_id, school_id, group_id, enrollment_id) > student_group_membership.(membership_id, school_id, group_id, enrollment_id) [delete: restrict]

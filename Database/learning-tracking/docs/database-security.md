@@ -1,0 +1,18 @@
+# Learning Tracking — Database access/security
+
+Migration owner `v_learning_tracking_migration` and runtime login `v_learning_tracking_runtime` are distinct, NOSUPERUSER/NOCREATEDB/NOCREATEROLE/NOBYPASSRLS/NOREPLICATION. Passwords are not in Git; provision externally (the isolated test cluster uses loopback trust with synthetic data).
+
+[Bootstrap roles](../security/bootstrap-roles.sql) before creation; [database grants/policies](../security/database-roles.sql) after schema installation. Runtime owns neither schema nor tables, cannot disable/drop triggers, TRUNCATE, create temp shadow tables, change replication mode or create objects. No DELETE is granted; reviewed retention cleanup is a separate owner procedure. No sequence exists in the UUID-based model; sequence grants are Not Applicable.
+
+The new lt_terminal_invalidation_guard allows only the first complete terminal metadata transition, never clearing/rewriting it. Runtime cannot UPDATE append-only journal/result/evaluation rows. Paired learning_audit_event append and current dependency/permission validation remain handler transactions; SQL grants do not certify complete readiness or frozen published programme content.
+## Why row isolation was selected for this context
+
+These tables contain school-owned records and existing database grants alone allow an omitted-filter raw query to read another school. The task explicitly requires testing that failure mode. This context therefore receives a narrowly documented SQL security overlay, without model/ownership changes. Policies cover: `training_program`, `training_program_version`, `program_rule_source`, `training_topic`, `assessment_definition`, `assessment_definition_version`, `assessment_topic`, `admission_requirement`, `student_training`, `lesson_source_snapshot`, `lesson_source_state`, `practical_training_record`, `practical_record_version`, `practical_record_topic`, `practical_record_response`, `theory_training_record`, `theory_record_version`, `theory_attendance`, `assessment_readiness`, `readiness_evaluation`, `readiness_requirement_result`, `readiness_evidence_basis`, `readiness_decision`, `assessment`, `assessment_result_version`, `assessment_topic_result`, `training_evidence_snapshot`, `training_evidence_item`, `training_evidence_check`, `reporting_declaration`, `learning_audit_event`. A missing school scope denies rows; child tables without school_id derive scope through their existing local FK parent.
+
+Begin a short transaction and `SET LOCAL vairas.school_id = '<owner-authorized SchoolId>'` after fresh authentication/School authorization, before any query. Pooling must rollback/reset scope and never accept this setting from model/client headers. RLS is defense against omitted predicates, not proof against a compromised trusted service that deliberately changes its GUC. API permission/actor/resource checks remain mandatory; end users receive no database credentials.
+
+## Personal data / operations
+
+Classifications are in data-dictionary.md. Use encrypted storage/backups and TLS/mTLS; secret references only; no bearer/API secrets in fixtures/logs. Synthetic demo data is the chosen demonstration masking method; no misleading general-purpose anonymization view was added. Numeric retention, controller/processor roles and erasure exceptions require policy approval. Triggers/append-only rules do not imply permanent retention or legal certification.
+
+RLS/grants supplement the existing application authorization; native database tests cannot validate external session/School APIs. Security overlays are new tested implementation proposals, not retroactive proof of previously deployed services.

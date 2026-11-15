@@ -1,0 +1,114 @@
+Project authentication {
+  database_type: 'PostgreSQL'
+}
+
+Table identity {
+  identity_id uuid [pk, not null]
+  login_email varchar(254) [unique]
+  email_verified_at timestamptz
+  security_state varchar(16) [not null, default: 'Enabled']
+  credential_revision bigint [not null, default: 1]
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+}
+
+Table password_credential {
+  identity_id uuid [pk, not null]
+  password_hash text [not null]
+  changed_at timestamptz [not null, default: `clock_timestamp()`]
+}
+
+Table external_identity {
+  external_identity_id uuid [pk, not null]
+  identity_id uuid [not null]
+  issuer varchar(512) [not null]
+  subject varchar(255) [not null]
+  linked_at timestamptz [not null, default: `clock_timestamp()`]
+  indexes {
+    (issuer, subject) [unique]
+  }
+}
+
+Table auth_session {
+  session_id uuid [pk, not null]
+  identity_id uuid [not null]
+  auth_method varchar(16) [not null]
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  expires_at timestamptz [not null]
+  revoked_at timestamptz
+  revocation_reason varchar(40)
+  indexes {
+    (session_id, identity_id) [unique]
+    identity_id
+  }
+}
+
+Table refresh_token {
+  refresh_token_id uuid [pk, not null]
+  session_id uuid [not null]
+  parent_token_id uuid
+  secret_digest varchar(64) [not null, unique]
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  expires_at timestamptz [not null]
+  consumed_at timestamptz
+  revoked_at timestamptz
+  indexes {
+    (refresh_token_id, session_id) [unique]
+    (parent_token_id, session_id) [unique]
+    session_id
+  }
+}
+
+Table account_challenge {
+  challenge_id uuid [pk, not null]
+  identity_id uuid [not null]
+  purpose varchar(20) [not null]
+  login_email varchar(254) [not null]
+  credential_revision bigint [not null]
+  secret_digest varchar(64) [not null, unique]
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  expires_at timestamptz [not null]
+  consumed_at timestamptz
+  invalidated_at timestamptz
+  indexes {
+    (identity_id, purpose)
+  }
+}
+
+Table oidc_request {
+  request_id uuid [pk, not null]
+  purpose varchar(8) [not null]
+  issuer varchar(512) [not null]
+  state_digest varchar(64) [not null, unique]
+  browser_digest varchar(64) [not null]
+  nonce_digest varchar(64) [not null]
+  pkce_verifier_ciphertext text [not null]
+  redirect_uri varchar(1024) [not null]
+  link_identity_id uuid
+  link_session_id uuid
+  created_at timestamptz [not null, default: `clock_timestamp()`]
+  expires_at timestamptz [not null]
+  consumed_at timestamptz
+}
+
+Table security_event {
+  event_id uuid [pk, not null]
+  identity_id uuid
+  session_id uuid
+  event_type varchar(48) [not null]
+  outcome_code varchar(48) [not null]
+  correlation_id uuid [not null]
+  occurred_at timestamptz [not null, default: `clock_timestamp()`]
+  indexes {
+    (identity_id, occurred_at)
+  }
+}
+
+Ref: password_credential.identity_id > identity.identity_id
+Ref: external_identity.identity_id > identity.identity_id
+Ref: auth_session.identity_id > identity.identity_id
+Ref: refresh_token.session_id > auth_session.session_id
+Ref: refresh_token.(parent_token_id, session_id) > refresh_token.(refresh_token_id, session_id)
+Ref: account_challenge.identity_id > identity.identity_id
+Ref: oidc_request.(link_session_id, link_identity_id) > auth_session.(session_id, identity_id)
+Ref: security_event.identity_id > identity.identity_id
+Ref: security_event.(session_id, identity_id) > auth_session.(session_id, identity_id)

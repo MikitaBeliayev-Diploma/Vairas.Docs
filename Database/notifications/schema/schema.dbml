@@ -1,0 +1,146 @@
+Project Vairas_Notifications {
+  database_type: 'PostgreSQL'
+  Note: 'PROPOSED 2026-11-15. Two domain roots, three supporting tables. Apply schema.sql including supplemental constraints. External IDs have no cross-service FK.'
+}
+Table notification_template {
+  school_id uuid [not null]
+  template_id uuid [not null]
+  notification_type varchar(40) [not null]
+  subject_template varchar(500) [not null]
+  body_template text [not null]
+  status varchar(12) [not null, default: 'Active']
+  revision bigint [not null, default: 1]
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  indexes { (school_id, template_id) [pk] }
+  checks {
+    `status IN ('Active','Archived')` [name: 'nt_status']
+    `notification_type IN ('LessonScheduled','LessonRescheduled','LessonCancelled','LessonReminder','AssessmentPassed','AssessmentFailed')` [name: 'nt_type']
+    `length(trim(subject_template)) > 0 AND length(trim(body_template)) > 0` [name: 'nt_content']
+    `revision > 0 AND updated_at >= created_at` [name: 'nt_revision_time']
+  }
+  Note: 'Aggregate root. No Channel. Supplemental partial unique index: one Active template per school/type. Notification stores rendered snapshot and template revision.'
+}
+Table notification {
+  school_id uuid [not null]
+  notification_id uuid [not null]
+  recipient_user_id uuid [not null, note: 'External UserId, not StudentId or TeacherId.']
+  template_id uuid
+  template_revision bigint
+  notification_type varchar(40) [not null]
+  channel varchar(12) [not null, default: 'Email']
+  subject varchar(500) [not null]
+  body text [not null]
+  destination_address varchar(254) [not null, note: 'Restricted snapshot from trusted contact adapter; never arbitrary client input.']
+  contact_revision varchar(100) [not null]
+  source_context varchar(40) [not null]
+  source_id uuid [not null]
+  source_revision bigint [not null]
+  source_event_id uuid [not null]
+  dispatch_key varchar(200) [not null, note: 'Stable semantic intent key including owner revision and reminder policy/offset when applicable.']
+  scheduled_at timestamptz [not null]
+  status varchar(20) [not null, default: 'Pending']
+  revision bigint [not null, default: 1]
+  attempt_count integer [not null, default: 0]
+  next_attempt_at timestamptz
+  sent_at timestamptz
+  cancelled_at timestamptz
+  failure_code varchar(80)
+  created_at timestamptz [not null]
+  updated_at timestamptz [not null]
+  indexes {
+    (school_id, notification_id) [pk]
+    (school_id, recipient_user_id, channel, dispatch_key) [unique]
+    (status, next_attempt_at, scheduled_at)
+    (school_id, recipient_user_id, created_at)
+    (school_id, source_context, source_id, source_revision)
+  }
+  checks {
+    `notification_type IN ('LessonScheduled','LessonRescheduled','LessonCancelled','LessonReminder','AssessmentPassed','AssessmentFailed')` [name: 'n_type']
+    `channel = 'Email'` [name: 'n_channel']
+    `status IN ('Pending','Sending','Sent','Failed','Cancelled','DeliveryUnknown')` [name: 'n_status']
+    `(template_id IS NULL AND template_revision IS NULL) OR (template_id IS NOT NULL AND template_revision IS NOT NULL AND template_revision > 0)` [name: 'n_template_pair']
+    `revision > 0 AND source_revision > 0 AND attempt_count >= 0` [name: 'n_revisions']
+    `length(trim(subject)) > 0 AND length(trim(body)) > 0 AND length(trim(destination_address)) > 0 AND length(trim(contact_revision)) > 0 AND length(trim(dispatch_key)) > 0` [name: 'n_content']
+    `source_context IN ('Scheduling','LearningTracking')` [name: 'n_source']
+    `updated_at >= created_at AND scheduled_at >= created_at` [name: 'n_time']
+    `(status = 'Sent') = (sent_at IS NOT NULL)` [name: 'n_sent_pair']
+    `(status = 'Cancelled') = (cancelled_at IS NOT NULL)` [name: 'n_cancel_pair']
+    `sent_at IS NULL OR sent_at >= created_at` [name: 'n_sent_time']
+    `cancelled_at IS NULL OR cancelled_at >= created_at` [name: 'n_cancel_time']
+    `next_attempt_at IS NULL OR (status = 'Pending' AND next_attempt_at >= created_at)` [name: 'n_retry_time']
+    `status NOT IN ('Sending','Sent','DeliveryUnknown') OR attempt_count > 0` [name: 'n_attempt_required']
+  }
+  Note: 'Aggregate root, one recipient/channel. Sent means provider acceptance, not inbox delivery/read. Rendered content, recipient, source and contact snapshot immutable. State transitions and attempt counters require handler transaction. No global user/school FK.'
+}
+Table notification_delivery_attempt {
+  school_id uuid [not null]
+  attempt_id uuid [not null]
+  notification_id uuid [not null]
+  attempt_no integer [not null]
+  provider_key varchar(200) [not null]
+  provider_message_id varchar(200)
+  status varchar(12) [not null, default: 'Started']
+  started_at timestamptz [not null]
+  finished_at timestamptz
+  error_code varchar(80)
+  indexes {
+    (school_id, attempt_id) [pk]
+    (school_id, notification_id, attempt_no) [unique]
+    (school_id, provider_key) [unique]
+  }
+  checks {
+    `attempt_no > 0 AND length(trim(provider_key)) > 0` [name: 'nda_identity']
+    `status IN ('Started','Accepted','Rejected','Unknown')` [name: 'nda_status']
+    `(status = 'Started') = (finished_at IS NULL)` [name: 'nda_finished']
+    `finished_at IS NULL OR finished_at >= started_at` [name: 'nda_time']
+  }
+  Note: 'Notification-owned child, not a third root. One unresolved Started/Unknown attempt per notification (supplemental index). Provider idempotency support OPEN. Unknown requires reconciliation, never blind retry.'
+}
+Table notification_inbox {
+  school_id uuid [not null]
+  producer varchar(40) [not null]
+  event_id uuid [not null]
+  payload_hash varchar(64) [not null]
+  source_id uuid [not null]
+  source_revision bigint [not null]
+  outcome varchar(12) [not null]
+  outcome_code varchar(80) [not null]
+  received_at timestamptz [not null]
+  processed_at timestamptz [not null]
+  indexes { (school_id, producer, event_id) [pk] }
+  checks {
+    `producer IN ('Scheduling','LearningTracking') AND source_revision > 0` [name: 'ni_source']
+    `payload_hash ~ '^[0-9a-f]{64}$'` [name: 'ni_hash']
+    `outcome IN ('Applied','Ignored','Rejected') AND length(trim(outcome_code)) > 0` [name: 'ni_outcome']
+    `processed_at >= received_at` [name: 'ni_time']
+  }
+  Note: 'Infrastructure receipt. Completed processing outcome and all notifications/cancellations commit together, then transport ACK. Temporary authority outage rolls back without ACK. Permanent invalid input receives Rejected/quarantine outcome. Immutable.'
+}
+Table notification_operation {
+  school_id uuid [not null]
+  operation_id uuid [not null]
+  actor_user_id uuid [not null]
+  channel varchar(12) [not null]
+  command_name varchar(80) [not null]
+  target_id uuid [not null]
+  request_hash varchar(64) [not null]
+  authority_basis text [not null]
+  confirmation_id uuid
+  confirmed_at timestamptz
+  outcome varchar(12) [not null]
+  outcome_code varchar(80) [not null]
+  resulting_revision bigint
+  recorded_at timestamptz [not null]
+  indexes { (school_id, operation_id) [pk] }
+  checks {
+    `channel IN ('Web','MCP') AND outcome IN ('Applied','Rejected')` [name: 'no_values']
+    `request_hash ~ '^[0-9a-f]{64}$' AND length(trim(command_name)) > 0 AND length(trim(authority_basis)) > 0 AND length(trim(outcome_code)) > 0` [name: 'no_basis']
+    `(confirmation_id IS NULL) = (confirmed_at IS NULL)` [name: 'no_confirmation_pair']
+    `channel <> 'MCP' OR outcome <> 'Applied' OR confirmation_id IS NOT NULL` [name: 'no_mcp_confirmation']
+    `resulting_revision IS NULL OR resulting_revision > 0` [name: 'no_revision']
+  }
+  Note: 'Local human-command receipt. Applied outcome and mutation atomic. Exact replay compares actor/channel/command/target/payload and reauthorizes. Same UUID in another authorized school independent. Generic target handler-validated; no polymorphic FK. Immutable.'
+}
+Ref: notification.(school_id, template_id) > notification_template.(school_id, template_id) [delete: restrict]
+Ref: notification_delivery_attempt.(school_id, notification_id) > notification.(school_id, notification_id) [delete: restrict]
