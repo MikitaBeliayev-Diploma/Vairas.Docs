@@ -3,63 +3,63 @@ info:
   title: Vairas — Learning Tracking Integration Events
   version: 0.1.0
   description: PROPOSED AsyncAPI 3.0.0 contract for Learning Tracking. Events are reliable at-least-once messages;
-    see README for exact publishing, ordering, privacy and recovery semantics. Logical channel addresses are broker-neutral.
+    see README for exact publishing, ordering, privacy and recovery semantics.
     This is a proposed inter-service payload, not a claim of implemented integration.
 defaultContentType: application/json
 channels:
   assessmentFailed:
     address: vairas.learning.assessment-failed.v1
     title: AssessmentFailed v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       AssessmentFailed:
         $ref: '#/components/messages/AssessmentFailed'
   assessmentPassed:
     address: vairas.learning.assessment-passed.v1
     title: AssessmentPassed v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       AssessmentPassed:
         $ref: '#/components/messages/AssessmentPassed'
   lessonCompleted:
     address: vairas.scheduling.lesson-completed.v1
     title: LessonCompleted v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       LessonCompleted:
         $ref: '#/components/messages/LessonCompleted'
   practicalRecordConfirmed:
     address: vairas.learning.practical-record-confirmed.v1
     title: PracticalRecordConfirmed v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       PracticalRecordConfirmed:
         $ref: '#/components/messages/PracticalRecordConfirmed'
   practicalRecordRevised:
     address: vairas.learning.practical-record-revised.v1
     title: PracticalRecordRevised v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       PracticalRecordRevised:
         $ref: '#/components/messages/PracticalRecordRevised'
   studentEnrollmentCompleted:
     address: vairas.school.enrollment-completed.v1
     title: StudentEnrollmentCompleted v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       StudentEnrollmentCompleted:
         $ref: '#/components/messages/StudentEnrollmentCompleted'
   studentEnrollmentEnded:
     address: vairas.school.enrollment-ended.v1
     title: StudentEnrollmentEnded v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       StudentEnrollmentEnded:
         $ref: '#/components/messages/StudentEnrollmentEnded'
   studentEnrollmentStarted:
     address: vairas.school.enrollment-started.v1
     title: StudentEnrollmentStarted v1
-    description: Logical topic name; transport/broker bindings are not selected yet.
+    description: Logical integration event channel.
     messages:
       StudentEnrollmentStarted:
         $ref: '#/components/messages/StudentEnrollmentStarted'

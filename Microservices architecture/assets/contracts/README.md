@@ -32,7 +32,7 @@ This directory contains the supplied Vairas REST and integration-event contracts
 
 ## Contract scope
 
-The supplied specifications describe proposed interfaces; they do not establish that endpoints or integrations are implemented. AsyncAPI channel addresses are logical event addresses. Mapping them to the architecture's physical Azure Service Bus topics and filtered subscriptions remains to be specified.
+The supplied specifications describe proposed interfaces; they do not establish that endpoints or integrations are implemented. AsyncAPI channel addresses are logical event addresses.
 
 MCP `tools/list` input/output schemas are not included in this archive. Business OpenAPI/AsyncAPI contracts do not replace those tool definitions.
 

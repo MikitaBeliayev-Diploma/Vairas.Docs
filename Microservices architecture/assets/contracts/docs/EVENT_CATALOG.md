@@ -30,7 +30,7 @@
 
 ## Notes
 
-- **Producer/consumer semantics:** `send` = service publishes, `receive` = service consumes. Channels are symbolic until AMQP/Kafka topology is selected; do not copy topics into production without assigning topic ACLs, retention and routing policies.
+- **Producer/consumer semantics:** `send` = service publishes, `receive` = service consumes. Topic ACLs, retention and routing policies govern production message delivery.
 - **School scope:** almost all events include `schoolId` in payload. `UserDeactivated` is global and intentionally has no schoolId; distribute only to trusted, narrowly authorized consumers.
 - **Identity:** `EnrollmentId` distinguishes enrollment histories for a student across schools. Do not use `StudentId` as a substitute for enrollment on training credit or journal queries.
 - **Schema version:** `.v1` topic plus header `eventVersion: 1`. The producer's `aggregateVersion` increases for the same `aggregateId`. Event IDs uniquely identify deliveries, not business entities.
