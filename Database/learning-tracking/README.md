@@ -23,9 +23,13 @@ From this directory, using a migration connection string supplied externally:
 ```sh
 psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -f ddl/install.sql
 psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -f security/database-roles.sql
-psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -c "SET vairas.demo = on" -f seeds/seed-demo.sql
+psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -c "SET vairas.demo = on; SET vairas.mock_sources = on" -f seeds/seed-demo.sql
 ```
 
-Initial DDL is for an empty database. Run seeds only against an isolated demo database. Fixed vocabularies are defined by enums/CHECK constraints; synthetic business configuration is in the demo seed where applicable.
+Initial DDL is for an empty database. Run seeds only against an isolated demo database. This seed includes explicitly marked mock source snapshots and requires both demo and mock_sources gates; it does not certify real Scheduling completion or training credit. Fixed vocabularies are defined by enums/CHECK constraints; synthetic business configuration is in the demo seed where applicable.
 
 [Database overview](../README.md)
+
+## Source interval
+
+[Scheduling G-01](../scheduling/docs/actual-interval.md) defines the authoritative actual interval. Learning Tracking retains immutable verified source snapshots and owns teaching minutes, attendance, confirmations and derived credit. A source correction requires revalidation and a new fact version with fresh confirmations before further credit.

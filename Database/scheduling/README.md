@@ -29,3 +29,9 @@ psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -c "SET vairas.demo = on" -f seeds/seed
 Initial DDL is for an empty database. Run seeds only against an isolated demo database. Fixed vocabularies are defined by enums/CHECK constraints; synthetic business configuration is in the demo seed where applicable.
 
 [Database overview](../README.md)
+
+## Actual lesson interval
+
+[G-01 schema amendment, upgrade and service rules](docs/actual-interval.md) separates Scheduling physical time from Learning Tracking credited minutes. Fresh installation includes migration 002; existing databases must apply it separately. The provider and Outbox still require implementation.
+
+[Design review](docs/validation-g01.md) records the amendment scope and remaining implementation gates.

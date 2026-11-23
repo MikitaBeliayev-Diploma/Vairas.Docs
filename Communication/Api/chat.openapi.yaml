@@ -1,0 +1,776 @@
+openapi: 3.1.0
+info:
+  title: Vairas Chat Backend API (PROPOSED)
+  version: 0.2.0
+  description: Proposed interface; no provider implementation or deployment is claimed. Architecture Chat/BFF responsibilities
+    and BA US-018/019/020. Identity delegation remains unimplemented.
+servers:
+- url: https://api.vairas.example
+  description: Documentation-only placeholder; configure the actual service origin.
+security:
+- bearerAuth: []
+paths:
+  /internal/v1/confirmations/validate:
+    servers:
+    - url: https://localhost:7300
+    post:
+      operationId: validateExactProfileConfirmation
+      summary: Validate explicit human approval bound to the exact command
+      security:
+      - workloadOAuth:
+        - confirmations.validate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmationRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+                  identityId: 11111111-1111-4111-8111-111111111111
+                  operationId: 11111111-1111-4111-8111-111111111111
+                  requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  commandName: CreateUser
+      responses:
+        '200':
+          description: The Chat Backend must retain an actual authenticated human approval and compare every request
+            binding. Echo request bindings, the original server-recorded confirmation time and its expiry. This
+            is read-only validation, not consumption or a model assertion. Allocate confirmationId before calculating
+            the final command fingerprint.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ConfirmationRequest'
+                - type: object
+                  required:
+                  - allowed
+                  - confirmedAt
+                  - expiresAt
+                  properties:
+                    allowed:
+                      type: boolean
+                    confirmedAt:
+                      type: string
+                      format: date-time
+                    expiresAt:
+                      type: string
+                      format: date-time
+              examples:
+                typical:
+                  summary: The Chat Backend must retain an actual authenticated human approval and compare every
+                    request binding. Echo request bindings, the original server-recorded confirmation time and its
+                    expiry. This is read-only validation, not consumption or a model assertion. Allocate confirmationId
+                    before calculating the final command fingerprint.
+                  value:
+                    confirmationId: 11111111-1111-4111-8111-111111111111
+                    identityId: 11111111-1111-4111-8111-111111111111
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    commandName: CreateUser
+                    allowed: true
+                    confirmedAt: '2026-12-01T10:00:00Z'
+                    expiresAt: '2026-12-01T11:00:00Z'
+        '401':
+          description: Workload unauthenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload unauthenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '403':
+          description: Workload lacks permission
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload lacks permission
+                status: 403
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Confirmation provider unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Confirmation provider unavailable
+                status: 503
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Validate explicit human approval bound to the exact command. Proposed interface; authoritative
+        actor and school checks are mandatory.
+      tags:
+      - user-management-dependencies
+      parameters: []
+      x-negative-request:
+        description: 'Missing required confirmationId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          identityId: 11111111-1111-4111-8111-111111111111
+          operationId: 11111111-1111-4111-8111-111111111111
+          requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          schoolId: 11111111-1111-4111-8111-111111111111
+          commandName: CreateUser
+        expectedStatus: 400
+    parameters: []
+  /api/v1/chat/sessions:
+    post:
+      operationId: createChatSession
+      summary: Create an authenticated user-owned conversation
+      description: Create an authenticated user-owned conversation. Access is checked by the owning service for
+        the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '201':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatSession'
+              example:
+                sessionId: 11111111-1111-4111-8111-111111111111
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Invalid request
+                status: 400
+                code: VALIDATION_FAILED
+                correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authentication required
+                status: 401
+                code: UNAUTHENTICATED
+                correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Permission denied
+                status: 403
+                code: FORBIDDEN
+                correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Resource not found or not visible
+                status: 404
+                code: NOT_FOUND
+                correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Current revision or resource conflict
+                status: 409
+                code: REVISION_CONFLICT
+                correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Business constraints reject the request
+                status: 422
+                code: BUSINESS_RULE_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative dependency unavailable
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-traceability:
+      - US-018
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema: &id001
+          type: string
+          format: uuid
+        description: Stable operation identity; identical retry reuses the outcome. A different payload with the
+          same key is a conflict.
+        example: 11111111-1111-4111-8111-111111111111
+  /api/v1/chat/sessions/{sessionId}/messages:
+    post:
+      operationId: sendChatMessage
+      summary: Invoke the assistant within verified user and selected school scope
+      description: Invoke the assistant within verified user and selected school scope. Access is checked by the
+        owning service for the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatReply'
+              example:
+                messageId: 11111111-1111-4111-8111-111111111111
+                text: synthetic-text
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Invalid request
+                status: 400
+                code: VALIDATION_FAILED
+                correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authentication required
+                status: 401
+                code: UNAUTHENTICATED
+                correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Permission denied
+                status: 403
+                code: FORBIDDEN
+                correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Resource not found or not visible
+                status: 404
+                code: NOT_FOUND
+                correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Current revision or resource conflict
+                status: 409
+                code: REVISION_CONFLICT
+                correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Business constraints reject the request
+                status: 422
+                code: BUSINESS_RULE_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative dependency unavailable
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-traceability:
+      - US-018
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMessage'
+            example:
+              text: synthetic-text
+              schoolId: 11111111-1111-4111-8111-111111111111
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        schema: *id001
+        example: 11111111-1111-4111-8111-111111111111
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema: *id001
+        description: Stable operation identity; identical retry reuses the outcome. A different payload with the
+          same key is a conflict.
+        example: 11111111-1111-4111-8111-111111111111
+      x-negative-request:
+        description: 'Missing required text: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          schoolId: 11111111-1111-4111-8111-111111111111
+        expectedStatus: 400
+  /api/v1/chat/action-previews/{previewId}/confirmations:
+    post:
+      operationId: recordHumanApproval
+      summary: Record authenticated human approval for exact server-stored preview arguments
+      description: Record authenticated human approval for exact server-stored preview arguments. Access is checked
+        by the owning service for the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '201':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordedApproval'
+              example:
+                confirmationId: 11111111-1111-4111-8111-111111111111
+                previewId: 11111111-1111-4111-8111-111111111111
+                operationId: 11111111-1111-4111-8111-111111111111
+                expiresAt: '2026-12-01T11:00:00Z'
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Invalid request
+                status: 400
+                code: VALIDATION_FAILED
+                correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authentication required
+                status: 401
+                code: UNAUTHENTICATED
+                correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Permission denied
+                status: 403
+                code: FORBIDDEN
+                correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Resource not found or not visible
+                status: 404
+                code: NOT_FOUND
+                correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Current revision or resource conflict
+                status: 409
+                code: REVISION_CONFLICT
+                correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Business constraints reject the request
+                status: 422
+                code: BUSINESS_RULE_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative dependency unavailable
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-traceability:
+      - US-019
+      - AC-097
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HumanApproval'
+            example:
+              operationId: 11111111-1111-4111-8111-111111111111
+              argumentsFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+              approved: true
+      parameters:
+      - name: previewId
+        in: path
+        required: true
+        schema: *id001
+        example: 11111111-1111-4111-8111-111111111111
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema: *id001
+        description: Stable operation identity; identical retry reuses the outcome. A different payload with the
+          same key is a conflict.
+        example: 11111111-1111-4111-8111-111111111111
+      x-negative-request:
+        description: 'Missing required operationId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          argumentsFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          approved: true
+        expectedStatus: 400
+  /api/v1/schools/{schoolId}/assistant-audit:
+    get:
+      operationId: getAssistantAudit
+      summary: Read restricted MCP write-attempt evidence without raw conversation or secrets
+      description: Read restricted MCP write-attempt evidence without raw conversation or secrets. Access is checked
+        by the owning service for the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditList'
+              example:
+              - operationId: 11111111-1111-4111-8111-111111111111
+                outcome: Permitted
+                recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Invalid request
+                status: 400
+                code: VALIDATION_FAILED
+                correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authentication required
+                status: 401
+                code: UNAUTHENTICATED
+                correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Permission denied
+                status: 403
+                code: FORBIDDEN
+                correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Resource not found or not visible
+                status: 404
+                code: NOT_FOUND
+                correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Current revision or resource conflict
+                status: 409
+                code: REVISION_CONFLICT
+                correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Business constraints reject the request
+                status: 422
+                code: BUSINESS_RULE_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative dependency unavailable
+                status: 503
+                code: DEPENDENCY_UNAVAILABLE
+                correlationId: integration-example-01
+      x-traceability:
+      - US-020
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema: *id001
+        example: 11111111-1111-4111-8111-111111111111
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadOAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://localhost:7100/connect/token
+          scopes:
+            identity.validate: Validate current user identity and session
+            school.profile-provisioning: Validate invitation or bootstrap evidence
+            confirmations.validate: Validate exact human approval
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.
+    Id:
+      type: string
+      format: uuid
+      description: Id. See the operation descriptions for authorization and lifecycle constraints.
+    NullableId:
+      type:
+      - string
+      - 'null'
+      format: uuid
+      description: Nullable Id. See the operation descriptions for authorization and lifecycle constraints.
+    SchoolAuthorityRequest:
+      type: object
+      required:
+      - actorUserId
+      - targetUserId
+      - schoolId
+      - invitationId
+      - role
+      - bootstrap
+      properties:
+        actorUserId:
+          $ref: '#/components/schemas/Id'
+        targetUserId:
+          $ref: '#/components/schemas/Id'
+        schoolId:
+          $ref: '#/components/schemas/Id'
+        invitationId:
+          $ref: '#/components/schemas/NullableId'
+        role:
+          type: string
+          enum:
+          - Teacher
+          - Administrator
+        bootstrap:
+          type: boolean
+      description: School Authority Request. See the operation descriptions for authorization and lifecycle constraints.
+    ConfirmationRequest:
+      type: object
+      required:
+      - confirmationId
+      - identityId
+      - operationId
+      - requestFingerprint
+      - schoolId
+      - commandName
+      properties:
+        confirmationId:
+          $ref: '#/components/schemas/Id'
+        identityId:
+          $ref: '#/components/schemas/Id'
+        operationId:
+          $ref: '#/components/schemas/Id'
+        requestFingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        schoolId:
+          $ref: '#/components/schemas/NullableId'
+        commandName:
+          type: string
+          enum:
+          - CreateUser
+          - UpdateUser
+          - CreateStudent
+          - CreateTeacher
+          - CreateAdministrator
+      description: Confirmation Request. See the operation descriptions for authorization and lifecycle constraints.
+    ChatSession:
+      type: object
+      required:
+      - sessionId
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+    ChatMessage:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          minLength: 1
+        schoolId:
+          type: string
+          format: uuid
+    ChatReply:
+      type: object
+      required:
+      - messageId
+      - text
+      properties:
+        messageId: &id002
+          type: string
+          format: uuid
+        text:
+          type: string
+        previewId: *id002
+    HumanApproval:
+      type: object
+      required:
+      - operationId
+      - argumentsFingerprint
+      - approved
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        argumentsFingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        approved:
+          type: boolean
+          const: true
+    RecordedApproval:
+      type: object
+      required:
+      - confirmationId
+      - previewId
+      - operationId
+      - expiresAt
+      properties:
+        confirmationId: &id003
+          type: string
+          format: uuid
+        previewId: *id003
+        operationId: *id003
+        expiresAt:
+          type: string
+          format: date-time
+    AuditList:
+      type: array
+      items:
+        type: object
+        required:
+        - operationId
+        - outcome
+        - recordedAt
+        properties:
+          operationId:
+            type: string
+            format: uuid
+          outcome:
+            type: string
+            enum:
+            - Permitted
+            - Rejected
+            - Failed
+          recordedAt:
+            type: string
+            format: date-time

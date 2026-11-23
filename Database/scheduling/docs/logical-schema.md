@@ -147,3 +147,7 @@ Current remote owner/API gaps do not by themselves invalidate relational design.
 - scheduling_rule_version.rule_source_kind: `CHECK (((source_kind)::text = ANY ((ARRAY['Legal'::character varying, 'School'::character varying])::text[])))`.
 - scheduling_rule_version.rule_typed_limit: `CHECK ((((numeric_limit IS NULL) AND (unit IS NULL)) OR ((numeric_limit > (0)::numeric) AND (unit IS NOT NULL))))`.
 - scheduling_rule_version.rule_verification: `CHECK (((verification_status)::text = ANY ((ARRAY['Verified'::character varying, 'Pending'::character varying, 'Rejected'::character varying])::text[])))`.
+
+## G-01 amendment
+
+The installation includes [migration 002](../ddl/002-actual-interval.sql). `lesson.actual_start/actual_end` store the physical interval; `lesson_change.previous_actual_start/previous_actual_end` retain its OLD state. `lesson_actual_interval` and `history_actual_interval` enforce paired increasing bounds. `lesson_completed_requires_actuals` requires actuals for Completed; legacy NOT VALID handling is described in [the lifecycle contract](actual-interval.md). No credit total is stored.

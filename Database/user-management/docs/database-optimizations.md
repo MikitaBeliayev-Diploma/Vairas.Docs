@@ -20,6 +20,7 @@
 - administrator_profile: UNIQUE(user_id).
 - profile_operation: PK(operation_id).
 - profile_operation: INDEX(target_kind,target_id,recorded_at).
+- outbox_message (technical): PK(event_id); partial INDEX(next_attempt_at,occurred_at) WHERE published_at IS NULL for eligible delivery claims.
 
 ## Measurement boundaries
 

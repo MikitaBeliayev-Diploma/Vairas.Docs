@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: Vairas operational probes
+  version: 0.2.0
+  description: 'Shared health contract: User Management implements these routes; other service/gateway/MCP probes
+    remain deployment requirements. Readiness checks local prerequisites, not remote Auth/School/Chat or broker
+    admission. Probe ingress is restricted by deployment policy.'
+servers:
+- url: http://localhost:5151
+  description: Implemented User Management loopback origin. Other service/gateway/MCP origins are proposed and must
+    be configured individually.
+security: []
+paths:
+  /health/live:
+    get:
+      operationId: getLiveness
+      summary: Process liveness
+      security: []
+      x-status: implemented-user-management; proposed-other-services
+      responses:
+        '200':
+          description: Healthy; middleware can also return Degraded with HTTP 200.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                healthy:
+                  value: Healthy
+                degraded:
+                  value: Degraded
+        '503':
+          description: Unhealthy prerequisite
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Unhealthy
+      description: Anonymous process liveness at the application layer. No user, school or network dependency checks
+        are performed. Deployment may restrict probe ingress. Implemented for User Management; proposed for other
+        containers.
+      tags:
+      - operations
+      parameters: []
+    parameters: []
+  /health/ready:
+    get:
+      operationId: getReadiness
+      summary: Local prerequisite readiness
+      security: []
+      x-status: implemented-user-management; proposed-other-services
+      responses:
+        '200':
+          description: Healthy; middleware can also return Degraded with HTTP 200.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                healthy:
+                  value: Healthy
+                degraded:
+                  value: Degraded
+        '503':
+          description: Unhealthy prerequisite
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Unhealthy
+      description: Anonymous local prerequisite readiness at the application layer. User Management checks its owned
+        database tables; this does not establish remote-provider or broker health. No user or school authorization
+        is required. Deployment may restrict probe ingress.
+      tags:
+      - operations
+      parameters: []
+    parameters: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.

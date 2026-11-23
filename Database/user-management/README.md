@@ -1,5 +1,7 @@
 # User Management Database
 
+The implemented backend is in `Backend/Vairas.UserManagement`. Five domain tables retain their documented schema; `ddl/002-outbox.sql` adds technical delivery metadata. For backend-managed databases use EF migrations as described in the backend README. The raw `ddl/install.sql` path is an alternative fresh-install method, not a script to apply after EF migrations. A raw-installed database needs a reviewed EF baseline before migration management.
+
 | Material | File |
 |---|---|
 | Logical schema and relationships | [Logical schema](docs/logical-schema.md) |

@@ -1,0 +1,355 @@
+openapi: 3.1.0
+info:
+  title: Vairas — Notifications API (PROPOSED)
+  version: 0.2.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is
+    mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /api/v1/schools/{schoolId}/notification-templates:
+    get:
+      operationId: getNotificationTemplates
+      summary: List school-owned templates
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationTemplates'
+              examples:
+                typical:
+                  summary: Result
+                  value:
+                  - templateId: 11111111-1111-4111-8111-111111111111
+                    type: LessonScheduled
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - bearerAuth: []
+      x-status: proposed
+      description: List school-owned templates. Proposed interface; authoritative actor and school checks are mandatory.
+      tags:
+      - notifications
+    parameters: []
+  /api/v1/schools/{schoolId}/notifications/{notificationId}:
+    get:
+      operationId: getNotificationStatus
+      summary: View allowed notification delivery state
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: notificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationStatus'
+              examples:
+                typical:
+                  summary: Result
+                  value:
+                    notificationId: 11111111-1111-4111-8111-111111111111
+                    status: Pending
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - bearerAuth: []
+      x-status: proposed
+      description: View allowed notification delivery state. Proposed interface; authoritative actor and school
+        checks are mandatory.
+      tags:
+      - notifications
+    parameters: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.
+    NotificationTemplates:
+      type: array
+      items:
+        type: object
+        required:
+        - templateId
+        - type
+        properties:
+          templateId:
+            type: string
+            format: uuid
+          type:
+            type: string
+      description: Notification Templates. See the operation descriptions for authorization and lifecycle constraints.
+    NotificationStatus:
+      type: object
+      required:
+      - notificationId
+      - status
+      properties:
+        notificationId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Pending
+          - Sending
+          - Sent
+          - Failed
+          - Cancelled
+          - DeliveryUnknown
+      description: Sent means provider acceptance, not recipient delivery/read. DeliveryUnknown requires provider
+        reconciliation; never blindly retry. Status and attempt information are restricted to authorized school/recipient
+        scope.

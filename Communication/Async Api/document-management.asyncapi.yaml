@@ -1,0 +1,204 @@
+asyncapi: 3.0.0
+info:
+  title: Vairas — Document Management Integration Events
+  version: 0.1.0
+  description: PROPOSED AsyncAPI 3.0.0 contract for Document Management. Events are reliable at-least-once messages;
+    see README for exact publishing, ordering, privacy and recovery semantics. This is a proposed inter-service
+    payload, not a claim of implemented integration.
+defaultContentType: application/json
+channels:
+  practicalRecordConfirmed:
+    address: vairas.learning.practical-record-confirmed.v1
+    title: PracticalRecordConfirmed v1
+    description: Logical integration event channel.
+    messages:
+      PracticalRecordConfirmed:
+        $ref: '#/components/messages/PracticalRecordConfirmed'
+  practicalRecordRevised:
+    address: vairas.learning.practical-record-revised.v1
+    title: PracticalRecordRevised v1
+    description: Logical integration event channel.
+    messages:
+      PracticalRecordRevised:
+        $ref: '#/components/messages/PracticalRecordRevised'
+operations:
+  consumePracticalRecordConfirmed:
+    action: receive
+    title: Consume PracticalRecordConfirmed
+    channel:
+      $ref: '#/channels/practicalRecordConfirmed'
+    messages:
+    - $ref: '#/channels/practicalRecordConfirmed/messages/PracticalRecordConfirmed'
+  consumePracticalRecordRevised:
+    action: receive
+    title: Consume PracticalRecordRevised
+    channel:
+      $ref: '#/channels/practicalRecordRevised'
+    messages:
+    - $ref: '#/channels/practicalRecordRevised/messages/PracticalRecordRevised'
+components:
+  schemas:
+    IntegrationHeaders:
+      type: object
+      additionalProperties: false
+      description: Application headers only; broker protocol-level delivery headers are transport-specific.
+      required:
+      - eventId
+      - eventType
+      - eventVersion
+      - occurredAt
+      - producer
+      - correlationId
+      - aggregateId
+      - aggregateVersion
+      properties:
+        eventId: &id002
+          type: string
+          format: uuid
+        eventType: &id001
+          type: string
+          minLength: 1
+        eventVersion:
+          type: integer
+          const: 1
+        occurredAt:
+          type: string
+          format: date-time
+        producer:
+          type: string
+          enum:
+          - school
+          - scheduling
+          - vehicle
+          - learning
+          - documents
+          - notifications
+          - user
+        correlationId: *id001
+        causationId: *id001
+        aggregateId: *id002
+        aggregateVersion:
+          type: integer
+          minimum: 1
+        traceparent: *id001
+    PracticalRecordConfirmedPayload:
+      type: object
+      description: Current revision was confirmed by both instructor and student; confirmed credit computed by Learning
+        in the same local transaction.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - lessonId
+      - recordId
+      - recordRevision
+      - creditedDurationMinutes
+      - confirmedAt
+      properties:
+        schoolId: &id003
+          type: string
+          format: uuid
+        enrollmentId: *id003
+        lessonId: *id003
+        recordId: *id003
+        recordRevision:
+          type: integer
+          minimum: 1
+        creditedDurationMinutes:
+          type: integer
+          minimum: 1
+        confirmedAt:
+          type: string
+          format: date-time
+    PracticalRecordRevisedPayload:
+      type: object
+      description: Confirmed or pending record facts changed. Prior confirmations for current record are invalidated
+        and credit is adjusted locally.
+      additionalProperties: false
+      required:
+      - schoolId
+      - enrollmentId
+      - lessonId
+      - recordId
+      - previousRevision
+      - recordRevision
+      - revisedAt
+      properties:
+        schoolId: &id004
+          type: string
+          format: uuid
+        enrollmentId: *id004
+        lessonId: *id004
+        recordId: *id004
+        previousRevision: &id005
+          type: integer
+          minimum: 1
+        recordRevision: *id005
+        revisedAt:
+          type: string
+          format: date-time
+  messages:
+    PracticalRecordConfirmed:
+      name: PracticalRecordConfirmed
+      title: PracticalRecordConfirmed v1
+      summary: Current revision was confirmed by both instructor and student; confirmed credit computed by Learning
+        in the same local transaction.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/PracticalRecordConfirmedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: samplePracticalRecordConfirmed
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: PracticalRecordConfirmed
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: learning
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000014
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          lessonId: 10000000-0000-4000-8000-000000000012
+          recordId: 10000000-0000-4000-8000-000000000014
+          recordRevision: 2
+          creditedDurationMinutes: 60
+          confirmedAt: '2026-11-20T14:00:00Z'
+      x-contract-status: NEW proposal from ADR-004, not yet in agreed DDD
+    PracticalRecordRevised:
+      name: PracticalRecordRevised
+      title: PracticalRecordRevised v1
+      summary: Confirmed or pending record facts changed. Prior confirmations for current record are invalidated
+        and credit is adjusted locally.
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/PracticalRecordRevisedPayload'
+      correlationId:
+        location: $message.header#/correlationId
+      examples:
+      - name: samplePracticalRecordRevised
+        headers:
+          eventId: 20000000-0000-4000-8000-000000000001
+          eventType: PracticalRecordRevised
+          eventVersion: 1
+          occurredAt: '2026-11-15T16:00:00Z'
+          producer: learning
+          correlationId: corr-2026-11-15-001
+          aggregateId: 10000000-0000-4000-8000-000000000014
+          aggregateVersion: 3
+        payload:
+          schoolId: 10000000-0000-4000-8000-000000000001
+          enrollmentId: 10000000-0000-4000-8000-000000000002
+          lessonId: 10000000-0000-4000-8000-000000000012
+          recordId: 10000000-0000-4000-8000-000000000014
+          previousRevision: 1
+          recordRevision: 2
+          revisedAt: '2026-11-20T13:00:00Z'
+      x-contract-status: NEW proposal from ADR-004, not yet in agreed DDD

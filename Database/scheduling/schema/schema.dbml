@@ -292,6 +292,8 @@ Table lesson {
   group_membership_revision bigint
   starts_at timestamptz [not null]
   ends_at timestamptz [not null]
+  actual_start timestamptz
+  actual_end timestamptz
   status lesson_status [not null, default: 'Scheduled']
   revision int [not null, default: 1, note: 'Retained by owner: optimistic concurrency token; update only if expected revision matches']
   series_id uuid
@@ -303,11 +305,13 @@ Table lesson {
     (school_id, starts_at)
     (teacher_id, starts_at, ends_at)
   }
-  Note: 'Practical: one enrollment/student/vehicle, no group. Theory: one group, no practical enrollment/student/vehicle; participants below. CHECKs enforce intervals, source pairs and kind-specific shapes. For generated lesson, source_candidate_id references retained candidate -> request/revision. Same-school and assignment consistency are checked in authorized backend. Completed is not credited training; actual duration and confirmations belong to Learning Tracking.'
+  Note: 'Practical: one enrollment/student/vehicle, no group. Theory: one group, no practical enrollment/student/vehicle; participants below. CHECKs enforce intervals, source pairs and kind-specific shapes. For generated lesson, source_candidate_id references retained candidate -> request/revision. Same-school and assignment consistency are checked in authorized backend. Scheduling owns the physical actual interval and lifecycle revision. Completed is not credited training; training minutes, attendance and confirmations belong to Learning Tracking.'
   checks {
     `revision > 0` [name: 'lesson_revision_positive']
     `(kind = 'Practical' AND group_membership_revision IS NULL) OR (kind = 'Theory' AND group_membership_revision IS NOT NULL AND group_membership_revision > 0)` [name: 'lesson_membership_basis']
     `ends_at > starts_at` [name: 'lesson_interval']
+    `(actual_start IS NULL AND actual_end IS NULL) OR (actual_start IS NOT NULL AND actual_end IS NOT NULL AND actual_end > actual_start)` [name: 'lesson_actual_interval']
+    `status <> 'Completed' OR (actual_start IS NOT NULL AND actual_end IS NOT NULL)` [name: 'lesson_completed_requires_actuals']
     `(kind = 'Practical' AND enrollment_id IS NOT NULL AND student_id IS NOT NULL AND vehicle_id IS NOT NULL AND group_id IS NULL) OR (kind = 'Theory' AND group_id IS NOT NULL AND enrollment_id IS NULL AND student_id IS NULL AND vehicle_id IS NULL)` [name: 'lesson_type']
   }
 
@@ -397,6 +401,8 @@ Table lesson_change {
   operation_id uuid [not null]
   revision int [not null, note: 'New revision after the change; previous state belongs to revision - 1']
   previous_status lesson_status [not null]
+  previous_actual_start timestamptz
+  previous_actual_end timestamptz
   previous_start timestamptz [not null]
   previous_end timestamptz [not null]
   previous_teacher_id uuid [not null]
@@ -411,8 +417,9 @@ Table lesson_change {
   checks {
     `revision > 1` [name: 'history_revision_positive']
     `previous_end > previous_start` [name: 'history_previous_interval']
+    `(previous_actual_start IS NULL AND previous_actual_end IS NULL) OR (previous_actual_start IS NOT NULL AND previous_actual_end IS NOT NULL AND previous_actual_end > previous_actual_start)` [name: 'history_actual_interval']
   }
-  Note: 'Append-only OLD-state snapshot on lesson mutation. Rule snapshots are linked to immutable scheduling_operation_rule; actual training facts belong to Learning Tracking. Do not mutate student/group identity on reschedule.'
+  Note: 'Append-only OLD-state snapshot on lesson mutation. Rule snapshots are linked to immutable scheduling_operation_rule; previous actual interval belongs to this Scheduling revision; teaching minutes and confirmations belong to Learning Tracking. Do not mutate student/group identity on reschedule.'
 }
 
 

@@ -83,13 +83,28 @@ The [correlation document](assets/diagrams/06-correlation-id-propagation.md) def
 
 ## API contracts
 
-The [API contract index](contracts/README.md) includes:
+The [communication contract index](../Communication/README.md) includes:
 
-- [8 OpenAPI 3.1 specifications](contracts/openapi/) for REST/HTTP interfaces.
-- [7 AsyncAPI 3.0 specifications](contracts/asyncapi/) for integration events.
-- [21 JSON event examples](contracts/examples/), an [event catalog](contracts/docs/EVENT_CATALOG.md) and [Saga REST contracts](contracts/docs/ADR-007-saga-rest-contracts.md).
+- [12 OpenAPI 3.1 specifications](../Communication/Api/) for REST/HTTP interfaces.
+- [7 AsyncAPI 3.0 specifications](<../Communication/Async Api/>) for integration events.
+- [21 JSON event examples](<../Communication/Async Api/examples/>), an [event catalog](<../Communication/Async Api/docs/EVENT_CATALOG.md>) and [Saga REST contracts](../Communication/Api/docs/ADR-007-saga-rest-contracts.md).
 
-The supplied contracts describe proposed interfaces. [MCP tool-definition schemas](contracts/mcp/README.md) remain a separate artifact.
+Contract status and implementation coverage are documented in the [Communication index](../Communication/README.md). [MCP tool-definition schemas](../Communication/mcp/README.md) remain a separate artifact.
+
+## Expert review requirements
+
+Expert: Pavlo Andriiash, pavlo.andriiash@esdc.lt. [Book a review](https://bookings.cloud.microsoft/book/Microservices@esdc.lt/).
+
+| Requirement | Documentation | Implementation evidence still needed |
+|---|---|---|
+| At least three business services; frontend/backend/database separation alone is insufficient | Six business contexts and decomposition rationale above; diagrams 01 and 02 | At least three working business services; only User Management is present in the supplied Backend |
+| Architecture, decomposition, service contracts and deployment diagram | Diagrams 01, 02 and 04; [OpenAPI/AsyncAPI](../Communication/README.md) | Deployed service interactions matching the contracts |
+| A database or schema per service | Diagram 08 and [Database](../Database/README.md) | Separate service credentials and ownership in the running environment |
+| Health endpoints and correlation ID logging | Diagrams 05 and 06 | Probe responses and correlated logs from each running service |
+| Gateway routing, authorization and rate limiting | Diagrams 02 and 10; authorization design above | Gateway configuration and observed allowed, denied and rate-limited requests |
+| Higher-grade features: message broker, resilience patterns and tracing | Diagrams 03, 07 and 09; Outbox/Inbox and recovery design | Broker delivery/recovery and distributed trace evidence |
+
+These materials document the design; they do not certify a running multi-service deployment.
 
 ## Infrastructure references
 

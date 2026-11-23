@@ -1,0 +1,1615 @@
+openapi: 3.1.0
+info:
+  title: Vairas — School Management API (PROPOSED)
+  version: 0.2.0
+  description: Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is
+    mandatory inside the owning service.
+security:
+- bearerAuth: []
+paths:
+  /internal/v1/enrollments/{enrollmentId}/eligibility:
+    get:
+      operationId: checkEnrollmentEligibility
+      summary: Check enrollment eligibility for this school and actor
+      parameters:
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: actingUserId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      - name: teacherId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentEligibility'
+              examples:
+                typical:
+                  summary: Result
+                  value:
+                    enrollmentId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    active: true
+                    category: B
+                    version: 1
+                    teacherAllowed: true
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - workloadBearer: []
+      x-status: proposed
+      description: Check enrollment eligibility for this school and actor. Proposed interface; authoritative actor
+        and school checks are mandatory.
+      tags:
+      - school-management
+    parameters: []
+  /internal/v1/groups/{groupId}/participants:
+    get:
+      operationId: getGroupParticipants
+      summary: Resolve enrolled students to be reserved for a theory lesson
+      parameters:
+      - name: groupId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      - name: membershipRevision
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        example: 1
+        description: Exact historical group membership revision from the Scheduling source. Omit only when explicitly
+          requesting current membership.
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2026-12-01T10:00:00Z'
+        description: Bound of the requested lesson interval. Require an increasing interval and verify complete
+          membership coverage at the selected revision.
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+        example: '2026-12-01T11:00:00Z'
+        description: Bound of the requested lesson interval. Require an increasing interval and verify complete
+          membership coverage at the selected revision.
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupParticipants'
+              examples:
+                typical:
+                  summary: Result
+                  value:
+                    groupId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    membershipVersion: 3
+                    participants:
+                    - enrollmentId: 11111111-1111-4111-8111-111111111111
+                      studentId: 11111111-1111-4111-8111-111111111111
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - workloadBearer: []
+      x-status: proposed
+      description: Require a permitted workload and exact school/group scope. Without membershipRevision, return
+        the current complete enrollment/student roster and its membershipVersion. With membershipRevision, return
+        exactly that retained historical revision or fail closed if it cannot be verified; never substitute the
+        current roster. This supports the immutable as-of roster used for theory confirmation and does not prove
+        future reservation eligibility. Filter the retained membership periods for the exact required from/to lesson
+        interval and return only verified full-interval participants. For Learning confirmation, verify the same
+        retained participant basis as the lesson source; reconcile physical-time deviations and any membership mismatch
+        before credit.
+      tags:
+      - school-management
+    parameters: []
+  /api/v1/schools/{schoolId}/enrollments:
+    post:
+      operationId: createEnrollment
+      summary: Create school-scoped enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnrollment'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  studentId: 11111111-1111-4111-8111-111111111111
+                  licenseCategory: B
+      responses:
+        '201':
+          description: Accepted and committed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+              examples:
+                typical:
+                  summary: Accepted and committed
+                  value:
+                    enrollmentId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    version: 1
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      x-status: proposed
+      description: Create school-scoped enrollment. Proposed interface; authoritative actor and school checks are
+        mandatory.
+      tags:
+      - school-management
+      x-negative-request:
+        description: 'Missing required studentId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          licenseCategory: B
+        expectedStatus: 400
+    parameters: []
+  /api/v1/schools/{schoolId}/memberships:
+    get:
+      operationId: getMemberships
+      summary: Return memberships authorized for this school
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: X-Correlation-ID
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 128
+        example: synthetic-X-Correlation-ID
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MembershipList'
+              examples:
+                typical:
+                  summary: Result
+                  value:
+                  - userId: 11111111-1111-4111-8111-111111111111
+                    role: Teacher
+        '400':
+          description: Invalid input
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid input
+                  value:
+                    title: Invalid input
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Access forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Access forbidden
+                  value:
+                    title: Access forbidden
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Business conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business conflict
+                  value:
+                    title: Business conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business rule rejected
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business rule rejected
+                  value:
+                    title: Business rule rejected
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Dependency unavailable
+                  value:
+                    title: Dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - bearerAuth: []
+      x-status: proposed
+      description: Return memberships authorized for this school. Proposed interface; authoritative actor and school
+        checks are mandatory.
+      tags:
+      - school-management
+    parameters: []
+  /internal/v1/profile-provisioning/validate:
+    servers:
+    - url: https://localhost:7200
+    post:
+      operationId: validateProfileProvisioning
+      summary: Check exact invitation or initial administrator bootstrap authority
+      security:
+      - workloadOAuth:
+        - school.profile-provisioning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchoolAuthorityRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  actorUserId: 11111111-1111-4111-8111-111111111111
+                  targetUserId: 11111111-1111-4111-8111-111111111111
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+                  role: Teacher
+                  bootstrap: false
+      responses:
+        '200':
+          description: Echo every binding from the request. For ordinary onboarding require actor=target, exact
+            School invitation target/role, active school and current issuer authority, valid status and unexpired
+            invitation. An accepted invitation can authorize a completed retry only when it retains the same exact
+            target and role binding. Bootstrap is Administrator-only and requires the School-owned first-administrator
+            policy. InvitationId is an identifier, not a bearer secret. Never accept an invitation or create membership
+            from this validation endpoint.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SchoolAuthorityRequest'
+                - type: object
+                  required:
+                  - allowed
+                  - authorityBasis
+                  - validUntil
+                  properties:
+                    allowed:
+                      type: boolean
+                    authorityBasis:
+                      type: string
+                      maxLength: 250
+                      description: Restricted evidence reference/version, never a raw token or invitation secret
+                    validUntil:
+                      type: string
+                      format: date-time
+              examples:
+                typical:
+                  summary: Echo every binding from the request. For ordinary onboarding require actor=target, exact
+                    School invitation target/role, active school and current issuer authority, valid status and
+                    unexpired invitation. An accepted invitation can authorize a completed retry only when it retains
+                    the same exact target and role binding. Bootstrap is Administrator-only and requires the School-owned
+                    first-administrator policy. InvitationId is an identifier, not a bearer secret. Never accept
+                    an invitation or create membership from this validation endpoint.
+                  value:
+                    actorUserId: 11111111-1111-4111-8111-111111111111
+                    targetUserId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    invitationId: 11111111-1111-4111-8111-111111111111
+                    role: Teacher
+                    bootstrap: false
+                    allowed: true
+                    authorityBasis: invitation-revision-3
+                    validUntil: '2026-12-01T11:00:00Z'
+        '401':
+          description: Workload unauthenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload unauthenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '403':
+          description: Workload lacks permission
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload lacks permission
+                status: 403
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative decision unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative decision unavailable
+                status: 503
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Check exact invitation or initial administrator bootstrap authority. Proposed interface; authoritative
+        actor and school checks are mandatory.
+      tags:
+      - school-management
+      parameters: []
+      x-negative-request:
+        description: 'Missing required actorUserId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          targetUserId: 11111111-1111-4111-8111-111111111111
+          schoolId: 11111111-1111-4111-8111-111111111111
+          invitationId: 11111111-1111-4111-8111-111111111111
+          role: Teacher
+          bootstrap: false
+        expectedStatus: 400
+    parameters: []
+  /api/v1/users/me/enrollments:
+    get:
+      operationId: getMyEnrollments
+      summary: List only enrollments owned by the authenticated user
+      description: List only enrollments owned by the authenticated user. Access is checked by the owning service
+        for the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentList'
+              examples:
+                typical:
+                  summary: Successful result
+                  value:
+                  - enrollmentId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    version: 1
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid request
+                  value:
+                    title: Invalid request
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Permission denied
+                  value:
+                    title: Permission denied
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Current revision or resource conflict
+                  value:
+                    title: Current revision or resource conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business constraints reject the request
+                  value:
+                    title: Business constraints reject the request
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authoritative dependency unavailable
+                  value:
+                    title: Authoritative dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      x-traceability:
+      - US-018
+      parameters: []
+      tags:
+      - school-management
+    parameters: []
+  /api/v1/schools/{schoolId}/enrollments/{enrollmentId}:
+    get:
+      operationId: getEnrollment
+      summary: Read the authorized enrollment and school binding
+      description: Read the authorized enrollment and school binding. Access is checked by the owning service for
+        the authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+              examples:
+                typical:
+                  summary: Successful result
+                  value:
+                    enrollmentId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    version: 1
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid request
+                  value:
+                    title: Invalid request
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Permission denied
+                  value:
+                    title: Permission denied
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Current revision or resource conflict
+                  value:
+                    title: Current revision or resource conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business constraints reject the request
+                  value:
+                    title: Business constraints reject the request
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authoritative dependency unavailable
+                  value:
+                    title: Authoritative dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      x-traceability:
+      - US-001
+      - US-017
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      tags:
+      - school-management
+    parameters: []
+  /api/v1/schools/{schoolId}/enrollments/{enrollmentId}/group-assignment:
+    put:
+      operationId: assignEnrollmentGroup
+      summary: Assign group and programme after global reservation revalidation
+      description: Validate same-school group/programme applicability. Coordinate with Scheduling before making
+        a roster change effective; invalidate affected proposals. If cross-service reservation outcome is unknown
+        keep the change pending, not effective. The durable coordination design remains a deployment gate; this
+        command does not create a cross-database transaction.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+              examples:
+                typical:
+                  summary: Successful result
+                  value:
+                    enrollmentId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    status: Active
+                    version: 2
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid request
+                  value:
+                    title: Invalid request
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Permission denied
+                  value:
+                    title: Permission denied
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Current revision or resource conflict
+                  value:
+                    title: Current revision or resource conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business constraints reject the request
+                  value:
+                    title: Business constraints reject the request
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authoritative dependency unavailable
+                  value:
+                    title: Authoritative dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      x-traceability:
+      - US-002
+      - AC-101
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupAssignment'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  groupId: 11111111-1111-4111-8111-111111111111
+                  programVersionId: 11111111-1111-4111-8111-111111111111
+                  expectedRevision: 1
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: enrollmentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Stable operation identity; identical retry reuses the outcome. A different payload with the
+          same key is a conflict.
+        example: 11111111-1111-4111-8111-111111111111
+      tags:
+      - school-management
+      x-negative-request:
+        description: 'Missing required groupId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          programVersionId: 11111111-1111-4111-8111-111111111111
+          expectedRevision: 1
+        expectedStatus: 400
+    parameters: []
+  /api/v1/schools/{schoolId}/planning-inputs:
+    get:
+      operationId: getPlanningInputs
+      summary: Report missing school-scoped planning inputs
+      description: Report missing school-scoped planning inputs. Access is checked by the owning service for the
+        authenticated actor and exact school/enrollment.
+      x-status: proposed
+      responses:
+        '200':
+          description: Successful result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanningInputs'
+              examples:
+                typical:
+                  summary: Successful result
+                  value:
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    complete: false
+                    missingItems: []
+        '400':
+          description: Invalid request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Invalid request
+                  value:
+                    title: Invalid request
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Authentication required
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authentication required
+                  value:
+                    title: Authentication required
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Permission denied
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Permission denied
+                  value:
+                    title: Permission denied
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Resource not found or not visible
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Resource not found or not visible
+                  value:
+                    title: Resource not found or not visible
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Current revision or resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Current revision or resource conflict
+                  value:
+                    title: Current revision or resource conflict
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Business constraints reject the request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Business constraints reject the request
+                  value:
+                    title: Business constraints reject the request
+                    status: 422
+                    code: BUSINESS_RULE_REJECTED
+                    correlationId: integration-example-01
+        '503':
+          description: Authoritative dependency unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              examples:
+                typical:
+                  summary: Authoritative dependency unavailable
+                  value:
+                    title: Authoritative dependency unavailable
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      x-traceability:
+      - US-003
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      tags:
+      - school-management
+    parameters: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service-to-service token; dedicated audience and workload scope.
+    workloadOAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://localhost:7100/connect/token
+          scopes:
+            identity.validate: Validate current user identity and session
+            school.profile-provisioning: Validate invitation or bootstrap evidence
+            confirmations.validate: Validate exact human approval
+  schemas:
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.
+    EnrollmentEligibility:
+      type: object
+      required:
+      - enrollmentId
+      - schoolId
+      - studentId
+      - active
+      - category
+      - version
+      - teacherAllowed
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+        category:
+          type: string
+        version:
+          type: integer
+          minimum: 1
+        teacherAllowed:
+          type: boolean
+      description: Enrollment Eligibility. See the operation descriptions for authorization and lifecycle constraints.
+    GroupParticipants:
+      type: object
+      required:
+      - groupId
+      - schoolId
+      - participants
+      - membershipVersion
+      properties:
+        groupId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        membershipVersion:
+          type: integer
+          minimum: 1
+        participants:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            required:
+            - enrollmentId
+            - studentId
+            properties:
+              enrollmentId:
+                type: string
+                format: uuid
+              studentId:
+                type: string
+                format: uuid
+      description: Complete verified enrollment/student pairs at exactly membershipVersion. No duplicate enrollment;
+        school, group and historical membership must be owner-verified.
+    CreateEnrollment:
+      type: object
+      required:
+      - studentId
+      - licenseCategory
+      properties:
+        studentId:
+          type: string
+          format: uuid
+        licenseCategory:
+          type: string
+      description: Create Enrollment. See the operation descriptions for authorization and lifecycle constraints.
+    Enrollment:
+      type: object
+      required:
+      - enrollmentId
+      - schoolId
+      - studentId
+      - status
+      - version
+      properties:
+        enrollmentId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        studentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - Active
+          - Completed
+          - Withdrawn
+          - Transferred
+          - Cancelled
+        version:
+          type: integer
+          minimum: 1
+          description: Current enrollment revision; use as expectedRevision for an enrollment change.
+      description: Enrollment. See the operation descriptions for authorization and lifecycle constraints.
+    MembershipList:
+      type: array
+      items:
+        type: object
+        required:
+        - userId
+        - role
+        properties:
+          userId:
+            type: string
+            format: uuid
+          role:
+            type: string
+            enum:
+            - Student
+            - Teacher
+            - Administrator
+      description: Membership List. See the operation descriptions for authorization and lifecycle constraints.
+    Id:
+      type: string
+      format: uuid
+      description: Id. See the operation descriptions for authorization and lifecycle constraints.
+    NullableId:
+      type:
+      - string
+      - 'null'
+      format: uuid
+      description: Nullable Id. See the operation descriptions for authorization and lifecycle constraints.
+    SchoolAuthorityRequest:
+      type: object
+      required:
+      - actorUserId
+      - targetUserId
+      - schoolId
+      - invitationId
+      - role
+      - bootstrap
+      properties:
+        actorUserId:
+          $ref: '#/components/schemas/Id'
+        targetUserId:
+          $ref: '#/components/schemas/Id'
+        schoolId:
+          $ref: '#/components/schemas/Id'
+        invitationId:
+          $ref: '#/components/schemas/NullableId'
+        role:
+          type: string
+          enum:
+          - Teacher
+          - Administrator
+        bootstrap:
+          type: boolean
+      description: School Authority Request. See the operation descriptions for authorization and lifecycle constraints.
+    ConfirmationRequest:
+      type: object
+      required:
+      - confirmationId
+      - identityId
+      - operationId
+      - requestFingerprint
+      - schoolId
+      - commandName
+      properties:
+        confirmationId:
+          $ref: '#/components/schemas/Id'
+        identityId:
+          $ref: '#/components/schemas/Id'
+        operationId:
+          $ref: '#/components/schemas/Id'
+        requestFingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        schoolId:
+          $ref: '#/components/schemas/NullableId'
+        commandName:
+          type: string
+          enum:
+          - CreateUser
+          - UpdateUser
+          - CreateStudent
+          - CreateTeacher
+          - CreateAdministrator
+      description: Confirmation Request. See the operation descriptions for authorization and lifecycle constraints.
+    EnrollmentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Enrollment'
+      description: Enrollment List. See the operation descriptions for authorization and lifecycle constraints.
+    GroupAssignment:
+      type: object
+      required:
+      - groupId
+      - programVersionId
+      - expectedRevision
+      properties:
+        groupId: &id001
+          type: string
+          format: uuid
+        programVersionId: *id001
+        expectedRevision:
+          type: integer
+          minimum: 1
+          description: Current enrollment version, not the group membership snapshot revision. Recheck roster/program
+            applicability and coordination separately.
+      description: Group Assignment. See the operation descriptions for authorization and lifecycle constraints.
+    PlanningInputs:
+      type: object
+      required:
+      - schoolId
+      - complete
+      - missingItems
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+        complete:
+          type: boolean
+        missingItems:
+          type: array
+          items:
+            type: string
+      description: Planning Inputs. See the operation descriptions for authorization and lifecycle constraints.

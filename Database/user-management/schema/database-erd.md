@@ -32,6 +32,24 @@ erDiagram
     varchar_120_ actor_service
     uuid requesting_school_id
   }
+  OUTBOX_MESSAGE {
+    uuid event_id PK
+    uuid aggregate_id
+    bigint aggregate_version
+    varchar_80_ event_type
+    jsonb body
+    varchar_128_ correlation_id
+    varchar_128_ trace_parent
+    timestamptz occurred_at
+    timestamptz next_attempt_at
+    timestamptz published_at
+    uuid lease_id
+    timestamptz leased_until
+    int attempts
+    varchar_80_ last_error_code
+  }
 ```
 
 [DBML source](schema.dbml)
+
+`OUTBOX_MESSAGE` is technical delivery metadata. `aggregate_id` identifies the event's UserId logically; the DDL declares no foreign key. Its partial delivery index and CHECK constraints are documented in the DBML and DDL.

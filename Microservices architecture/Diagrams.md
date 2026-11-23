@@ -106,6 +106,7 @@ flowchart TB
     subgraph CORE["Service-to-service HTTPS / REST"]
         SCHOOL["School Management"]
         USER["User Management"]
+        AUTH["Authentication"]
         SCHED["Scheduling"]
         VEH["Vehicle Management"]
         LEARN["Learning Tracking"]
@@ -117,7 +118,10 @@ flowchart TB
     AGENT -->|MCP HTTPS with authenticated tool caller| GW
     GW -->|Internal /mcp routing| MCP
     MCP -->|Business REST via gateway; principal and school scope| GW
-    GW -->|Authorized API routing| SCHOOL & USER & SCHED & VEH & LEARN & DOC & NOTIF
+    GW -->|Authorized API routing| SCHOOL & USER & AUTH & SCHED & VEH & LEARN & DOC & NOTIF
+    USER -->|JWKS, workload tokens, current session validation| AUTH
+    USER -->|Invitation and bootstrap authority validation| SCHOOL
+    USER -->|Exact MCP confirmation validation| CHAT
     SCHOOL -->|Profile existence| USER
     SCHED -->|Enrollment permission| SCHOOL
     SCHED -->|Vehicle eligibility| VEH

@@ -1,0 +1,557 @@
+openapi: 3.1.0
+info:
+  title: User Management dependency contracts
+  version: 1.0.0
+  description: Exact checked consumer view of Auth, School and Chat provider path items consumed by implemented
+    User Management clients. These providers remain proposed; validation checks drift against the owning specifications.
+security:
+- workloadOAuth: []
+paths:
+  /connect/token:
+    servers:
+    - url: https://localhost:7100
+    post:
+      operationId: acquireUserManagementWorkloadToken
+      security: []
+      summary: Obtain an outbound workload token using OAuth2 client credentials
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+              - scope
+              properties:
+                grant_type:
+                  type: string
+                  const: client_credentials
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                  format: password
+                scope:
+                  type: string
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  grant_type: client_credentials
+                  client_id: user-management
+                  client_secret: ${WORKLOAD_CLIENT_SECRET}
+                  scope: identity.validate school.profile-provisioning confirmations.validate
+      responses:
+        '200':
+          description: Token is cached only until expiry minus a safety margin
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - access_token
+                - token_type
+                - expires_in
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    const: Bearer
+                  expires_in:
+                    type: integer
+                    minimum: 31
+              examples:
+                typical:
+                  summary: Token is cached only until expiry minus a safety margin
+                  value:
+                    access_token: ${WORKLOAD_TOKEN}
+                    token_type: Bearer
+                    expires_in: 900
+        '400':
+          description: Invalid client credentials or scope
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Invalid client credentials or scope
+                status: 400
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '401':
+          description: Client not authenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Client not authenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Authenticate an allowlisted workload using OAuth2 client credentials and issue only its permitted
+        scopes/audience. No end-user or school membership is implied. This proposed provider is consumed by User
+        Management.
+      tags:
+      - authentication
+      parameters: []
+      x-negative-request:
+        description: 'Missing required grant_type: reject with 400 before business work.'
+        mediaType: application/x-www-form-urlencoded
+        value:
+          client_id: user-management
+          client_secret: ${WORKLOAD_CLIENT_SECRET}
+          scope: identity.validate school.profile-provisioning confirmations.validate
+        expectedStatus: 400
+    parameters: []
+    x-provider-spec: authentication.openapi.yaml
+  /internal/v1/sessions/validate:
+    servers:
+    - url: https://localhost:7100
+    post:
+      operationId: validateUserManagementSession
+      summary: Validate current identity admission and exact session ownership
+      security:
+      - workloadOAuth:
+        - identity.validate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - identityId
+              - sessionId
+              properties:
+                identityId:
+                  $ref: '#/components/schemas/Id'
+                sessionId:
+                  $ref: '#/components/schemas/Id'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  identityId: 11111111-1111-4111-8111-111111111111
+                  sessionId: 11111111-1111-4111-8111-111111111111
+      responses:
+        '200':
+          description: Active only if identity Enabled, session belongs to identity, and the session is unexpired
+            and unrevoked. Negative decisions echo the requested IDs without disclosing others.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - active
+                - identityId
+                - sessionId
+                - validUntil
+                properties:
+                  active:
+                    type: boolean
+                  identityId:
+                    $ref: '#/components/schemas/Id'
+                  sessionId:
+                    $ref: '#/components/schemas/Id'
+                  validUntil:
+                    type: string
+                    format: date-time
+              examples:
+                typical:
+                  summary: Active only if identity Enabled, session belongs to identity, and the session is unexpired
+                    and unrevoked. Negative decisions echo the requested IDs without disclosing others.
+                  value:
+                    active: true
+                    identityId: 11111111-1111-4111-8111-111111111111
+                    sessionId: 11111111-1111-4111-8111-111111111111
+                    validUntil: '2026-12-01T11:00:00Z'
+        '401':
+          description: Workload unauthenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload unauthenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '403':
+          description: Workload lacks permission
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload lacks permission
+                status: 403
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: No authoritative decision available
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: No authoritative decision available
+                status: 503
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Require an authenticated workload with identity.validate scope. Verify the exact identity/session
+        pair, revocation and expiry; return authoritative admission and validUntil. This is global Authentication
+        state, not school/enrollment authorization.
+      tags:
+      - authentication
+      parameters: []
+      x-negative-request:
+        description: 'Missing required identityId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          sessionId: 11111111-1111-4111-8111-111111111111
+        expectedStatus: 400
+    parameters: []
+    x-provider-spec: authentication.openapi.yaml
+  /internal/v1/profile-provisioning/validate:
+    servers:
+    - url: https://localhost:7200
+    post:
+      operationId: validateProfileProvisioning
+      summary: Check exact invitation or initial administrator bootstrap authority
+      security:
+      - workloadOAuth:
+        - school.profile-provisioning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SchoolAuthorityRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  actorUserId: 11111111-1111-4111-8111-111111111111
+                  targetUserId: 11111111-1111-4111-8111-111111111111
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+                  role: Teacher
+                  bootstrap: false
+      responses:
+        '200':
+          description: Echo every binding from the request. For ordinary onboarding require actor=target, exact
+            School invitation target/role, active school and current issuer authority, valid status and unexpired
+            invitation. An accepted invitation can authorize a completed retry only when it retains the same exact
+            target and role binding. Bootstrap is Administrator-only and requires the School-owned first-administrator
+            policy. InvitationId is an identifier, not a bearer secret. Never accept an invitation or create membership
+            from this validation endpoint.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SchoolAuthorityRequest'
+                - type: object
+                  required:
+                  - allowed
+                  - authorityBasis
+                  - validUntil
+                  properties:
+                    allowed:
+                      type: boolean
+                    authorityBasis:
+                      type: string
+                      maxLength: 250
+                      description: Restricted evidence reference/version, never a raw token or invitation secret
+                    validUntil:
+                      type: string
+                      format: date-time
+              examples:
+                typical:
+                  summary: Echo every binding from the request. For ordinary onboarding require actor=target, exact
+                    School invitation target/role, active school and current issuer authority, valid status and
+                    unexpired invitation. An accepted invitation can authorize a completed retry only when it retains
+                    the same exact target and role binding. Bootstrap is Administrator-only and requires the School-owned
+                    first-administrator policy. InvitationId is an identifier, not a bearer secret. Never accept
+                    an invitation or create membership from this validation endpoint.
+                  value:
+                    actorUserId: 11111111-1111-4111-8111-111111111111
+                    targetUserId: 11111111-1111-4111-8111-111111111111
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    invitationId: 11111111-1111-4111-8111-111111111111
+                    role: Teacher
+                    bootstrap: false
+                    allowed: true
+                    authorityBasis: invitation-revision-3
+                    validUntil: '2026-12-01T11:00:00Z'
+        '401':
+          description: Workload unauthenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload unauthenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '403':
+          description: Workload lacks permission
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload lacks permission
+                status: 403
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Authoritative decision unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Authoritative decision unavailable
+                status: 503
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Check exact invitation or initial administrator bootstrap authority. Proposed interface; authoritative
+        actor and school checks are mandatory.
+      tags:
+      - school-management
+      parameters: []
+      x-negative-request:
+        description: 'Missing required actorUserId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          targetUserId: 11111111-1111-4111-8111-111111111111
+          schoolId: 11111111-1111-4111-8111-111111111111
+          invitationId: 11111111-1111-4111-8111-111111111111
+          role: Teacher
+          bootstrap: false
+        expectedStatus: 400
+    parameters: []
+    x-provider-spec: school-management.openapi.yaml
+  /internal/v1/confirmations/validate:
+    servers:
+    - url: https://localhost:7300
+    post:
+      operationId: validateExactProfileConfirmation
+      summary: Validate explicit human approval bound to the exact command
+      security:
+      - workloadOAuth:
+        - confirmations.validate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmationRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+                  identityId: 11111111-1111-4111-8111-111111111111
+                  operationId: 11111111-1111-4111-8111-111111111111
+                  requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  commandName: CreateUser
+      responses:
+        '200':
+          description: The Chat Backend must retain an actual authenticated human approval and compare every request
+            binding. Echo request bindings, the original server-recorded confirmation time and its expiry. This
+            is read-only validation, not consumption or a model assertion. Allocate confirmationId before calculating
+            the final command fingerprint.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ConfirmationRequest'
+                - type: object
+                  required:
+                  - allowed
+                  - confirmedAt
+                  - expiresAt
+                  properties:
+                    allowed:
+                      type: boolean
+                    confirmedAt:
+                      type: string
+                      format: date-time
+                    expiresAt:
+                      type: string
+                      format: date-time
+              examples:
+                typical:
+                  summary: The Chat Backend must retain an actual authenticated human approval and compare every
+                    request binding. Echo request bindings, the original server-recorded confirmation time and its
+                    expiry. This is read-only validation, not consumption or a model assertion. Allocate confirmationId
+                    before calculating the final command fingerprint.
+                  value:
+                    confirmationId: 11111111-1111-4111-8111-111111111111
+                    identityId: 11111111-1111-4111-8111-111111111111
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                    schoolId: 11111111-1111-4111-8111-111111111111
+                    commandName: CreateUser
+                    allowed: true
+                    confirmedAt: '2026-12-01T10:00:00Z'
+                    expiresAt: '2026-12-01T11:00:00Z'
+        '401':
+          description: Workload unauthenticated
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload unauthenticated
+                status: 401
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '403':
+          description: Workload lacks permission
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Workload lacks permission
+                status: 403
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+        '503':
+          description: Confirmation provider unavailable
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                title: Confirmation provider unavailable
+                status: 503
+                code: PROVIDER_REJECTED
+                correlationId: integration-example-01
+      x-status: proposed
+      description: Validate explicit human approval bound to the exact command. Proposed interface; authoritative
+        actor and school checks are mandatory.
+      tags:
+      - user-management-dependencies
+      parameters: []
+      x-negative-request:
+        description: 'Missing required confirmationId: reject with 400 before business work.'
+        mediaType: application/json
+        value:
+          identityId: 11111111-1111-4111-8111-111111111111
+          operationId: 11111111-1111-4111-8111-111111111111
+          requestFingerprint: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          schoolId: 11111111-1111-4111-8111-111111111111
+          commandName: CreateUser
+        expectedStatus: 400
+    parameters: []
+    x-provider-spec: chat.openapi.yaml
+components:
+  securitySchemes:
+    workloadOAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://localhost:7100/connect/token
+          scopes:
+            identity.validate: Validate current user identity and session
+            school.profile-provisioning: Validate invitation or bootstrap evidence
+            confirmations.validate: Validate exact human approval
+  schemas:
+    Id:
+      type: string
+      format: uuid
+      description: Id. See the operation descriptions for authorization and lifecycle constraints.
+    NullableId:
+      type:
+      - string
+      - 'null'
+      format: uuid
+      description: Nullable Id. See the operation descriptions for authorization and lifecycle constraints.
+    SchoolAuthorityRequest:
+      type: object
+      required:
+      - actorUserId
+      - targetUserId
+      - schoolId
+      - invitationId
+      - role
+      - bootstrap
+      properties:
+        actorUserId:
+          $ref: '#/components/schemas/Id'
+        targetUserId:
+          $ref: '#/components/schemas/Id'
+        schoolId:
+          $ref: '#/components/schemas/Id'
+        invitationId:
+          $ref: '#/components/schemas/NullableId'
+        role:
+          type: string
+          enum:
+          - Teacher
+          - Administrator
+        bootstrap:
+          type: boolean
+      description: School Authority Request. See the operation descriptions for authorization and lifecycle constraints.
+    ConfirmationRequest:
+      type: object
+      required:
+      - confirmationId
+      - identityId
+      - operationId
+      - requestFingerprint
+      - schoolId
+      - commandName
+      properties:
+        confirmationId:
+          $ref: '#/components/schemas/Id'
+        identityId:
+          $ref: '#/components/schemas/Id'
+        operationId:
+          $ref: '#/components/schemas/Id'
+        requestFingerprint:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+        schoolId:
+          $ref: '#/components/schemas/NullableId'
+        commandName:
+          type: string
+          enum:
+          - CreateUser
+          - UpdateUser
+          - CreateStudent
+          - CreateTeacher
+          - CreateAdministrator
+      description: Confirmation Request. See the operation descriptions for authorization and lifecycle constraints.
+    Problem:
+      type: object
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+      description: Problem. See the operation descriptions for authorization and lifecycle constraints.

@@ -1,0 +1,1000 @@
+{
+  "tools": [
+    {
+      "name": "get_my_enrollments",
+      "description": "Return only enrollments belonging to the authenticated user; actor identity is server-derived.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enrollments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "enrollmentId",
+                "schoolId",
+                "studentId",
+                "status",
+                "version"
+              ],
+              "properties": {
+                "enrollmentId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "schoolId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "studentId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "Active",
+                    "Completed",
+                    "Withdrawn",
+                    "Transferred",
+                    "Cancelled"
+                  ]
+                },
+                "version": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Current enrollment revision; use as expectedRevision for an enrollment change."
+                }
+              },
+              "description": "Enrollment. See the operation descriptions for authorization and lifecycle constraints."
+            }
+          }
+        },
+        "required": [
+          "enrollments"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed",
+      "x-rest": {
+        "spec": "school-management.openapi.yaml",
+        "method": "get",
+        "path": "/api/v1/users/me/enrollments"
+      },
+      "x-example-input": {},
+      "x-example-output": {
+        "enrollments": [
+          {
+            "enrollmentId": "11111111-1111-4111-8111-111111111111",
+            "schoolId": "11111111-1111-4111-8111-111111111111",
+            "studentId": "11111111-1111-4111-8111-111111111111",
+            "status": "Active",
+            "version": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "find_available_lessons",
+      "description": "Find provisional slots within authorized enrollment/school/instructor scope; no foreign calendar disclosure.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enrollmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teacherId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "schoolId",
+          "enrollmentId",
+          "teacherId",
+          "from",
+          "to"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "schoolId",
+          "slots"
+        ],
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "startsAt",
+                "endsAt",
+                "teacherId",
+                "vehicleId"
+              ],
+              "properties": {
+                "startsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "endsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "teacherId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "vehicleId": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "description": "Availability. See the operation descriptions for authorization and lifecycle constraints."
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "method": "get",
+        "path": "/api/v1/schools/{schoolId}/availability"
+      },
+      "x-example-input": {
+        "schoolId": "11111111-1111-4111-8111-111111111111",
+        "enrollmentId": "11111111-1111-4111-8111-111111111111",
+        "teacherId": "11111111-1111-4111-8111-111111111111",
+        "from": "2026-12-01T10:00:00Z",
+        "to": "2026-12-01T12:00:00Z"
+      },
+      "x-example-output": {
+        "schoolId": "11111111-1111-4111-8111-111111111111",
+        "slots": [
+          {
+            "startsAt": "2026-12-01T10:00:00Z",
+            "endsAt": "2026-12-01T11:00:00Z",
+            "teacherId": "11111111-1111-4111-8111-111111111111",
+            "vehicleId": "11111111-1111-4111-8111-111111111111"
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_student_training_progress",
+      "description": "Return progress for one authorized enrollment; never aggregate concurrent enrollments.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enrollmentId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "enrollmentId"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "enrollmentId",
+          "theoryMinutes",
+          "practicalMinutes",
+          "percent",
+          "outstandingRequirements",
+          "pendingRecordCount"
+        ],
+        "properties": {
+          "enrollmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "theoryMinutes": {
+            "type": "integer"
+          },
+          "practicalMinutes": {
+            "type": "integer"
+          },
+          "percent": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "outstandingRequirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pendingRecordCount": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "description": "Progress. See the operation descriptions for authorization and lifecycle constraints."
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed",
+      "x-rest": {
+        "spec": "learning-tracking.openapi.yaml",
+        "method": "get",
+        "path": "/api/v1/student-trainings/{enrollmentId}/progress"
+      },
+      "x-example-input": {
+        "enrollmentId": "11111111-1111-4111-8111-111111111111"
+      },
+      "x-example-output": {
+        "enrollmentId": "11111111-1111-4111-8111-111111111111",
+        "theoryMinutes": 600,
+        "practicalMinutes": 300,
+        "percent": 40,
+        "outstandingRequirements": [
+          "120 practical minutes remain"
+        ],
+        "pendingRecordCount": 1
+      }
+    },
+    {
+      "name": "preview_lesson_booking",
+      "description": "Preview exact arguments and provisional availability; server allocates approval binding. No reservation or human approval is implied.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "branchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enrollmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "studentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teacherId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "vehicleId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "category": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "schoolId",
+          "branchId",
+          "enrollmentId",
+          "studentId",
+          "teacherId",
+          "vehicleId",
+          "category",
+          "startsAt",
+          "endsAt"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "previewId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "arguments": {
+            "type": "object",
+            "required": [
+              "schoolId",
+              "branchId",
+              "enrollmentId",
+              "studentId",
+              "teacherId",
+              "vehicleId",
+              "category",
+              "startsAt",
+              "endsAt"
+            ],
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "branchId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "enrollmentId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "studentId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "teacherId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "vehicleId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "category": {
+                "type": "string"
+              },
+              "startsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endsAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "description": "Additional practical lessons use this command; repeated assessments require an assessment appointment and Learning Tracking readiness, not a synthetic LessonCompleted credit."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "previewId",
+          "arguments",
+          "expiresAt",
+          "available"
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "x-status": "proposed",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "method": "get",
+        "path": "/api/v1/schools/{schoolId}/availability"
+      },
+      "x-example-input": {
+        "schoolId": "11111111-1111-4111-8111-111111111111",
+        "branchId": "11111111-1111-4111-8111-111111111111",
+        "enrollmentId": "11111111-1111-4111-8111-111111111111",
+        "studentId": "11111111-1111-4111-8111-111111111111",
+        "teacherId": "11111111-1111-4111-8111-111111111111",
+        "vehicleId": "11111111-1111-4111-8111-111111111111",
+        "category": "B",
+        "startsAt": "2026-12-01T10:00:00Z",
+        "endsAt": "2026-12-01T11:00:00Z"
+      },
+      "x-example-output": {
+        "previewId": "11111111-1111-4111-8111-111111111111",
+        "arguments": {
+          "schoolId": "11111111-1111-4111-8111-111111111111",
+          "branchId": "11111111-1111-4111-8111-111111111111",
+          "enrollmentId": "11111111-1111-4111-8111-111111111111",
+          "studentId": "11111111-1111-4111-8111-111111111111",
+          "teacherId": "11111111-1111-4111-8111-111111111111",
+          "vehicleId": "11111111-1111-4111-8111-111111111111",
+          "category": "B",
+          "startsAt": "2026-12-01T10:00:00Z",
+          "endsAt": "2026-12-01T11:00:00Z"
+        },
+        "expiresAt": "2026-12-01T11:00:00Z",
+        "available": true
+      }
+    },
+    {
+      "name": "create_lesson_booking",
+      "description": "Commit only after server-verified human approval of exact arguments; recheck all authorization and global conflicts.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "previewId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "confirmationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "operationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "arguments": {
+            "type": "object",
+            "required": [
+              "schoolId",
+              "branchId",
+              "enrollmentId",
+              "studentId",
+              "teacherId",
+              "vehicleId",
+              "category",
+              "startsAt",
+              "endsAt"
+            ],
+            "properties": {
+              "schoolId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "branchId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "enrollmentId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "studentId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "teacherId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "vehicleId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "category": {
+                "type": "string"
+              },
+              "startsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endsAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "description": "Additional practical lessons use this command; repeated assessments require an assessment appointment and Learning Tracking readiness, not a synthetic LessonCompleted credit."
+          }
+        },
+        "required": [
+          "previewId",
+          "confirmationId",
+          "operationId",
+          "arguments"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "operationId",
+          "status",
+          "lessonIds"
+        ],
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Committed",
+              "Rejected",
+              "ReconciliationPending"
+            ]
+          },
+          "lessonIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "description": "Scheduling Operation. See the operation descriptions for authorization and lifecycle constraints."
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "method": "post",
+        "path": "/api/v1/practical-lessons"
+      },
+      "x-example-input": {
+        "previewId": "11111111-1111-4111-8111-111111111111",
+        "confirmationId": "11111111-1111-4111-8111-111111111111",
+        "operationId": "11111111-1111-4111-8111-111111111111",
+        "arguments": {
+          "schoolId": "11111111-1111-4111-8111-111111111111",
+          "branchId": "11111111-1111-4111-8111-111111111111",
+          "enrollmentId": "11111111-1111-4111-8111-111111111111",
+          "studentId": "11111111-1111-4111-8111-111111111111",
+          "teacherId": "11111111-1111-4111-8111-111111111111",
+          "vehicleId": "11111111-1111-4111-8111-111111111111",
+          "category": "B",
+          "startsAt": "2026-12-01T10:00:00Z",
+          "endsAt": "2026-12-01T11:00:00Z"
+        }
+      },
+      "x-example-output": {
+        "operationId": "11111111-1111-4111-8111-111111111111",
+        "status": "Committed",
+        "lessonIds": [
+          "11111111-1111-4111-8111-111111111111"
+        ]
+      }
+    },
+    {
+      "name": "get_my_lessons",
+      "description": "Read only the authenticated student or assigned instructor schedule.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "lessons"
+        ],
+        "properties": {
+          "lessons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "lessonId",
+                "status",
+                "version"
+              ],
+              "properties": {
+                "lessonId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "Scheduled",
+                    "Completed",
+                    "Cancelled",
+                    "NoShow"
+                  ]
+                },
+                "version": {
+                  "type": "integer"
+                },
+                "startsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "endsAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "Practical",
+                    "Theory"
+                  ]
+                }
+              },
+              "description": "Practical Lesson. See the operation descriptions for authorization and lifecycle constraints."
+            },
+            "description": "Lesson List. See the operation descriptions for authorization and lifecycle constraints."
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed extension for BA US-018/019",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "path": "/api/v1/users/me/lessons",
+        "method": "get"
+      },
+      "x-example-input": {
+        "from": "2026-12-01T10:00:00Z",
+        "to": "2026-12-01T12:00:00Z"
+      },
+      "x-example-output": {
+        "lessons": [
+          {
+            "lessonId": "11111111-1111-4111-8111-111111111111",
+            "status": "Scheduled",
+            "version": 1,
+            "startsAt": "2026-12-01T10:00:00Z",
+            "endsAt": "2026-12-01T11:00:00Z",
+            "kind": "Practical"
+          }
+        ]
+      }
+    },
+    {
+      "name": "preview_lesson_rescheduling",
+      "description": "Preview a move against current availability; no reservation or approval is granted.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "lessonId",
+          "schoolId",
+          "enrollmentId",
+          "expectedVersion",
+          "startsAt",
+          "endsAt",
+          "reason"
+        ],
+        "properties": {
+          "lessonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "schoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "enrollmentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "expectedVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "pattern": ".*\\S.*"
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "required": [
+          "previewId",
+          "arguments",
+          "expiresAt"
+        ],
+        "properties": {
+          "previewId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "arguments": {
+            "type": "object",
+            "required": [
+              "expectedVersion",
+              "startsAt",
+              "endsAt",
+              "reason"
+            ],
+            "properties": {
+              "expectedVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "startsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "description": "Reschedule Lesson. See the operation descriptions for authorization and lifecycle constraints."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      },
+      "x-status": "proposed extension for BA US-018/019",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "path": "/api/v1/schools/{schoolId}/availability",
+        "method": "get"
+      },
+      "x-example-input": {
+        "lessonId": "11111111-1111-4111-8111-111111111111",
+        "schoolId": "11111111-1111-4111-8111-111111111111",
+        "enrollmentId": "11111111-1111-4111-8111-111111111111",
+        "expectedVersion": 1,
+        "startsAt": "2026-12-01T10:00:00Z",
+        "endsAt": "2026-12-01T11:00:00Z",
+        "reason": "Instructor requested a schedule correction."
+      },
+      "x-example-output": {
+        "previewId": "11111111-1111-4111-8111-111111111111",
+        "arguments": {
+          "expectedVersion": 1,
+          "startsAt": "2026-12-01T10:00:00Z",
+          "endsAt": "2026-12-01T11:00:00Z",
+          "reason": "Instructor requested a schedule correction."
+        },
+        "expiresAt": "2026-12-01T11:00:00Z"
+      }
+    },
+    {
+      "name": "reschedule_lesson_booking",
+      "description": "Submit an exactly approved lesson move with Web-equivalent conflict and tenant controls.",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "lessonId",
+          "previewId",
+          "confirmationId",
+          "operationId",
+          "arguments"
+        ],
+        "properties": {
+          "lessonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "previewId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "confirmationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "operationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "arguments": {
+            "type": "object",
+            "required": [
+              "expectedVersion",
+              "startsAt",
+              "endsAt",
+              "reason"
+            ],
+            "properties": {
+              "expectedVersion": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "startsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500,
+                "pattern": ".*\\S.*"
+              }
+            },
+            "description": "Reschedule Lesson. See the operation descriptions for authorization and lifecycle constraints."
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "lessonId",
+              "status",
+              "version"
+            ],
+            "properties": {
+              "lessonId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "Scheduled",
+                  "Completed",
+                  "Cancelled",
+                  "NoShow"
+                ]
+              },
+              "version": {
+                "type": "integer"
+              },
+              "startsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "endsAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "Practical",
+                  "Theory"
+                ]
+              }
+            },
+            "description": "Practical Lesson. See the operation descriptions for authorization and lifecycle constraints."
+          },
+          {
+            "type": "object",
+            "required": [
+              "operationId",
+              "status",
+              "lessonIds"
+            ],
+            "properties": {
+              "operationId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "Pending",
+                  "Committed",
+                  "Rejected",
+                  "ReconciliationPending"
+                ]
+              },
+              "lessonIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "description": "Scheduling Operation. See the operation descriptions for authorization and lifecycle constraints."
+          }
+        ]
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "x-status": "proposed extension for BA US-018/019",
+      "x-rest": {
+        "spec": "scheduling.openapi.yaml",
+        "path": "/api/v1/practical-lessons/{lessonId}/rescheduling",
+        "method": "post"
+      },
+      "x-example-input": {
+        "lessonId": "11111111-1111-4111-8111-111111111111",
+        "previewId": "11111111-1111-4111-8111-111111111111",
+        "confirmationId": "11111111-1111-4111-8111-111111111111",
+        "operationId": "11111111-1111-4111-8111-111111111111",
+        "arguments": {
+          "expectedVersion": 1,
+          "startsAt": "2026-12-01T10:00:00Z",
+          "endsAt": "2026-12-01T11:00:00Z",
+          "reason": "Instructor requested a schedule correction."
+        }
+      },
+      "x-example-output": {
+        "lessonId": "11111111-1111-4111-8111-111111111111",
+        "status": "Scheduled",
+        "version": 2,
+        "startsAt": "2026-12-01T10:00:00Z",
+        "endsAt": "2026-12-01T11:00:00Z",
+        "kind": "Practical"
+      }
+    }
+  ]
+}

@@ -161,6 +161,29 @@ Source model note: Local append-only outcome/idempotency record, not domain root
 
 Immutable design attributes: `operation_id`.
 
+## Technical outbox metadata
+
+The backend adds `outbox_message`; it is not a profile aggregate or a substitute for `profile_operation`.
+
+| Column | PostgreSQL type | Null / key | Meaning |
+|---|---|---|---|
+| event_id | uuid | NOT NULL; PK | Stable outgoing event and broker MessageId |
+| aggregate_id | uuid | NOT NULL; logical reference, no FK | UserId of the event subject |
+| aggregate_version | bigint | NOT NULL; > 0 | Committed aggregate revision; not independently unique |
+| event_type | varchar(80) | NOT NULL | Versioned event name |
+| body | jsonb | NOT NULL | Immutable exact envelope/payload; apply the same restricted access as the event's profile identifiers |
+| correlation_id | varchar(128) | NOT NULL | Diagnostic context, never authorization |
+| trace_parent | varchar(128) | NULL | Optional W3C trace context |
+| occurred_at | timestamptz | NOT NULL | Event occurrence time |
+| next_attempt_at | timestamptz | NOT NULL | Next eligible send time |
+| published_at | timestamptz | NULL | Send acknowledgment time |
+| lease_id | uuid | NULL; paired with leased_until | Current delivery claim identity |
+| leased_until | timestamptz | NULL; paired with lease_id | Claim expiry |
+| attempts | integer | NOT NULL; >= 0 | Delivery attempt count |
+| last_error_code | varchar(80) | NULL | Safe transport error code; no credentials or raw exception body |
+
+Runtime can select/insert rows and update only delivery fields. No automatic cleanup is implemented. The initial business schema remains five tables/37 columns; the outbox adds 14 technical columns. DDL: `../ddl/002-outbox.sql`.
+
 ## Enum vocabulary
 
 - `um_user_status`: Active, Inactive.

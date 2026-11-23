@@ -4,7 +4,9 @@ Authority: D-043 / D-045 global profiles. [Canonical DBML](../schema/schema.dbml
 
 The [Mermaid diagram](../schema/database-erd.md) shows keys/FKs and representative attributes; full attributes/defaults/classification are in data-dictionary.md. 
 
-Physical count: 5 domain tables, 37 columns, 3 local FK declarations. EF migration history, where present, is technical metadata, not a new aggregate.
+Physical count after both DDL files: 6 tables, 51 columns and 3 local FK declarations: 5 domain tables/37 columns plus the technical outbox/14 columns. EF migration history is additional framework metadata, not a domain aggregate.
+
+Implementation adds a sixth technical table, `outbox_message` (14 columns), independently of the five domain tables. Its DDL is `../ddl/002-outbox.sql`; EF migration history is also technical. Only deactivation emits `UserDeactivated`; the profile mutation, outcome and outbox row commit atomically. See the backend README for leases, retries and configuration.
 
 ## Relationships and optionality
 
@@ -18,7 +20,7 @@ Physical count: 5 domain tables, 37 columns, 3 local FK declarations. EF migrati
 
 [Install wrapper](../ddl/install.sql) is the only fresh-install entry. It references existing canonical SQL or the generated initial migration, not another service’s same-named schema.sql. [Security overlay](../security/database-roles.sql) follows schema creation; demo seeds run only under explicit test gates.
 
-No previous production migration history was found/assumed. Reapplying raw initial DDL over a populated database is forbidden. Scheduling has a real EF migration/snapshot and no-op migration rerun check; other contexts use a fresh SQL baseline and require a separately reviewed differential upgrade if legacy data exists.
+No previous production migration history was found/assumed. Reapplying raw initial DDL over a populated database is forbidden. Scheduling and the implemented User Management backend have EF migrations/snapshots and no-op migration rerun checks. Other contexts retain their documented SQL baselines. Any legacy populated database requires a separately reviewed baseline or differential upgrade.
 
 Current remote owner/API gaps do not by themselves invalidate relational design. They remain runtime/integration gates and cannot be proven by FK tests.
 

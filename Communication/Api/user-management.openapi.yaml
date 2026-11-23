@@ -1,0 +1,3304 @@
+openapi: 3.1.1
+info:
+  title: Vairas User Management API
+  description: Global profiles and idempotent commands. Internal operations require a workload JWT. Delegated and
+    platform mutations additionally require a user JWT in X-User-Authorization. Mutations return operation receipts;
+    fetch current resource state separately.
+  version: 1.0.0
+servers:
+- url: http://localhost:5151
+  description: Loopback development launch profile; use HTTPS outside local development.
+paths:
+  /internal/v1/users/{userId}/status:
+    get:
+      tags:
+      - InternalProfiles
+      summary: Read operational status using a permitted workload identity.
+      description: ' Required workload scope and local client allowlist: profiles.status.read. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserStatusResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatusResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserStatusResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+      x-status: implemented
+      operationId: getInternalV1UsersUserIdStatus
+    parameters: []
+  /internal/v1/users/{userId}/contact:
+    get:
+      tags:
+      - InternalProfiles
+      summary: Read a minimal contact projection for a configured notification/document workload.
+      description: ' Required workload scope and local client allowlist: profiles.contact.read. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserContactResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    email: alex@example.test
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserContactResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    email: alex@example.test
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserContactResponse'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    email: alex@example.test
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+      x-status: implemented
+      operationId: getInternalV1UsersUserIdContact
+    parameters: []
+  /internal/v1/profiles/{kind}/{profileId}:
+    get:
+      tags:
+      - InternalProfiles
+      summary: Resolve a role identifier to its global user and active state.
+      description: ' Required workload scope and local client allowlist: profiles.binding.read. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: kind
+        in: path
+        required: true
+        schema:
+          type: string
+        example: teacher
+        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
+          values return 404.'
+      - name: profileId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Teacher
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+      x-status: implemented
+      operationId: getInternalV1ProfilesKindProfileId
+    parameters: []
+  /internal/v1/users/{userId}/deactivate:
+    post:
+      tags:
+      - InternalProfiles
+      summary: Deactivate a global user using both platform-operator and workload authorization.
+      description: ' Required workload scope and local client allowlist: profiles.deactivate. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeactivateRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  expectedRevision: 1
+                  reason: Instructor requested a schedule correction.
+          text/json:
+            schema:
+              $ref: '#/components/schemas/DeactivateRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  expectedRevision: 1
+                  reason: Instructor requested a schedule correction.
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/DeactivateRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  expectedRevision: 1
+                  reason: Instructor requested a schedule correction.
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: postInternalV1UsersUserIdDeactivate
+      x-negative-request:
+        description: 'Missing required expectedRevision: reject with 400 before business work.'
+        mediaType: application/*+json
+        value:
+          reason: Instructor requested a schedule correction.
+        expectedStatus: 400
+    parameters: []
+  /internal/v1/users/{userId}/administrator-profile/bootstrap:
+    post:
+      tags:
+      - InternalProfiles
+      summary: Bootstrap an administrator after checking platform and school authority.
+      description: ' Required workload scope and local client allowlist: profiles.bootstrap. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BootstrapRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+          text/json:
+            schema:
+              $ref: '#/components/schemas/BootstrapRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/BootstrapRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+        required: true
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: postInternalV1UsersUserIdAdministratorProfileBootstrap
+      x-negative-request:
+        description: 'Missing required schoolId: reject with 400 before business work.'
+        mediaType: application/*+json
+        value: {}
+        expectedStatus: 400
+    parameters: []
+  /api/v1/users/me:
+    get:
+      tags:
+      - Profiles
+      summary: Read the current user's global profile and role bindings.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - UserBearer: []
+      x-status: implemented
+      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
+        and retry behavior.'
+      operationId: getApiV1UsersMe
+      parameters: []
+    post:
+      tags:
+      - Profiles
+      summary: Create a profile bound to the authenticated identity.
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - UserBearer: []
+      x-status: implemented
+      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
+        and retry behavior.'
+      operationId: postApiV1UsersMe
+      x-negative-request:
+        description: 'Missing required firstName: reject with 400 before business work.'
+        mediaType: application/*+json
+        value:
+          lastName: Example
+          emailAddress: alex@example.test
+          phoneNumber: null
+        expectedStatus: 400
+    put:
+      tags:
+      - Profiles
+      summary: Replace personal information using the expected resource revision.
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - UserBearer: []
+      x-status: implemented
+      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
+        and retry behavior. expectedRevision must be positive and match the current profile; a create request must
+        omit it or set null.'
+      operationId: putApiV1UsersMe
+      x-negative-request:
+        description: 'Missing required firstName: reject with 400 before business work.'
+        mediaType: application/*+json
+        value:
+          lastName: Example
+          emailAddress: alex@example.test
+          phoneNumber: null
+          expectedRevision: 1
+        expectedStatus: 400
+    parameters: []
+  /internal/v1/delegated/users/me:
+    get:
+      tags:
+      - Profiles
+      summary: Read the current user's global profile and role bindings.
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    userId: 11111111-1111-4111-8111-111111111111
+                    firstName: Alex
+                    lastName: Example
+                    emailAddress: alex@example.test
+                    phoneNumber: '+37060000000'
+                    status: Active
+                    revision: 1
+                    createdAt: '2026-12-01T10:00:00Z'
+                    updatedAt: '2026-12-01T10:00:00Z'
+                    studentId: 11111111-1111-4111-8111-111111111111
+                    teacherId: 11111111-1111-4111-8111-111111111111
+                    administratorId: 11111111-1111-4111-8111-111111111111
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: getInternalV1DelegatedUsersMe
+      parameters: []
+    post:
+      tags:
+      - Profiles
+      summary: Create a profile bound to the authenticated identity.
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: postInternalV1DelegatedUsersMe
+      x-negative-request:
+        description: 'Missing required firstName: reject with 400 before business work.'
+        mediaType: application/*+json
+        value:
+          lastName: Example
+          emailAddress: alex@example.test
+          phoneNumber: null
+          confirmationId: 11111111-1111-4111-8111-111111111111
+        expectedStatus: 400
+    put:
+      tags:
+      - Profiles
+      summary: Replace personal information using the expected resource revision.
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior. expectedRevision must
+        be positive and match the current profile; a create request must omit it or set null.'
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  firstName: Alex
+                  lastName: Example
+                  emailAddress: alex@example.test
+                  phoneNumber: null
+                  expectedRevision: 1
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: 1
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: putInternalV1DelegatedUsersMe
+      x-negative-request:
+        description: 'Missing required firstName: reject with 400 before business work.'
+        mediaType: application/*+json
+        value:
+          lastName: Example
+          emailAddress: alex@example.test
+          phoneNumber: null
+          expectedRevision: 1
+          confirmationId: 11111111-1111-4111-8111-111111111111
+        expectedStatus: 400
+    parameters: []
+  /api/v1/users/me/{role}-profile:
+    get:
+      tags:
+      - Profiles
+      summary: Read a role profile; it does not establish school membership.
+      parameters:
+      - name: role
+        in: path
+        required: true
+        schema:
+          type: string
+        example: teacher
+        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
+          values return 404.'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Teacher
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - UserBearer: []
+      x-status: implemented
+      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
+        and retry behavior.'
+      operationId: getApiV1UsersMeRoleProfile
+    post:
+      tags:
+      - Profiles
+      summary: Create or reuse a stable role profile after current authorization checks.
+      parameters:
+      - name: role
+        in: path
+        required: true
+        schema:
+          type: string
+        example: teacher
+        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
+          values return 404.'
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - UserBearer: []
+      x-status: implemented
+      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
+        and retry behavior. student requires schoolId and invitationId to be null; teacher/administrator require
+        both. All delegated mutations require confirmationId.'
+      operationId: postApiV1UsersMeRoleProfile
+    parameters: []
+  /internal/v1/delegated/users/me/{role}-profile:
+    get:
+      tags:
+      - Profiles
+      summary: Read a role profile; it does not establish school membership.
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      parameters:
+      - name: role
+        in: path
+        required: true
+        schema:
+          type: string
+        example: teacher
+        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
+          values return 404.'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Teacher
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RoleProfileResult'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    kind: Student
+                    profileId: 11111111-1111-4111-8111-111111111111
+                    userId: 11111111-1111-4111-8111-111111111111
+                    active: true
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: getInternalV1DelegatedUsersMeRoleProfile
+    post:
+      tags:
+      - Profiles
+      summary: Create or reuse a stable role profile after current authorization checks.
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
+        and ../guides/errors-and-reliability.md for current authorization and retry behavior. student requires schoolId
+        and invitationId to be null; teacher/administrator require both. All delegated mutations require confirmationId.'
+      parameters:
+      - name: role
+        in: path
+        required: true
+        schema:
+          type: string
+        example: teacher
+        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
+          values return 404.'
+      - name: Idempotency-Key
+        in: header
+        schema:
+          type: string
+          format: uuid
+        example: 11111111-1111-4111-8111-111111111111
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+            examples:
+              typical:
+                summary: Synthetic permitted request; credentials are environment placeholders.
+                value:
+                  schoolId: 11111111-1111-4111-8111-111111111111
+                  invitationId: 11111111-1111-4111-8111-111111111111
+                  confirmationId: 11111111-1111-4111-8111-111111111111
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '400':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 400
+                    code: VALIDATION_FAILED
+                    correlationId: integration-example-01
+        '401':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 401
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '403':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 403
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '404':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 404
+                    code: NOT_FOUND
+                    correlationId: integration-example-01
+        '409':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 409
+                    code: REVISION_CONFLICT
+                    correlationId: integration-example-01
+        '422':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 422
+                    code: CONFIRMATION_REQUIRED
+                    correlationId: integration-example-01
+        '500':
+          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                  value:
+                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    status: 500
+                    code: INTERNAL_ERROR
+                    correlationId: integration-example-01
+        '503':
+          description: Problem Details with code and correlationId.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                typical:
+                  summary: Problem Details with code and correlationId.
+                  value:
+                    title: Problem Details with code and correlationId.
+                    status: 503
+                    code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+      security:
+      - WorkloadBearer: []
+        DelegatedUser: []
+      x-status: implemented
+      operationId: postInternalV1DelegatedUsersMeRoleProfile
+    parameters: []
+components:
+  schemas:
+    ApiProblem:
+      required:
+      - title
+      - status
+      - code
+      - correlationId
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        correlationId:
+          type: string
+        type:
+          type: string
+          format: uri-reference
+        instance:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        operation:
+          $ref: '#/components/schemas/OperationReceipt'
+      description: Api Problem. See the operation descriptions for authorization and lifecycle constraints.
+    BootstrapRequest:
+      required:
+      - schoolId
+      type: object
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+      description: School-authorized bootstrap of the first administrator.
+      additionalProperties: false
+    DeactivateRequest:
+      required:
+      - expectedRevision
+      type: object
+      properties:
+        expectedRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        reason:
+          type:
+          - 'null'
+          - string
+          maxLength: 1000
+      description: Global deactivation of a user at a specific revision.
+      additionalProperties: false
+    OperationOutcome:
+      type: string
+      enum:
+      - Applied
+      - Rejected
+      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
+        integer enum input values; these models are responses.
+    OperationReceipt:
+      required:
+      - operationId
+      - outcome
+      - code
+      - targetKind
+      - targetId
+      - resultingRevision
+      - recordedAt
+      type: object
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        outcome:
+          $ref: '#/components/schemas/OperationOutcome'
+        code:
+          type: string
+        targetKind:
+          type: string
+        targetId:
+          type: string
+          format: uuid
+        resultingRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - 'null'
+          - integer
+          - string
+          format: int64
+        recordedAt:
+          type: string
+          format: date-time
+      description: Operation Receipt. See the operation descriptions for authorization and lifecycle constraints.
+    ProfileKind:
+      type: string
+      enum:
+      - Student
+      - Teacher
+      - Administrator
+      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
+        integer enum input values; these models are responses.
+    ProfileRequest:
+      required:
+      - firstName
+      - lastName
+      - emailAddress
+      - phoneNumber
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Required non-whitespace personal name; original value is retained in the command fingerprint.
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Required non-whitespace personal name; original value is retained in the command fingerprint.
+        emailAddress:
+          type:
+          - 'null'
+          - string
+          maxLength: 254
+          description: Contact email or null; non-null values must pass FluentValidation EmailAddress. Not an authentication
+            identity.
+        phoneNumber:
+          type:
+          - 'null'
+          - string
+          maxLength: 32
+          description: Non-whitespace contact number or null.
+        expectedRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - 'null'
+          - integer
+          - string
+          format: int64
+        confirmationId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+      description: Personal information for creating or replacing the authenticated profile.
+      additionalProperties: false
+    RoleProfileResult:
+      required:
+      - kind
+      - profileId
+      - userId
+      - active
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/ProfileKind'
+        profileId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+      description: Role Profile Result. See the operation descriptions for authorization and lifecycle constraints.
+    RoleRequest:
+      type: object
+      properties:
+        schoolId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        invitationId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        confirmationId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+      description: Role provisioning arguments; school and invitation are mandatory for staff roles.
+      additionalProperties: false
+    UserContactResponse:
+      required:
+      - userId
+      - email
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type:
+          - 'null'
+          - string
+      description: Minimal contact details; a contact address can be absent.
+    UserProfileResult:
+      required:
+      - userId
+      - firstName
+      - lastName
+      - emailAddress
+      - phoneNumber
+      - status
+      - revision
+      - createdAt
+      - updatedAt
+      - studentId
+      - teacherId
+      - administratorId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emailAddress:
+          type:
+          - 'null'
+          - string
+        phoneNumber:
+          type:
+          - 'null'
+          - string
+        status:
+          $ref: '#/components/schemas/UserStatus'
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        studentId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        teacherId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        administratorId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+      description: User Profile Result. See the operation descriptions for authorization and lifecycle constraints.
+    UserStatus:
+      type: string
+      enum:
+      - Active
+      - Inactive
+      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
+        integer enum input values; these models are responses.
+    UserStatusResponse:
+      required:
+      - userId
+      - active
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+      description: Authoritative global operational status.
+  securitySchemes:
+    UserBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    WorkloadBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    DelegatedUser:
+      type: apiKey
+      description: Bearer <user JWT>, validated independently of the workload token.
+      name: X-User-Authorization
+      in: header
+tags:
+- name: InternalProfiles
+- name: Profiles
+x-status: implemented
+x-source: 'Backend/Vairas.UserManagement: controllers, Program.cs, security, middleware, business validation.'

@@ -357,7 +357,7 @@ Immutable design attributes: `template/source meaning once used; change semantic
 
 Authoritative practical or theory allocation with optimistic revision; physical status is not LT credit.
 
-Source model note: Practical: one enrollment/student/vehicle, no group. Theory: one group, no practical enrollment/student/vehicle; participants below. CHECKs enforce intervals, source pairs and kind-specific shapes. For generated lesson, source_candidate_id references retained candidate -> request/revision. Same-school and assignment consistency are checked in authorized backend. Completed is not credited training; actual duration and confirmations belong to Learning Tracking.
+Source model note: Practical: one enrollment/student/vehicle, no group. Theory: one group, no practical enrollment/student/vehicle; participants below. CHECKs enforce intervals, source pairs and kind-specific shapes. For generated lesson, source_candidate_id references retained candidate -> request/revision. Same-school and assignment consistency are checked in authorized backend. Scheduling owns physical actual interval and lifecycle revision; Learning Tracking owns teaching minutes, attendance, confirmations and credit.
 
 | Column | PostgreSQL type | Null / default | Key / relationship | Meaning and source | Classification |
 |---|---|---|---|---|---|
@@ -373,6 +373,8 @@ Source model note: Practical: one enrollment/student/vehicle, no group. Theory: 
 | group_membership_revision | bigint | NULL; default none | Non-key attribute | Exact retained group_membership_revision of referenced source/configuration; records provenance, not a permanent authorization permit. | Operational/configuration metadata; restricted if linked to a person |
 | starts_at | timestamptz | NOT NULL; default none | Non-key attribute | Recorded starts instant for lesson; timestamptz/UTC wire format, server/source authority per lifecycle. | Operational/configuration metadata; restricted if linked to a person |
 | ends_at | timestamptz | NOT NULL; default none | Non-key attribute | Recorded ends instant for lesson; timestamptz/UTC wire format, server/source authority per lifecycle. | Operational/configuration metadata; restricted if linked to a person |
+| actual_start | timestamptz | NULL; default none | Non-key attribute | Verified physical start, separate from planned starts_at; required for Completed. | Operational metadata linked to a person |
+| actual_end | timestamptz | NULL; default none | Non-key attribute | Verified physical end strictly after actual_start; required for Completed. | Operational metadata linked to a person |
 | status | lesson_status | NOT NULL; default Scheduled | Non-key attribute | Lifecycle/evaluation state of lesson; enum/check vocabulary below; transition is not implied by a type alone. | Operational/configuration metadata; restricted if linked to a person |
 | revision | int | NOT NULL; default 1 | Non-key attribute | Retained by owner: optimistic concurrency token; update only if expected revision matches | Operational/configuration metadata; restricted if linked to a person |
 | series_id | uuid | NULL; default none | local FK (series_id,school_id,kind) → recurring_lesson_series(id,school_id,kind) | Stable identifier within lesson ownership/relationship; source is the local aggregate unless explicitly marked external. | Scoped identifier; linkability/access control required |
@@ -393,6 +395,8 @@ Source model note: Practical: one enrollment/student/vehicle, no group. Theory: 
 - `revision > 0` — lesson_revision_positive.
 - `(kind = 'Practical' AND group_membership_revision IS NULL) OR (kind = 'Theory' AND group_membership_revision IS NOT NULL AND group_membership_revision > 0)` — lesson_membership_basis.
 - `ends_at > starts_at` — lesson_interval.
+- Both actual bounds are NULL or actual_end > actual_start — lesson_actual_interval.
+- Completed requires both actual bounds — lesson_completed_requires_actuals. See [G-01 migration](actual-interval.md) for legacy rows.
 - `(kind = 'Practical' AND enrollment_id IS NOT NULL AND student_id IS NOT NULL AND vehicle_id IS NOT NULL AND group_id IS NULL) OR (kind = 'Theory' AND group_id IS NOT NULL AND enrollment_id IS NULL AND student_id IS NULL AND vehicle_id IS NULL)` — lesson_type.
 
 **Lifecycle / immutable / audit:** Scheduled/Completed/Cancelled/NoShow; exact transitions/current eligibility and CAS are handlers.
@@ -512,7 +516,7 @@ Immutable design attributes: `claim resource/owner identity; release retains his
 
 Append-only prior-state image for a committed lesson revision change.
 
-Source model note: Append-only OLD-state snapshot on lesson mutation. Rule snapshots are linked to immutable scheduling_operation_rule; actual training facts belong to Learning Tracking. Do not mutate student/group identity on reschedule.
+Source model note: Append-only OLD-state snapshot on lesson mutation. Rule snapshots are linked to immutable scheduling_operation_rule; previous actual interval belongs to Scheduling; teaching minutes and confirmations belong to Learning Tracking. Do not mutate student/group identity on reschedule.
 
 | Column | PostgreSQL type | Null / default | Key / relationship | Meaning and source | Classification |
 |---|---|---|---|---|---|
@@ -521,6 +525,8 @@ Source model note: Append-only OLD-state snapshot on lesson mutation. Rule snaps
 | lesson_id | uuid | NOT NULL; default none | UNIQUE(lesson_id,revision); local FK (lesson_id,school_id) → lesson(id,school_id) | Stable identifier within lesson_change ownership/relationship; source is the local aggregate unless explicitly marked external. | Scoped identifier; linkability/access control required |
 | operation_id | uuid | NOT NULL; default none | local FK (operation_id,school_id) → scheduling_operation(id,school_id) | Stable identifier within lesson_change ownership/relationship; source is the local aggregate unless explicitly marked external. | Scoped identifier; linkability/access control required |
 | revision | int | NOT NULL; default none | UNIQUE(lesson_id,revision) | New revision after the change; previous state belongs to revision - 1 | Operational/configuration metadata; restricted if linked to a person |
+| previous_actual_start | timestamptz | NULL; default none | Non-key attribute | Previous physical start retained on the OLD-state snapshot; legacy unknown remains NULL. | Operational metadata linked to a person |
+| previous_actual_end | timestamptz | NULL; default none | Non-key attribute | Previous physical end paired with previous_actual_start. | Operational metadata linked to a person |
 | previous_status | lesson_status | NOT NULL; default none | Non-key attribute | Previous status belonging to lesson_change; set by the owning application command/source contract, constrained below. | Operational/configuration metadata; restricted if linked to a person |
 | previous_start | timestamptz | NOT NULL; default none | Non-key attribute | Scheduling allocation interval, not actual credited teaching time. | Operational/configuration metadata; restricted if linked to a person |
 | previous_end | timestamptz | NOT NULL; default none | Non-key attribute | Scheduling allocation interval, not actual credited teaching time. | Operational/configuration metadata; restricted if linked to a person |
@@ -540,6 +546,7 @@ Source model note: Append-only OLD-state snapshot on lesson mutation. Rule snaps
 
 - `revision > 1` — history_revision_positive.
 - `previous_end > previous_start` — history_previous_interval.
+- Previous actual bounds are both NULL or strictly increasing — history_actual_interval.
 
 **Lifecycle / immutable / audit:** See the current context contract and local SQL companion; service-only rules are not falsely certified by row CHECKs.
 

@@ -103,6 +103,10 @@ erDiagram
     recurrence_frequency frequency
   }
   LESSON {
+    timestamptz starts_at
+    timestamptz ends_at
+    timestamptz actual_start
+    timestamptz actual_end
     uuid id PK
     uuid school_id FK
     lesson_kind kind FK
@@ -142,6 +146,8 @@ erDiagram
     timestamptz starts_at
   }
   LESSON_CHANGE {
+    timestamptz previous_actual_start
+    timestamptz previous_actual_end
     uuid id PK
     uuid school_id FK
     uuid lesson_id FK

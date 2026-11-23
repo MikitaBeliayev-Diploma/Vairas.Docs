@@ -90,6 +90,28 @@ Table profile_operation {
   Note: 'Local append-only outcome/idempotency record, not domain root or distributed workflow. Mutation and Applied outcome commit together; rejected authenticated command may record Rejected without mutation. Concurrent unique operation-ID claims serialize. Compare actor/service/school/channel/command/target/exact canonical payload on retry and reauthorize replay. No Pending, Coordinating or ReconciliationPending here. No remote write is performed inside this transaction. Generic target is handler-checked; unknown-ID denials need no target FK. School-visible audit is a restricted projection, not this global table. Immutable-role creation has NULL expected/result revisions.'
 }
 
+Table outbox_message {
+  event_id uuid [pk, not null]
+  aggregate_id uuid [not null, note: 'Logical UserId of the event subject; no local FK is declared in the canonical DDL.']
+  aggregate_version bigint [not null]
+  event_type varchar(80) [not null]
+  body jsonb [not null, note: 'Immutable outgoing envelope/payload; may repeat routing metadata intentionally.']
+  correlation_id varchar(128) [not null]
+  trace_parent varchar(128)
+  occurred_at timestamptz [not null]
+  next_attempt_at timestamptz [not null]
+  published_at timestamptz
+  lease_id uuid
+  leased_until timestamptz
+  attempts int [not null]
+  last_error_code varchar(80)
+  checks {
+    `aggregate_version > 0 AND attempts >= 0` [name: 'outbox_version']
+    `(lease_id IS NULL) = (leased_until IS NULL)` [name: 'outbox_lease']
+  }
+  Note: 'Technical delivery metadata, not a sixth domain aggregate. The canonical DDL declares a partial index on (next_attempt_at, occurred_at) WHERE published_at IS NULL. Runtime may insert events and update only delivery/lease fields; no automatic cleanup is implemented.'
+}
+
 Ref: student_profile.user_id > user_profile.user_id [delete: restrict]
 Ref: teacher_profile.user_id > user_profile.user_id [delete: restrict]
 Ref: administrator_profile.user_id > user_profile.user_id [delete: restrict]
