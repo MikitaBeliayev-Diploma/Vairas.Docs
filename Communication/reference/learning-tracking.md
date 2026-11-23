@@ -1,6 +1,6 @@
-# Vairas — Learning Tracking API (PROPOSED)
+# Vairas — Learning Tracking API
 
-Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is mandatory inside the owning service.
+HTTP API contract. Tenant/resource authorization is mandatory inside the owning service.
 
 [Canonical OpenAPI](../Api/learning-tracking.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -10,11 +10,11 @@ Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resourc
 
 Read only confirmed current revisions for journal generation
 
-Read only confirmed current revisions for journal generation. Proposed interface; authoritative actor and school checks are mandatory.
+Read only confirmed current revisions for journal generation. The owning service enforces actor and school authorization.
 
-Operation ID: `getConfirmedPracticalRecords`. Status: **proposed**.
+Operation ID: `getConfirmedPracticalRecords`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -145,11 +145,11 @@ X-Correlation-ID: synthetic-X-Correlation-ID
 
 Get school scoped progress and hour deficits
 
-Get school scoped progress and hour deficits. Proposed interface; authoritative actor and school checks are mandatory.
+Get school scoped progress and hour deficits. The owning service enforces actor and school authorization.
 
-Operation ID: `getStudentProgress`. Status: **proposed**.
+Operation ID: `getStudentProgress`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -281,9 +281,9 @@ Confirm the exact current record revision by eligible student/instructor
 
 Authenticated assigned instructor or enrolled student confirms the exact current fact revision. Both roles must confirm the same validated version before any minutes count. Administrator cannot sign for them. A subsequent dispute permanently closes that fact version; resolution creates a new version. Idempotent retries count once.
 
-Operation ID: `confirmPracticalRecord`. Status: **proposed**.
+Operation ID: `confirmPracticalRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -421,9 +421,9 @@ Record journal facts against an authoritative completed lesson
 
 Record journal facts against an authoritative completed lesson. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `createPracticalRecord`. Status: **proposed**.
+Operation ID: `createPracticalRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -610,9 +610,9 @@ Read permitted current-version facts and response state
 
 Read permitted current-version facts and response state. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getPracticalRecord`. Status: **proposed**.
+Operation ID: `getPracticalRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -762,9 +762,9 @@ Append corrected facts and invalidate earlier confirmations
 
 Assigned instructor appends a new immutable practical fact version using required expectedRevision and correctionReason. Reverify current source and enrollment/program scope. Keep prior versions and their confirmations; the new version requires fresh participant confirmations before credit. Preserve material identity and fail CAS conflicts without partial writes.
 
-Operation ID: `revisePracticalRecord`. Status: **proposed**.
+Operation ID: `revisePracticalRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -944,9 +944,9 @@ Dispute the exact current version and withdraw its credit
 
 Dispute the exact current version and withdraw its credit. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `disputePracticalRecord`. Status: **proposed**.
+Operation ID: `disputePracticalRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1088,9 +1088,9 @@ Evaluate applicable pre-assessment prerequisites
 
 Evaluate applicable pre-assessment prerequisites. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `evaluateReadiness`. Status: **proposed**.
+Operation ID: `evaluateReadiness`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1233,9 +1233,9 @@ Record qualified assessor decision without bypassing prerequisites
 
 Record qualified assessor decision without bypassing prerequisites. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `decideReadiness`. Status: **proposed**.
+Operation ID: `decideReadiness`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1385,9 +1385,9 @@ Record an authorized assessment result separately from readiness
 
 Record an authorized assessment result separately from readiness. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `recordAssessmentResult`. Status: **proposed**.
+Operation ID: `recordAssessmentResult`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1539,9 +1539,9 @@ Return current versioned completion evidence to Document Management
 
 Return current versioned completion evidence to Document Management. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getCompletionEvidence`. Status: **proposed**.
+Operation ID: `getCompletionEvidence`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1670,9 +1670,9 @@ Record the full attendance roster for a theory lesson
 
 The assigned teacher creates one group theory record with the full immutable Present/Absent roster. Verify school/lesson/source identity, exact historical group membership and each enrollment/student pair. Persist facts without automatic confirmation or credit. The teacher reviews and confirms the exact version through the confirmation operation; students do not confirm theory. Reject duplicate lesson records except an identical idempotent replay.
 
-Operation ID: `recordTheoryAttendance`. Status: **proposed**.
+Operation ID: `recordTheoryAttendance`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1863,9 +1863,9 @@ Pin a published applicable programme version to an authorized School-owned enrol
 
 Pin a published applicable programme version to an authorized School-owned enrollment. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `startStudentTraining`. Status: **proposed**.
+Operation ID: `startStudentTraining`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2004,9 +2004,9 @@ Read the current group theory record
 
 Only the assigned teacher or a school administrator with journal authority may read the full roster. Verify exact tenant and lesson scope. Student progress exposes only that student enrollment projection, not other students attendance.
 
-Operation ID: `getTheoryRecord`. Status: **proposed**.
+Operation ID: `getTheoryRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2154,9 +2154,9 @@ Append corrected group theory facts
 
 Assigned teacher uses expectedRevision and a nonblank correctionReason. Keep school/lesson identity, reverify exact current source and the complete historical roster, append a new immutable version and advance aggregate revision atomically. Prior confirmation stays on its old version; no credit until the new version is explicitly confirmed.
 
-Operation ID: `reviseTheoryRecord`. Status: **proposed**.
+Operation ID: `reviseTheoryRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2328,9 +2328,9 @@ Confirm the reviewed full theory attendance version
 
 Authenticate the assigned teacher, verify exact school/lesson authority, expectedRevision and factVersion, and recheck current completed-valid source and full as-of roster. Only a Valid current version may be teacher-confirmed; students and administrators cannot substitute that teacher. Atomically retain confirmation and advance revision. Present contributes once, Absent zero; a source correction blocks eligibility and needs new facts plus fresh confirmation. Exact idempotent retries reuse the result.
 
-Operation ID: `confirmTheoryRecord`. Status: **proposed**.
+Operation ID: `confirmTheoryRecord`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

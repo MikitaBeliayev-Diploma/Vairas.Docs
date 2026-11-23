@@ -1,4 +1,4 @@
-# Tutorial: proposed MCP lesson booking
+# Tutorial: MCP lesson booking
 
 This is an integration design walkthrough using synthetic values. Scheduling, School and MCP providers are not implemented in the supplied Backend. It does not run against the existing User Management server. Use the machine-readable examples for a future sandbox; no working multi-service mock server is claimed.
 
@@ -36,7 +36,7 @@ The local transaction writes the lesson and outgoing event atomically when an Ou
 
 ## 6. Exercise rejection cases before rollout
 
-Verify foreign enrollment, expired/mismatched confirmation, another school booking concurrently, stale revision, dependency outage and ambiguous commit. Tests must prove no unauthorized disclosure, no duplicate reservation and no optimistic success after uncertainty. See [acceptance scenarios](../audit/acceptance-scenarios.md).
+Verify foreign enrollment, expired/mismatched confirmation, another school booking concurrently, stale revision, dependency outage and ambiguous commit. Tests must prove no unauthorized disclosure, no duplicate reservation and no optimistic success after uncertainty. See the [error and recovery requirements](errors-and-reliability.md).
 
 ## Actual interval (G-01)
 

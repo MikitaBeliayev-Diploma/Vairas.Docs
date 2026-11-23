@@ -1,6 +1,6 @@
 # Contract review and backend integration
 
-This repository contains documentation, OpenAPI/AsyncAPI contracts, MCP schemas and database artifacts. Start with the [contract index](../README.md), [architecture](<../../Microservices architecture/README.md>) and [implementation coverage](../audit/architecture-alignment.md).
+This repository contains documentation, OpenAPI/AsyncAPI contracts, MCP schemas and database artifacts. Start with the [contract index](../README.md), [architecture](<../../Microservices architecture/README.md>) and [implementation coverage](../README.md#implementation-coverage).
 
 ## Review the contracts
 
@@ -18,7 +18,9 @@ The documented loopback address is `http://localhost:5151`; Development exports 
 
 A valid user token needs an Authentication identity UUID in `sub`, an active session UUID in `sid`, current session admission and endpoint-specific authorization. A UserId cannot replace the Authentication identity. Without reachable authoritative providers, protected workflows cannot succeed. A missing profile returns 404; creation is described in the [profile guide](profile-integration.md).
 
-## Proposed services
+Follow [Profile integration, step 1](profile-integration.md) for the complete authentication-to-profile sequence: configure the deployed Authentication origin, obtain a user access token and pass it as a Bearer token to User Management. The Vairas login operation requires its separately implemented provider; the backend does not supply a local Auth server or an application test-token issuer.
+
+## Other service implementations
 
 Scheduling, Learning Tracking, School, Vehicle, Document, Notifications, gateway, Chat/MCP and Foundry integration require their documented implementations and deployment evidence. A schema or a successful local health response does not prove a working multi-service system. Outbox dispatch additionally requires broker configuration.
 

@@ -18,7 +18,7 @@ This repository contains documentation, machine-readable contracts, database sch
 - [Architecture and diagrams](<Microservices architecture/README.md>)
 - [Database documentation](Database/README.md)
 - [Business Analysis](<Business Analysis/BA_Belyaev_Mikita.docx>)
-- [Architecture alignment report](Communication/audit/architecture-alignment.md) and [Documentation coverage](Communication/audit/requirements-matrix.md)
+- [Implementation coverage](Communication/README.md#implementation-coverage) and [documentation versioning](Communication/guides/versioning.md)
 
 This repository contains documentation. The existing User Management solution is in the separate sibling `Backend/Vairas.UserManagement` checkout. To run it, use .NET SDK 10 and PostgreSQL, apply its documented migrations/grants and configure credentials and Auth/School/Chat providers outside Git. From that solution directory run:
 

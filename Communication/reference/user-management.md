@@ -12,9 +12,9 @@ Read operational status using a permitted workload identity.
 
  Required workload scope and local client allowlist: profiles.status.read. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getInternalV1UsersUserIdStatus`. Status: **implemented**.
+Operation ID: `getInternalV1UsersUserIdStatus`.
 
-**Authorization:** `[{"WorkloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -33,14 +33,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'userId': '11111111-1111-4111-8111-111111111111', 'active': True}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -48,10 +43,11 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
   "active": true
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "userId": "11111111-1111-4111-8111-111111111111",
@@ -59,106 +55,77 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Workload authentication required (AUTHENTICATION_REQUIRED).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
+- **403** — Workload scope or local client allowlist rejected (ACCESS_DENIED).
 
   Media type: `application/problem+json`.
 
+  Example: `access_denied` — ACCESS_DENIED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Owned database unavailable (DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The database is unavailable.",
   "status": 503,
-  "code": "DEPENDENCY_UNAVAILABLE",
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -169,9 +136,9 @@ Read a minimal contact projection for a configured notification/document workloa
 
  Required workload scope and local client allowlist: profiles.contact.read. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getInternalV1UsersUserIdContact`. Status: **implemented**.
+Operation ID: `getInternalV1UsersUserIdContact`.
 
-**Authorization:** `[{"WorkloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -190,14 +157,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'userId': '11111111-1111-4111-8111-111111111111', 'email': 'alex@example.test'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -205,10 +167,11 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
   "email": "alex@example.test"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "userId": "11111111-1111-4111-8111-111111111111",
@@ -216,106 +179,77 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Workload authentication required (AUTHENTICATION_REQUIRED).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
+- **403** — Workload scope or local client allowlist rejected (ACCESS_DENIED).
 
   Media type: `application/problem+json`.
 
+  Example: `access_denied` — ACCESS_DENIED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Owned database unavailable (DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The database is unavailable.",
   "status": 503,
-  "code": "DEPENDENCY_UNAVAILABLE",
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -326,9 +260,9 @@ Resolve a role identifier to its global user and active state.
 
  Required workload scope and local client allowlist: profiles.binding.read. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getInternalV1ProfilesKindProfileId`. Status: **implemented**.
+Operation ID: `getInternalV1ProfilesKindProfileId`.
 
-**Authorization:** `[{"WorkloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -348,14 +282,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'kind': 'Student', 'profileId': '11111111-1111-4111-8111-111111111111', 'userId': '11111111-1111-4111-8111-111111111111', 'active': True}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -366,8 +295,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-
   Media type: `text/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -378,106 +308,77 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Workload authentication required (AUTHENTICATION_REQUIRED).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
+- **403** — Workload scope or local client allowlist rejected (ACCESS_DENIED).
 
   Media type: `application/problem+json`.
 
+  Example: `access_denied` — ACCESS_DENIED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Owned database unavailable (DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The database is unavailable.",
   "status": 503,
-  "code": "DEPENDENCY_UNAVAILABLE",
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -488,9 +389,9 @@ Deactivate a global user using both platform-operator and workload authorization
 
  Required workload scope and local client allowlist: profiles.deactivate. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `postInternalV1UsersUserIdDeactivate`. Status: **implemented**.
+Operation ID: `postInternalV1UsersUserIdDeactivate`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -516,116 +417,240 @@ Content-Type: application/json
 
 **Responses**
 
-- **200** — OK
-- **400** — Problem Details with code and correlationId.
+- **200** — Deactivated or already inactive; operation receipt.
 
-  Media type: `application/problem+json`.
+  Media type: `application/json`.
+
+  Example: `applied` — User deactivated.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "UserProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": 2,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Example: `already_inactive` — Target already inactive.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "ALREADY_INACTIVE",
+  "targetKind": "UserProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": 2,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Media type: `text/json`.
+
+  Example: `applied` — User deactivated.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "UserProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": 2,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Example: `already_inactive` — Target already inactive.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "ALREADY_INACTIVE",
+  "targetKind": "UserProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": 2,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
+
+  Media type: `application/problem+json`.
+
+  Example: `validation_failed` — VALIDATION_FAILED.
+
+```json
+{
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **409** — Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
+  Example: `revision_conflict` — REVISION_CONFLICT.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The resource has changed.",
   "status": 409,
   "code": "REVISION_CONFLICT",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
+  "title": "The operation ID is already in use.",
+  "status": 409,
+  "code": "IDEMPOTENCY_KEY_REUSED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
 
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required expectedRevision: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
 {
-  "reason": "Instructor requested a schedule correction."
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
 }
 ```
 
@@ -635,9 +660,9 @@ Bootstrap an administrator after checking platform and school authority.
 
  Required workload scope and local client allowlist: profiles.bootstrap. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `postInternalV1UsersUserIdAdministratorProfileBootstrap`. Status: **implemented**.
+Operation ID: `postInternalV1UsersUserIdAdministratorProfileBootstrap`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -662,115 +687,253 @@ Content-Type: application/json
 
 **Responses**
 
-- **200** — OK
-- **400** — Problem Details with code and correlationId.
+- **200** — Existing administrator profile reused (ALREADY_EXISTS); operation receipt.
 
-  Media type: `application/problem+json`.
+  Media type: `application/json`.
+
+  Example: `already_exists` — Existing administrator reused.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "ALREADY_EXISTS",
+  "targetKind": "AdministratorProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Media type: `text/json`.
+
+  Example: `already_exists` — Existing administrator reused.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "ALREADY_EXISTS",
+  "targetKind": "AdministratorProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+- **201** — Administrator profile created; operation receipt and Location header.
+
+  `Location`: `/internal/v1/profiles/administrator/22222222-2222-4222-8222-222222222222`.
+
+  Media type: `application/json`.
+
+  Example: `applied` — Administrator created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "AdministratorProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Media type: `text/json`.
+
+  Example: `applied` — Administrator created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "AdministratorProfile",
+  "targetId": "22222222-2222-4222-8222-222222222222",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
+
+  Media type: `application/problem+json`.
+
+  Example: `validation_failed` — VALIDATION_FAILED.
+
+```json
+{
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **409** — Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The operation ID is already in use.",
   "status": 409,
-  "code": "REVISION_CONFLICT",
+  "code": "IDEMPOTENCY_KEY_REUSED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **422** — The target user is inactive (USER_INACTIVE).
+
+  Media type: `application/problem+json`.
+
+  Example: `user_inactive` — USER_INACTIVE.
+
+```json
+{
+  "title": "The command was rejected.",
   "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
+  "code": "USER_INACTIVE",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
+  Example: `internal_error` — INTERNAL_ERROR.
+
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required schoolId: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
-{}
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
 ```
 
 ### GET /api/v1/users/me
@@ -779,9 +942,9 @@ Read the current user's global profile and role bindings.
 
  See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getApiV1UsersMe`. Status: **implemented**.
+Operation ID: `getApiV1UsersMe`.
 
-**Authorization:** `[{"UserBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"UserBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -796,14 +959,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'userId': '11111111-1111-4111-8111-111111111111', 'firstName': 'Alex', 'lastName': 'Example', 'emailAddress': 'alex@example.test', 'phoneNumber': '+37060000000', 'status': 'Active', 'revision': 1, 'createdAt': '2026-12-01T10:00:00Z', 'updatedAt': '2026-12-01T10:00:00Z', 'studentId': '11111111-1111-4111-8111-111111111111', 'teacherId': '11111111-1111-4111-8111-111111111111', 'administratorId': '11111111-1111-4111-8111-111111111111'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -821,10 +979,11 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
   "administratorId": "11111111-1111-4111-8111-111111111111"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "userId": "11111111-1111-4111-8111-111111111111",
@@ -842,106 +1001,110 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -952,9 +1115,9 @@ Create a profile bound to the authenticated identity.
 
  See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `postApiV1UsersMe`. Status: **implemented**.
+Operation ID: `postApiV1UsersMe`.
 
-**Authorization:** `[{"UserBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"UserBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -982,14 +1145,9 @@ Content-Type: application/json
 
 - **201** — Created
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'UserProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': 1, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — Created.
 
 ```json
 {
@@ -1002,10 +1160,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — Created.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -1018,117 +1177,163 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
+  "code": "ACCESS_DENIED",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **409** — Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
+
+  Media type: `application/problem+json`.
+
+  Example: `profile_exists` — PROFILE_EXISTS.
+
+```json
+{
+  "title": "The command was rejected.",
+  "status": 409,
+  "code": "PROFILE_EXISTS",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
+
+```json
+{
+  "title": "The operation ID is already in use.",
+  "status": 409,
+  "code": "IDEMPOTENCY_KEY_REUSED",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
+
+```json
+{
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
   "code": "HTTP_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 404,
-  "code": "NOT_FOUND",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **409** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required firstName: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
 {
-  "lastName": "Example",
-  "emailAddress": "alex@example.test",
-  "phoneNumber": null
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
 }
 ```
 
@@ -1138,9 +1343,9 @@ Replace personal information using the expected resource revision.
 
  See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior. expectedRevision must be positive and match the current profile; a create request must omit it or set null.
 
-Operation ID: `putApiV1UsersMe`. Status: **implemented**.
+Operation ID: `putApiV1UsersMe`.
 
-**Authorization:** `[{"UserBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"UserBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1169,14 +1374,9 @@ Content-Type: application/json
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'UserProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': 1, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -1189,10 +1389,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -1205,118 +1406,163 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **409** — Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 404,
-  "code": "NOT_FOUND",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **409** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `revision_conflict` — REVISION_CONFLICT.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The resource has changed.",
   "status": 409,
   "code": "REVISION_CONFLICT",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
+  "title": "The operation ID is already in use.",
+  "status": 409,
+  "code": "IDEMPOTENCY_KEY_REUSED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
 
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required firstName: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
 {
-  "lastName": "Example",
-  "emailAddress": "alex@example.test",
-  "phoneNumber": null,
-  "expectedRevision": 1
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
 }
 ```
 
@@ -1326,9 +1572,9 @@ Read the current user's global profile and role bindings.
 
  Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getInternalV1DelegatedUsersMe`. Status: **implemented**.
+Operation ID: `getInternalV1DelegatedUsersMe`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -1344,14 +1590,9 @@ X-User-Authorization: Bearer ${USER_TOKEN}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'userId': '11111111-1111-4111-8111-111111111111', 'firstName': 'Alex', 'lastName': 'Example', 'emailAddress': 'alex@example.test', 'phoneNumber': '+37060000000', 'status': 'Active', 'revision': 1, 'createdAt': '2026-12-01T10:00:00Z', 'updatedAt': '2026-12-01T10:00:00Z', 'studentId': '11111111-1111-4111-8111-111111111111', 'teacherId': '11111111-1111-4111-8111-111111111111', 'administratorId': '11111111-1111-4111-8111-111111111111'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -1369,10 +1610,11 @@ X-User-Authorization: Bearer ${USER_TOKEN}
   "administratorId": "11111111-1111-4111-8111-111111111111"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "userId": "11111111-1111-4111-8111-111111111111",
@@ -1390,106 +1632,110 @@ X-User-Authorization: Bearer ${USER_TOKEN}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -1500,9 +1746,9 @@ Create a profile bound to the authenticated identity.
 
  Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `postInternalV1DelegatedUsersMe`. Status: **implemented**.
+Operation ID: `postInternalV1DelegatedUsersMe`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1532,14 +1778,9 @@ Content-Type: application/json
 
 - **201** — Created
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'UserProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': 1, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — Created.
 
 ```json
 {
@@ -1552,10 +1793,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — Created.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -1568,118 +1810,200 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
+  "code": "ACCESS_DENIED",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **409** — Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
+
+  Media type: `application/problem+json`.
+
+  Example: `profile_exists` — PROFILE_EXISTS.
+
+```json
+{
+  "title": "The command was rejected.",
+  "status": 409,
+  "code": "PROFILE_EXISTS",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
+
+```json
+{
+  "title": "The operation ID is already in use.",
+  "status": 409,
+  "code": "IDEMPOTENCY_KEY_REUSED",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
+
+```json
+{
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
   "code": "HTTP_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **422** — Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID, CONFIRMATION_EXPIRED).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 404,
-  "code": "NOT_FOUND",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **409** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `confirmation_required` — CONFIRMATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Problem Details with code and correlationId.",
+  "title": "Exact confirmation is required.",
   "status": 422,
   "code": "CONFIRMATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
+  Example: `confirmation_invalid` — CONFIRMATION_INVALID.
 
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "Confirmation does not match the command.",
+  "status": 422,
+  "code": "CONFIRMATION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `confirmation_expired` — CONFIRMATION_EXPIRED.
+
+```json
+{
+  "title": "A fresh confirmation is required.",
+  "status": 422,
+  "code": "CONFIRMATION_EXPIRED",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required firstName: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
 {
-  "lastName": "Example",
-  "emailAddress": "alex@example.test",
-  "phoneNumber": null,
-  "confirmationId": "11111111-1111-4111-8111-111111111111"
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
 }
 ```
 
@@ -1689,9 +2013,9 @@ Replace personal information using the expected resource revision.
 
  Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior. expectedRevision must be positive and match the current profile; a create request must omit it or set null.
 
-Operation ID: `putInternalV1DelegatedUsersMe`. Status: **implemented**.
+Operation ID: `putInternalV1DelegatedUsersMe`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1722,14 +2046,9 @@ Content-Type: application/json
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'UserProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': 1, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -1742,10 +2061,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -1758,119 +2078,200 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **409** — Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 404,
-  "code": "NOT_FOUND",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **409** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `revision_conflict` — REVISION_CONFLICT.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The resource has changed.",
   "status": 409,
   "code": "REVISION_CONFLICT",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The operation ID is already in use.",
+  "status": 409,
+  "code": "IDEMPOTENCY_KEY_REUSED",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
+
+```json
+{
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **422** — Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID, CONFIRMATION_EXPIRED).
+
+  Media type: `application/problem+json`.
+
+  Example: `confirmation_required` — CONFIRMATION_REQUIRED.
+
+```json
+{
+  "title": "Exact confirmation is required.",
   "status": 422,
   "code": "CONFIRMATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
+  Example: `confirmation_invalid` — CONFIRMATION_INVALID.
 
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "Confirmation does not match the command.",
+  "status": 422,
+  "code": "CONFIRMATION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `confirmation_expired` — CONFIRMATION_EXPIRED.
+
+```json
+{
+  "title": "A fresh confirmation is required.",
+  "status": 422,
+  "code": "CONFIRMATION_EXPIRED",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
 
-**Invalid input example:** Missing required firstName: reject with 400 before business work.
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
 
 ```json
 {
-  "lastName": "Example",
-  "emailAddress": "alex@example.test",
-  "phoneNumber": null,
-  "expectedRevision": 1,
-  "confirmationId": "11111111-1111-4111-8111-111111111111"
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
+  "correlationId": "integration-example-01"
 }
 ```
 
@@ -1880,9 +2281,9 @@ Read a role profile; it does not establish school membership.
 
  See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getApiV1UsersMeRoleProfile`. Status: **implemented**.
+Operation ID: `getApiV1UsersMeRoleProfile`.
 
-**Authorization:** `[{"UserBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"UserBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1901,14 +2302,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'kind': 'Student', 'profileId': '11111111-1111-4111-8111-111111111111', 'userId': '11111111-1111-4111-8111-111111111111', 'active': True}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -1919,8 +2315,9 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-
   Media type: `text/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -1931,106 +2328,110 @@ Authorization: Bearer ${TOKEN_WITH_REQUIRED_AUDIENCE_AND_SCOPES}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -2041,9 +2442,9 @@ Create or reuse a stable role profile after current authorization checks.
 
  See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior. student requires schoolId and invitationId to be null; teacher/administrator require both. All delegated mutations require confirmationId.
 
-Operation ID: `postApiV1UsersMeRoleProfile`. Status: **implemented**.
+Operation ID: `postApiV1UsersMeRoleProfile`.
 
-**Authorization:** `[{"UserBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"UserBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2068,54 +2469,11 @@ Content-Type: application/json
 
 **Responses**
 
-- **201** — Created
-
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'TeacherProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': None, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
-  Media type: `application/json`.
-
-```json
-{
-  "operationId": "11111111-1111-4111-8111-111111111111",
-  "outcome": "Applied",
-  "code": "APPLIED",
-  "targetKind": "TeacherProfile",
-  "targetId": "11111111-1111-4111-8111-111111111111",
-  "resultingRevision": null,
-  "recordedAt": "2026-12-01T10:00:00Z"
-}
-```
-
-
-  Media type: `text/json`.
-
-```json
-{
-  "operationId": "11111111-1111-4111-8111-111111111111",
-  "outcome": "Applied",
-  "code": "APPLIED",
-  "targetKind": "TeacherProfile",
-  "targetId": "11111111-1111-4111-8111-111111111111",
-  "resultingRevision": null,
-  "recordedAt": "2026-12-01T10:00:00Z"
-}
-```
-
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'TeacherProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': None, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -2128,10 +2486,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -2144,106 +2503,200 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **201** — Created
+
+  Media type: `application/json`.
+
+  Example: `typical` — Created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "TeacherProfile",
+  "targetId": "11111111-1111-4111-8111-111111111111",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Media type: `text/json`.
+
+  Example: `typical` — Created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "TeacherProfile",
+  "targetId": "11111111-1111-4111-8111-111111111111",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **409** — Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The operation ID is already in use.",
   "status": 409,
-  "code": "REVISION_CONFLICT",
+  "code": "IDEMPOTENCY_KEY_REUSED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
 
   Media type: `application/problem+json`.
 
+  Example: `http_error` — HTTP_ERROR.
+
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -2254,9 +2707,9 @@ Read a role profile; it does not establish school membership.
 
  Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior.
 
-Operation ID: `getInternalV1DelegatedUsersMeRoleProfile`. Status: **implemented**.
+Operation ID: `getInternalV1DelegatedUsersMeRoleProfile`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2276,14 +2729,9 @@ X-User-Authorization: Bearer ${USER_TOKEN}
 
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'kind': 'Student', 'profileId': '11111111-1111-4111-8111-111111111111', 'userId': '11111111-1111-4111-8111-111111111111', 'active': True}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -2294,8 +2742,9 @@ X-User-Authorization: Bearer ${USER_TOKEN}
 }
 ```
 
-
   Media type: `text/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -2306,106 +2755,110 @@ X-User-Authorization: Bearer ${USER_TOKEN}
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 400,
-  "code": "VALIDATION_FAILED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **401** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
 
   Media type: `application/problem+json`.
 
-```json
-{
-  "title": "Problem Details with code and correlationId.",
-  "status": 409,
-  "code": "REVISION_CONFLICT",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `internal_error` — INTERNAL_ERROR.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
-  "status": 422,
-  "code": "CONFIRMATION_REQUIRED",
-  "correlationId": "integration-example-01"
-}
-```
-
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
-
-```json
-{
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```
@@ -2416,9 +2869,9 @@ Create or reuse a stable role profile after current authorization checks.
 
  Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization and retry behavior. student requires schoolId and invitationId to be null; teacher/administrator require both. All delegated mutations require confirmationId.
 
-Operation ID: `postInternalV1DelegatedUsersMeRoleProfile`. Status: **implemented**.
+Operation ID: `postInternalV1DelegatedUsersMeRoleProfile`.
 
-**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"WorkloadBearer": [], "DelegatedUser": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2445,54 +2898,11 @@ Content-Type: application/json
 
 **Responses**
 
-- **201** — Created
-
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'TeacherProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': None, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
-  Media type: `application/json`.
-
-```json
-{
-  "operationId": "11111111-1111-4111-8111-111111111111",
-  "outcome": "Applied",
-  "code": "APPLIED",
-  "targetKind": "TeacherProfile",
-  "targetId": "11111111-1111-4111-8111-111111111111",
-  "resultingRevision": null,
-  "recordedAt": "2026-12-01T10:00:00Z"
-}
-```
-
-
-  Media type: `text/json`.
-
-```json
-{
-  "operationId": "11111111-1111-4111-8111-111111111111",
-  "outcome": "Applied",
-  "code": "APPLIED",
-  "targetKind": "TeacherProfile",
-  "targetId": "11111111-1111-4111-8111-111111111111",
-  "resultingRevision": null,
-  "recordedAt": "2026-12-01T10:00:00Z"
-}
-```
-
 - **200** — OK
 
-  Media type: `text/plain`.
-
-```text
-{'operationId': '11111111-1111-4111-8111-111111111111', 'outcome': 'Applied', 'code': 'APPLIED', 'targetKind': 'TeacherProfile', 'targetId': '11111111-1111-4111-8111-111111111111', 'resultingRevision': None, 'recordedAt': '2026-12-01T10:00:00Z'}
-```
-
-
   Media type: `application/json`.
+
+  Example: `typical` — OK.
 
 ```json
 {
@@ -2505,10 +2915,11 @@ Content-Type: application/json
   "recordedAt": "2026-12-01T10:00:00Z"
 }
 ```
-
 
   Media type: `text/json`.
 
+  Example: `typical` — OK.
+
 ```json
 {
   "operationId": "11111111-1111-4111-8111-111111111111",
@@ -2521,106 +2932,237 @@ Content-Type: application/json
 }
 ```
 
-- **400** — Problem Details with code and correlationId.
+- **201** — Created
+
+  Media type: `application/json`.
+
+  Example: `typical` — Created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "TeacherProfile",
+  "targetId": "11111111-1111-4111-8111-111111111111",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+  Media type: `text/json`.
+
+  Example: `typical` — Created.
+
+```json
+{
+  "operationId": "11111111-1111-4111-8111-111111111111",
+  "outcome": "Applied",
+  "code": "APPLIED",
+  "targetKind": "TeacherProfile",
+  "targetId": "11111111-1111-4111-8111-111111111111",
+  "resultingRevision": null,
+  "recordedAt": "2026-12-01T10:00:00Z"
+}
+```
+
+- **400** — Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
 
   Media type: `application/problem+json`.
 
+  Example: `validation_failed` — VALIDATION_FAILED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The request is invalid.",
   "status": 400,
   "code": "VALIDATION_FAILED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **401** — Problem Details with code and correlationId.
+- **401** — Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY, SESSION_INVALID).
 
   Media type: `application/problem+json`.
 
+  Example: `authentication_required` — AUTHENTICATION_REQUIRED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Authentication required.",
   "status": 401,
-  "code": "HTTP_ERROR",
+  "code": "AUTHENTICATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **403** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `invalid_identity` — INVALID_IDENTITY.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A valid user token with a session is required.",
+  "status": 401,
+  "code": "INVALID_IDENTITY",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `session_invalid` — SESSION_INVALID.
+
+```json
+{
+  "title": "The session is not active.",
+  "status": 401,
+  "code": "SESSION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **403** — Access policy or current business authority rejected (ACCESS_DENIED).
+
+  Media type: `application/problem+json`.
+
+  Example: `access_denied` — ACCESS_DENIED.
+
+```json
+{
+  "title": "Access denied.",
   "status": 403,
-  "code": "HTTP_ERROR",
+  "code": "ACCESS_DENIED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **404** — Problem Details with code and correlationId.
+- **404** — Profile, target user or role not found (NOT_FOUND).
 
   Media type: `application/problem+json`.
 
+  Example: `not_found` — NOT_FOUND.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "Resource not found or not visible.",
   "status": 404,
   "code": "NOT_FOUND",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **409** — Problem Details with code and correlationId.
+- **409** — Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed intent requires a new Idempotency-Key.
 
   Media type: `application/problem+json`.
 
+  Example: `idempotency_key_reused` — IDEMPOTENCY_KEY_REUSED.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The operation ID is already in use.",
   "status": 409,
-  "code": "REVISION_CONFLICT",
+  "code": "IDEMPOTENCY_KEY_REUSED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **422** — Problem Details with code and correlationId.
-
-  Media type: `application/problem+json`.
+  Example: `resource_conflict` — RESOURCE_CONFLICT.
 
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "The resource already exists.",
+  "status": 409,
+  "code": "RESOURCE_CONFLICT",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **415** — Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+
+  Media type: `application/problem+json`.
+
+  Example: `http_error` — HTTP_ERROR.
+
+```json
+{
+  "title": "The request could not be processed.",
+  "status": 415,
+  "code": "HTTP_ERROR",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **422** — Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID, CONFIRMATION_EXPIRED).
+
+  Media type: `application/problem+json`.
+
+  Example: `confirmation_required` — CONFIRMATION_REQUIRED.
+
+```json
+{
+  "title": "Exact confirmation is required.",
   "status": 422,
   "code": "CONFIRMATION_REQUIRED",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **500** — Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
-
-  Media type: `application/problem+json`.
+  Example: `confirmation_invalid` — CONFIRMATION_INVALID.
 
 ```json
 {
-  "title": "Unexpected failure; preserve correlation ID and reconcile mutations before retrying.",
+  "title": "Confirmation does not match the command.",
+  "status": 422,
+  "code": "CONFIRMATION_INVALID",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `confirmation_expired` — CONFIRMATION_EXPIRED.
+
+```json
+{
+  "title": "A fresh confirmation is required.",
+  "status": 422,
+  "code": "CONFIRMATION_EXPIRED",
+  "correlationId": "integration-example-01"
+}
+```
+
+- **500** — Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+
+  Media type: `application/problem+json`.
+
+  Example: `internal_error` — INTERNAL_ERROR.
+
+```json
+{
+  "title": "An unexpected error occurred.",
   "status": 500,
   "code": "INTERNAL_ERROR",
   "correlationId": "integration-example-01"
 }
 ```
 
-- **503** — Problem Details with code and correlationId.
+- **503** — Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
 
   Media type: `application/problem+json`.
 
+  Example: `dependency_unavailable` — DEPENDENCY_UNAVAILABLE.
+
 ```json
 {
-  "title": "Problem Details with code and correlationId.",
+  "title": "A required dependency is unavailable.",
   "status": 503,
   "code": "DEPENDENCY_UNAVAILABLE",
+  "correlationId": "integration-example-01"
+}
+```
+
+  Example: `database_unavailable` — DATABASE_UNAVAILABLE.
+
+```json
+{
+  "title": "The database is unavailable.",
+  "status": 503,
+  "code": "DATABASE_UNAVAILABLE",
   "correlationId": "integration-example-01"
 }
 ```

@@ -4,7 +4,7 @@ info:
   description: Global profiles and idempotent commands. Internal operations require a workload JWT. Delegated and
     platform mutations additionally require a user JWT in X-User-Authorization. Mutations return operation receipts;
     fetch current resource state separately.
-  version: 1.0.0
+  version: 1.0.1
 servers:
 - url: http://localhost:5151
   description: Loopback development launch profile; use HTTPS outside local development.
@@ -28,15 +28,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/UserStatusResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             application/json:
               schema:
                 $ref: '#/components/schemas/UserStatusResponse'
@@ -55,117 +46,75 @@ paths:
                   value:
                     userId: 11111111-1111-4111-8111-111111111111
                     active: true
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The database is unavailable.
                     status: 503
-                    code: DEPENDENCY_UNAVAILABLE
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -191,15 +140,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/UserContactResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    email: alex@example.test
             application/json:
               schema:
                 $ref: '#/components/schemas/UserContactResponse'
@@ -218,117 +158,75 @@ paths:
                   value:
                     userId: 11111111-1111-4111-8111-111111111111
                     email: alex@example.test
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The database is unavailable.
                     status: 503
-                    code: DEPENDENCY_UNAVAILABLE
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -362,17 +260,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
@@ -395,117 +282,75 @@ paths:
                     profileId: 11111111-1111-4111-8111-111111111111
                     userId: 11111111-1111-4111-8111-111111111111
                     active: true
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The database is unavailable.
                     status: 503
-                    code: DEPENDENCY_UNAVAILABLE
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -565,118 +410,206 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Deactivated or already inactive; operation receipt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                applied:
+                  summary: User deactivated
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: 2
+                    recordedAt: '2026-12-01T10:00:00Z'
+                already_inactive:
+                  summary: Target already inactive
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: ALREADY_INACTIVE
+                    targetKind: UserProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: 2
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                applied:
+                  summary: User deactivated
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: UserProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: 2
+                    recordedAt: '2026-12-01T10:00:00Z'
+                already_inactive:
+                  summary: Target already inactive
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: ALREADY_INACTIVE
+                    targetKind: UserProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: 2
+                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
+            conflict; changed intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                revision_conflict:
+                  summary: REVISION_CONFLICT
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The resource has changed.
                     status: 409
                     code: REVISION_CONFLICT
                     correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
+                  value:
+                    title: The operation ID is already in use.
+                    status: 409
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                http_error:
+                  summary: HTTP_ERROR
                   value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -740,118 +673,231 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Existing administrator profile reused (ALREADY_EXISTS); operation receipt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                already_exists:
+                  summary: Existing administrator reused
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: ALREADY_EXISTS
+                    targetKind: AdministratorProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                already_exists:
+                  summary: Existing administrator reused
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: ALREADY_EXISTS
+                    targetKind: AdministratorProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '201':
+          description: Administrator profile created; operation receipt and Location header.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                applied:
+                  summary: Administrator created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: AdministratorProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                applied:
+                  summary: Administrator created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: AdministratorProfile
+                    targetId: 22222222-2222-4222-8222-222222222222
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+          headers:
+            Location:
+              description: Canonical administrator profile resource.
+              schema:
+                type: string
+                format: uri-reference
+              example: /internal/v1/profiles/administrator/22222222-2222-4222-8222-222222222222
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
+            intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The operation ID is already in use.
                     status: 409
-                    code: REVISION_CONFLICT
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                http_error:
+                  summary: HTTP_ERROR
+                  value:
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '422':
-          description: Problem Details with code and correlationId.
+          description: The target user is inactive (USER_INACTIVE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                user_inactive:
+                  summary: USER_INACTIVE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The command was rejected.
                     status: 422
-                    code: CONFIRMATION_REQUIRED
+                    code: USER_INACTIVE
                     correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -873,25 +919,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
@@ -930,117 +957,98 @@ paths:
                     studentId: 11111111-1111-4111-8111-111111111111
                     teacherId: 11111111-1111-4111-8111-111111111111
                     administratorId: 11111111-1111-4111-8111-111111111111
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - UserBearer: []
@@ -1100,20 +1108,6 @@ paths:
         '201':
           description: Created
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -1143,116 +1137,141 @@ paths:
                     resultingRevision: 1
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
-        '404':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 404
-                    code: NOT_FOUND
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
+            conflict; changed intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                profile_exists:
+                  summary: PROFILE_EXISTS
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The command was rejected.
                     status: 409
-                    code: REVISION_CONFLICT
+                    code: PROFILE_EXISTS
                     correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
+                  value:
+                    title: The operation ID is already in use.
+                    status: 409
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                http_error:
+                  summary: HTTP_ERROR
                   value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - UserBearer: []
@@ -1322,20 +1341,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -1365,116 +1370,141 @@ paths:
                     resultingRevision: 1
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
-        '404':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 404
-                    code: NOT_FOUND
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
+            conflict; changed intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                revision_conflict:
+                  summary: REVISION_CONFLICT
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The resource has changed.
                     status: 409
                     code: REVISION_CONFLICT
                     correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
+                  value:
+                    title: The operation ID is already in use.
+                    status: 409
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                http_error:
+                  summary: HTTP_ERROR
                   value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - UserBearer: []
@@ -1504,25 +1534,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
@@ -1561,117 +1572,98 @@ paths:
                     studentId: 11111111-1111-4111-8111-111111111111
                     teacherId: 11111111-1111-4111-8111-111111111111
                     administratorId: 11111111-1111-4111-8111-111111111111
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -1735,20 +1727,6 @@ paths:
         '201':
           description: Created
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -1778,116 +1756,171 @@ paths:
                     resultingRevision: 1
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
-        '404':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 404
-                    code: NOT_FOUND
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
+            conflict; changed intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                profile_exists:
+                  summary: PROFILE_EXISTS
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The command was rejected.
                     status: 409
-                    code: REVISION_CONFLICT
+                    code: PROFILE_EXISTS
+                    correlationId: integration-example-01
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
+                  value:
+                    title: The operation ID is already in use.
+                    status: 409
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                http_error:
+                  summary: HTTP_ERROR
+                  value:
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '422':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+            CONFIRMATION_EXPIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                confirmation_required:
+                  summary: CONFIRMATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Exact confirmation is required.
                     status: 422
                     code: CONFIRMATION_REQUIRED
                     correlationId: integration-example-01
+                confirmation_invalid:
+                  summary: CONFIRMATION_INVALID
+                  value:
+                    title: Confirmation does not match the command.
+                    status: 422
+                    code: CONFIRMATION_INVALID
+                    correlationId: integration-example-01
+                confirmation_expired:
+                  summary: CONFIRMATION_EXPIRED
+                  value:
+                    title: A fresh confirmation is required.
+                    status: 422
+                    code: CONFIRMATION_EXPIRED
+                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -1963,20 +1996,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -2006,116 +2025,171 @@ paths:
                     resultingRevision: 1
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
-        '404':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 404
-                    code: NOT_FOUND
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
+            conflict; changed intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                revision_conflict:
+                  summary: REVISION_CONFLICT
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The resource has changed.
                     status: 409
                     code: REVISION_CONFLICT
                     correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
+                  value:
+                    title: The operation ID is already in use.
+                    status: 409
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                http_error:
+                  summary: HTTP_ERROR
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
+                    correlationId: integration-example-01
+        '422':
+          description: >-
+            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+            CONFIRMATION_EXPIRED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                confirmation_required:
+                  summary: CONFIRMATION_REQUIRED
+                  value:
+                    title: Exact confirmation is required.
                     status: 422
                     code: CONFIRMATION_REQUIRED
                     correlationId: integration-example-01
+                confirmation_invalid:
+                  summary: CONFIRMATION_INVALID
+                  value:
+                    title: Confirmation does not match the command.
+                    status: 422
+                    code: CONFIRMATION_INVALID
+                    correlationId: integration-example-01
+                confirmation_expired:
+                  summary: CONFIRMATION_EXPIRED
+                  value:
+                    title: A fresh confirmation is required.
+                    status: 422
+                    code: CONFIRMATION_EXPIRED
+                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -2151,17 +2225,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
@@ -2184,117 +2247,98 @@ paths:
                     profileId: 11111111-1111-4111-8111-111111111111
                     userId: 11111111-1111-4111-8111-111111111111
                     active: true
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - UserBearer: []
@@ -2352,68 +2396,9 @@ paths:
                   invitationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
-        '201':
-          description: Created
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -2434,6 +2419,37 @@ paths:
               examples:
                 typical:
                   summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
                   value:
                     operationId: 11111111-1111-4111-8111-111111111111
                     outcome: Applied
@@ -2443,116 +2459,148 @@ paths:
                     resultingRevision: null
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
+            intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The operation ID is already in use.
                     status: 409
-                    code: REVISION_CONFLICT
+                    code: IDEMPOTENCY_KEY_REUSED
                     correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                http_error:
+                  summary: HTTP_ERROR
                   value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - UserBearer: []
@@ -2582,17 +2630,6 @@ paths:
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
@@ -2615,117 +2652,98 @@ paths:
                     profileId: 11111111-1111-4111-8111-111111111111
                     userId: 11111111-1111-4111-8111-111111111111
                     active: true
-        '400':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
-        '409':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-        '422':
-          description: Problem Details with code and correlationId.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ApiProblem'
-              examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
-                  value:
-                    title: Problem Details with code and correlationId.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []
@@ -2788,68 +2806,9 @@ paths:
                   confirmationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
-        '201':
-          description: Created
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
         '200':
           description: OK
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
@@ -2870,6 +2829,37 @@ paths:
               examples:
                 typical:
                   summary: OK
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
+                  value:
+                    operationId: 11111111-1111-4111-8111-111111111111
+                    outcome: Applied
+                    code: APPLIED
+                    targetKind: TeacherProfile
+                    targetId: 11111111-1111-4111-8111-111111111111
+                    resultingRevision: null
+                    recordedAt: '2026-12-01T10:00:00Z'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+              examples:
+                typical:
+                  summary: Created
                   value:
                     operationId: 11111111-1111-4111-8111-111111111111
                     outcome: Applied
@@ -2879,116 +2869,178 @@ paths:
                     resultingRevision: null
                     recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: Problem Details with code and correlationId.
+          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                validation_failed:
+                  summary: VALIDATION_FAILED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The request is invalid.
                     status: 400
                     code: VALIDATION_FAILED
                     correlationId: integration-example-01
         '401':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                authentication_required:
+                  summary: AUTHENTICATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Authentication required.
                     status: 401
-                    code: HTTP_ERROR
+                    code: AUTHENTICATION_REQUIRED
+                    correlationId: integration-example-01
+                invalid_identity:
+                  summary: INVALID_IDENTITY
+                  value:
+                    title: A valid user token with a session is required.
+                    status: 401
+                    code: INVALID_IDENTITY
+                    correlationId: integration-example-01
+                session_invalid:
+                  summary: SESSION_INVALID
+                  value:
+                    title: The session is not active.
+                    status: 401
+                    code: SESSION_INVALID
                     correlationId: integration-example-01
         '403':
-          description: Problem Details with code and correlationId.
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                access_denied:
+                  summary: ACCESS_DENIED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Access denied.
                     status: 403
-                    code: HTTP_ERROR
+                    code: ACCESS_DENIED
                     correlationId: integration-example-01
         '404':
-          description: Problem Details with code and correlationId.
+          description: 'Profile, target user or role not found (NOT_FOUND).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                not_found:
+                  summary: NOT_FOUND
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Resource not found or not visible.
                     status: 404
                     code: NOT_FOUND
                     correlationId: integration-example-01
         '409':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
+            intent requires a new Idempotency-Key.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                idempotency_key_reused:
+                  summary: IDEMPOTENCY_KEY_REUSED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: The operation ID is already in use.
                     status: 409
-                    code: REVISION_CONFLICT
+                    code: IDEMPOTENCY_KEY_REUSED
+                    correlationId: integration-example-01
+                resource_conflict:
+                  summary: RESOURCE_CONFLICT
+                  value:
+                    title: The resource already exists.
+                    status: 409
+                    code: RESOURCE_CONFLICT
+                    correlationId: integration-example-01
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+              examples:
+                http_error:
+                  summary: HTTP_ERROR
+                  value:
+                    title: The request could not be processed.
+                    status: 415
+                    code: HTTP_ERROR
                     correlationId: integration-example-01
         '422':
-          description: Problem Details with code and correlationId.
+          description: >-
+            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+            CONFIRMATION_EXPIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                confirmation_required:
+                  summary: CONFIRMATION_REQUIRED
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: Exact confirmation is required.
                     status: 422
                     code: CONFIRMATION_REQUIRED
                     correlationId: integration-example-01
+                confirmation_invalid:
+                  summary: CONFIRMATION_INVALID
+                  value:
+                    title: Confirmation does not match the command.
+                    status: 422
+                    code: CONFIRMATION_INVALID
+                    correlationId: integration-example-01
+                confirmation_expired:
+                  summary: CONFIRMATION_EXPIRED
+                  value:
+                    title: A fresh confirmation is required.
+                    status: 422
+                    code: CONFIRMATION_EXPIRED
+                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                internal_error:
+                  summary: INTERNAL_ERROR
                   value:
-                    title: Unexpected failure; preserve correlation ID and reconcile mutations before retrying.
+                    title: An unexpected error occurred.
                     status: 500
                     code: INTERNAL_ERROR
                     correlationId: integration-example-01
         '503':
-          description: Problem Details with code and correlationId.
+          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
               examples:
-                typical:
-                  summary: Problem Details with code and correlationId.
+                dependency_unavailable:
+                  summary: DEPENDENCY_UNAVAILABLE
                   value:
-                    title: Problem Details with code and correlationId.
+                    title: A required dependency is unavailable.
                     status: 503
                     code: DEPENDENCY_UNAVAILABLE
+                    correlationId: integration-example-01
+                database_unavailable:
+                  summary: DATABASE_UNAVAILABLE
+                  value:
+                    title: The database is unavailable.
+                    status: 503
+                    code: DATABASE_UNAVAILABLE
                     correlationId: integration-example-01
       security:
       - WorkloadBearer: []

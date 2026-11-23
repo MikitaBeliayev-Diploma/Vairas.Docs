@@ -45,4 +45,4 @@ A source correction invalidates dependent current eligibility and requires a new
 
 ## Verification boundary
 
-Validate DBML, migration constraints, OpenAPI, examples, source identity shapes and generated references offline. Service transaction/CAS, real Outbox delivery, duplicate recovery, authorization and concurrent correction tests remain implementation acceptance gates. See the Communication acceptance scenarios.
+Validate DBML, migration constraints, OpenAPI, examples, source identity shapes and generated references offline. Service transaction/CAS, real Outbox delivery, duplicate recovery, authorization and concurrent correction tests remain implementation acceptance gates. See the [Communication reliability guide](../../../Communication/guides/errors-and-reliability.md).

@@ -1,5 +1,18 @@
 # Authentication, authorization and tenant scope
 
+## Public and internal routes
+
+`/api/v1` identifies the client-facing business API, normally called by the Web application with the end user's token. `/internal/v1` identifies service-to-service operations, such as Notifications reading a minimal User Management contact projection. The `v1` segment is the interface's major version.
+
+| Route family | Intended caller | User Management authorization |
+|---|---|---|
+| `/api/v1/users/me` | Authenticated Web client | User JWT and current-session admission |
+| `/internal/v1/users/{userId}/contact` | Allowed Notifications or Document Management workload | Workload JWT, separate audience, `profiles.contact.read` and local client allowlist |
+| `/internal/v1/delegated/users/me` | MCP adapter acting for a user | Workload JWT plus independent user JWT; exact human confirmation for mutations |
+| Internal deactivation/bootstrap commands | Allowed platform workload acting for a platform operator | Workload JWT plus independent user JWT and operation-specific authority checks |
+
+The word `internal` is a routing convention, not an access control. Configure gateway/network ingress so internal paths are reachable only by intended workloads; the service must still verify tokens, scopes and authorization on every call. It does not mean an unauthenticated endpoint, an administrator-only API or a direct database interface. Frontend clients use the public routes; an MCP adapter uses the delegated routes because both the calling service and the represented user must be verified.
+
 ## Implemented User Management
 
 Public self-service requests use a user bearer JWT. RS256 signature, configured issuer/audience, UUID `sub` and `sid`, expiry and current Auth admission must pass. `sub` identifies an Authentication identity, not a profile. Admission can fail even when a JWT is cryptographically valid. Global profile activity is checked for existing users.
@@ -19,9 +32,9 @@ Delegated requests require both workload and end-user authorization in the same 
 
 User Management's outbound token uses OAuth client credentials and the configured `identity.validate school.profile-provisioning confirmations.validate` scopes. The client caches the token only until a safety margin before expiry. It times out HTTP dependencies after five seconds and treats unavailable/malformed authoritative responses as dependency failures.
 
-## Proposed providers and MCP
+## Provider and MCP boundaries
 
-Authentication owns credentials, sessions, refresh rotation and challenges. Profile contacts are not credentials. OIDC linking matches exact issuer/subject and requires explicit authenticated linking; matching email never authorizes an automatic merge. Refresh reuse handling must revoke the affected session family. Credential and challenge policies in the new API are proposed, not implemented.
+Authentication owns credentials, sessions, refresh rotation and challenges. Profile contacts are not credentials. OIDC linking matches exact issuer/subject and requires explicit authenticated linking; matching email never authorizes an automatic merge. Refresh reuse handling must revoke the affected session family. Credential and challenge policies are defined by the Authentication contract; see [implementation coverage](../README.md#implementation-coverage) for provider availability.
 
 MCP metadata hints are not security controls. Every private tool must bind its agent invocation to a verifiable end user, then enforce the same roles, enrollment context and business rules as Web. Shared agent credentials do not establish a user's permissions. The Foundry/Vairas identity-delegation mechanism is an open integration gate; no speculative token exchange endpoint is presented as operational.
 

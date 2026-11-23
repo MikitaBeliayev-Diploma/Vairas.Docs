@@ -1,34 +1,34 @@
-# Vairas — Integration Event Catalog v0.1
+# Vairas - Integration Event Catalog
 
-**Status:** proposed; 2026-11-15. The event names are mapped to existing DDD domain events unless clearly marked NEW. The exact integration payloads, channel addresses, subscriber topology and transport have **not** been approved/implemented.
+This catalog defines integration event payloads, channels, producers and consumers.
 
 **Source of truth:** each service owns and emits its own committed facts. The specifications in `Communication/Async Api/` are the provider/consumer-specific AsyncAPI 3.0.0 views. Producer and consumer payloads and JSON envelope examples must remain consistent when a contract changes.
 
-Implementation update: User Management now persists and publishes `UserDeactivated` through its outbox and Service Bus adapter. Its sender contract has automated coverage; broker provisioning, live delivery and School/Scheduling subscribers are not implemented by this change. Other rows retain their stated proposal status.
+[Implementation coverage](../../README.md#implementation-coverage) is tracked centrally, separately from the contract definitions below.
 
-| Event | Publisher | Subscribers | Logical topic | Status |
+| Event | Publisher | Subscribers | Logical topic | Contract role |
 |---|---|---|---|---|
-| `StudentEnrollmentStarted` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-started.v1` | Domain event named; payload proposed |
-| `StudentEnrollmentCompleted` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-completed.v1` | Domain event named; payload proposed |
-| `StudentEnrollmentEnded` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-ended.v1` | Domain event named; payload proposed |
-| `StudentAssignedToGroup` | School Management | Scheduling | `vairas.school.student-assigned-to-group.v1` | Domain event named; payload proposed |
-| `StudentRemovedFromGroup` | School Management | Scheduling | `vairas.school.student-removed-from-group.v1` | Domain event named; payload proposed |
-| `TeacherAssignedToGroup` | School Management | Scheduling | `vairas.school.teacher-assigned-to-group.v1` | Domain event named; payload proposed |
-| `SchoolMembershipEnded` | School Management | Scheduling | `vairas.school.membership-ended.v1` | Domain event named; payload proposed |
-| `VehicleDeactivated` | Vehicle Management | Scheduling | `vairas.vehicle.deactivated.v1` | Domain event named; payload proposed |
-| `VehicleActivated` | Vehicle Management | Scheduling | `vairas.vehicle.activated.v1` | Domain event named; payload proposed |
-| `MaintenanceScheduled` | Vehicle Management | Notifications | `vairas.vehicle.maintenance-scheduled.v1` | Optional; blocked by current Notifications DB source/type constraints (G-04) |
-| `MaintenanceStarted` | Vehicle Management | Scheduling | `vairas.vehicle.maintenance-started.v1` | Domain event named; payload proposed |
-| `MaintenanceCompleted` | Vehicle Management | Scheduling | `vairas.vehicle.maintenance-completed.v1` | Domain event named; payload proposed |
-| `LessonScheduled` | Scheduling | Notifications | `vairas.scheduling.lesson-scheduled.v1` | Domain event named; payload proposed |
-| `LessonRescheduled` | Scheduling | Notifications | `vairas.scheduling.lesson-rescheduled.v1` | Domain event named; payload proposed |
-| `LessonCancelled` | Scheduling | Notifications | `vairas.scheduling.lesson-cancelled.v1` | Domain event named; payload proposed |
-| `LessonCompleted` | Scheduling | Learning Tracking | `vairas.scheduling.lesson-completed.v1` | Domain event named; payload proposed |
-| `AssessmentPassed` | Learning Tracking | Notifications | `vairas.learning.assessment-passed.v1` | Domain event named; payload proposed |
-| `AssessmentFailed` | Learning Tracking | Notifications | `vairas.learning.assessment-failed.v1` | Domain event named; payload proposed |
-| `PracticalRecordConfirmed` | Learning Tracking | Document Management | `vairas.learning.practical-record-confirmed.v1` | **NEW — approval needed** |
-| `PracticalRecordRevised` | Learning Tracking | Document Management | `vairas.learning.practical-record-revised.v1` | **NEW — approval needed** |
-| `UserDeactivated` | User Management | School Management, Scheduling | `vairas.user.deactivated.v1` | Sender implemented; consumers and live delivery unverified |
+| `StudentEnrollmentStarted` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-started.v1` | Enrollment lifecycle |
+| `StudentEnrollmentCompleted` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-completed.v1` | Enrollment lifecycle |
+| `StudentEnrollmentEnded` | School Management | Learning Tracking, Scheduling | `vairas.school.enrollment-ended.v1` | Enrollment lifecycle |
+| `StudentAssignedToGroup` | School Management | Scheduling | `vairas.school.student-assigned-to-group.v1` | Group membership |
+| `StudentRemovedFromGroup` | School Management | Scheduling | `vairas.school.student-removed-from-group.v1` | Group membership |
+| `TeacherAssignedToGroup` | School Management | Scheduling | `vairas.school.teacher-assigned-to-group.v1` | Instructor assignment |
+| `SchoolMembershipEnded` | School Management | Scheduling | `vairas.school.membership-ended.v1` | School membership |
+| `VehicleDeactivated` | Vehicle Management | Scheduling | `vairas.vehicle.deactivated.v1` | Vehicle eligibility |
+| `VehicleActivated` | Vehicle Management | Scheduling | `vairas.vehicle.activated.v1` | Vehicle eligibility |
+| `MaintenanceScheduled` | Vehicle Management | Notifications | `vairas.vehicle.maintenance-scheduled.v1` | Optional maintenance notification; current Notifications schema excludes it (G-04) |
+| `MaintenanceStarted` | Vehicle Management | Scheduling | `vairas.vehicle.maintenance-started.v1` | Maintenance lifecycle |
+| `MaintenanceCompleted` | Vehicle Management | Scheduling | `vairas.vehicle.maintenance-completed.v1` | Maintenance lifecycle |
+| `LessonScheduled` | Scheduling | Notifications | `vairas.scheduling.lesson-scheduled.v1` | Lesson lifecycle; completion alone does not grant credit |
+| `LessonRescheduled` | Scheduling | Notifications | `vairas.scheduling.lesson-rescheduled.v1` | Lesson lifecycle; completion alone does not grant credit |
+| `LessonCancelled` | Scheduling | Notifications | `vairas.scheduling.lesson-cancelled.v1` | Lesson lifecycle; completion alone does not grant credit |
+| `LessonCompleted` | Scheduling | Learning Tracking | `vairas.scheduling.lesson-completed.v1` | Lesson lifecycle; completion alone does not grant credit |
+| `AssessmentPassed` | Learning Tracking | Notifications | `vairas.learning.assessment-passed.v1` | Assessment outcome |
+| `AssessmentFailed` | Learning Tracking | Notifications | `vairas.learning.assessment-failed.v1` | Assessment outcome |
+| `PracticalRecordConfirmed` | Learning Tracking | Document Management | `vairas.learning.practical-record-confirmed.v1` | Current-version confirmation notification |
+| `PracticalRecordRevised` | Learning Tracking | Document Management | `vairas.learning.practical-record-revised.v1` | Record correction and downstream reconciliation |
+| `UserDeactivated` | User Management | School Management, Scheduling | `vairas.user.deactivated.v1` | Global profile status |
 
 ## Notes
 
@@ -41,4 +41,4 @@ Implementation update: User Management now persists and publishes `UserDeactivat
 - **Saga safety:** `MaintenanceStarted` is a post-commit fact, never a substitute for the synchronous `BlockVehicleBookings` Saga step. Emergency faults may require fail-closed validation and follow-up reconciliation.
 - **Document history:** `PracticalRecordRevised` invalidates operational readiness of old generated artifacts but must not overwrite historical files.
 
-See the [architecture alignment audit](../../audit/architecture-alignment.md) for five producer topics, ten proposed consumer service pairs and unresolved owner gates. Logical event addresses are not physical broker topic names.
+Logical event addresses are not physical broker topic names. See the [delivery and recovery rules](../../guides/errors-and-reliability.md) and [implementation coverage](../../README.md#implementation-coverage).

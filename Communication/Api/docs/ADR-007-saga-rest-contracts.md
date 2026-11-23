@@ -1,6 +1,6 @@
 # ADR-007 — Vairas Vehicle State Saga REST Contracts
 
-**Status:** Proposed / not implemented.  **Date:** 2026-11-15.  **Language:** English for diploma documentation.
+This document defines the Vehicle Management and Scheduling REST contracts for the vehicle-state Saga. [Implementation coverage](../../README.md#implementation-coverage) is tracked separately.
 
 ## Context
 

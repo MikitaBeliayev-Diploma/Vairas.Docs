@@ -1,6 +1,6 @@
 # Integration flows and contract boundaries
 
-All diagrams show the design; only User Management controllers/clients/sender currently have source implementation evidence.
+The diagrams describe contract boundaries and request flows. Runtime availability is recorded in [implementation coverage](../README.md#implementation-coverage).
 
 ## Profile command admission
 

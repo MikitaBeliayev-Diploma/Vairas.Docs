@@ -1,6 +1,6 @@
 # Vairas Scheduling Service — Internal Vehicle Booking Gate API
 
-PROPOSED internal contract. Vehicle Management orchestrator invokes these
+Internal REST contract. Vehicle Management orchestrator invokes these
 commands using workload authentication. Scheduling owns all booking gates,
 reservations and their local atomic conflict checks. Each OperationId has
 one stable outcome; rejected commands are also recorded for idempotency.
@@ -21,9 +21,9 @@ stable rejected command outcome without creating a block. A subsequent
 attempt after lessons are rescheduled MUST use a new operationId.
 
 
-Operation ID: `createVehicleBookingBlock`. Status: **proposed**.
+Operation ID: `createVehicleBookingBlock`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -177,9 +177,9 @@ not yet found; it is NOT proof that an in-flight POST failed. Retry the
 POST with the same operationId when the result remains uncertain.
 
 
-Operation ID: `getVehicleBlockCommandOutcome`. Status: **proposed**.
+Operation ID: `getVehicleBlockCommandOutcome`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -277,9 +277,9 @@ Reactivate) or after confirming the planned transition never applied
 returns the same terminal result without additional side effects.
 
 
-Operation ID: `releaseVehicleBookingBlock`. Status: **proposed**.
+Operation ID: `releaseVehicleBookingBlock`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

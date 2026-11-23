@@ -1,6 +1,6 @@
-# Vairas — Document Management API (PROPOSED)
+# Vairas — Document Management API
 
-Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is mandatory inside the owning service.
+HTTP API contract. Tenant/resource authorization is mandatory inside the owning service.
 
 [Canonical OpenAPI](../Api/document-management.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -10,11 +10,11 @@ Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resourc
 
 Generate immutable contract from authorized enrollment snapshot
 
-Generate immutable contract from authorized enrollment snapshot. Proposed interface; authoritative actor and school checks are mandatory.
+Generate immutable contract from authorized enrollment snapshot. The owning service enforces actor and school authorization.
 
-Operation ID: `generateTrainingContract`. Status: **proposed**.
+Operation ID: `generateTrainingContract`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -155,11 +155,11 @@ Content-Type: application/json
 
 Generate a journal from a consistent Learning snapshot
 
-Generate a journal from a consistent Learning snapshot. Proposed interface; authoritative actor and school checks are mandatory.
+Generate a journal from a consistent Learning snapshot. The owning service enforces actor and school authorization.
 
-Operation ID: `generatePracticalJournal`. Status: **proposed**.
+Operation ID: `generatePracticalJournal`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -297,11 +297,11 @@ Content-Type: application/json
 
 Read document-generation job state
 
-Read document-generation job state. Proposed interface; authoritative actor and school checks are mandatory.
+Read document-generation job state. The owning service enforces actor and school authorization.
 
-Operation ID: `getDocumentJob`. Status: **proposed**.
+Operation ID: `getDocumentJob`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -430,9 +430,9 @@ Prepare internal completion report for a human-controlled external handoff
 
 Prepare internal completion report for a human-controlled external handoff. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `generateCompletionReport`. Status: **proposed**.
+Operation ID: `generateCompletionReport`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -573,9 +573,9 @@ Authorize access before issuing a short-lived file URL
 
 Authorize access before issuing a short-lived file URL. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getDocumentDownload`. Status: **proposed**.
+Operation ID: `getDocumentDownload`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

@@ -1,6 +1,6 @@
 # Vairas Vehicle Management API — Planned Vehicle State Change Saga
 
-PROPOSED contract, not an implemented API. Vehicle Management owns vehicle
+HTTP API contract. Vehicle Management owns vehicle
 status and coordinates planned StartMaintenance, Deactivate, and Reactivate
 operations with Scheduling. Planned changes run asynchronously.
 Emergency vehicle failures are deliberately outside this contract.
@@ -22,9 +22,9 @@ changes. An equivalent retry returns the same operation (202 if unfinished,
 200 if terminal); reusing the same key with a different request returns 409.
 
 
-Operation ID: `requestVehicleStateChange`. Status: **proposed**.
+Operation ID: `requestVehicleStateChange`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -208,9 +208,9 @@ Used by the UI after 202, disconnects, and timeouts. The response never
 includes another tenant's lesson IDs or student details.
 
 
-Operation ID: `getVehicleStateChangeOperation`. Status: **proposed**.
+Operation ID: `getVehicleStateChangeOperation`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -324,9 +324,9 @@ itself to prevent races with later state changes. Scheduling must still
 enforce its booking gate transaction.
 
 
-Operation ID: `getVehicleEligibility`. Status: **proposed**.
+Operation ID: `getVehicleEligibility`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

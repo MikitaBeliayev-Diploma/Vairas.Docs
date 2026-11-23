@@ -17,4 +17,4 @@ Offline review included 15 DBML/embedded PostgreSQL checks and 836 example/JSON 
 
 Scheduling handlers, actor authorization, CAS/history/Outbox transactions, source reconciliation, duplicate recovery and concurrent correction require implementation and runtime verification. No real PostgreSQL upgrade, broker delivery, cross-service transaction or legal approval is certified by this review.
 
-See [lifecycle and upgrade rules](actual-interval.md) and the [acceptance requirements](../../../Communication/audit/acceptance-scenarios.md).
+See [lifecycle and upgrade rules](actual-interval.md) and the [delivery and recovery requirements](../../../Communication/guides/errors-and-reliability.md).

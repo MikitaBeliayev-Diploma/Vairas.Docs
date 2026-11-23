@@ -1,6 +1,6 @@
-# Vairas — Notifications API (PROPOSED)
+# Vairas — Notifications API
 
-Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is mandatory inside the owning service.
+HTTP API contract. Tenant/resource authorization is mandatory inside the owning service.
 
 [Canonical OpenAPI](../Api/notifications.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -10,11 +10,11 @@ Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resourc
 
 List school-owned templates
 
-List school-owned templates. Proposed interface; authoritative actor and school checks are mandatory.
+List school-owned templates. The owning service enforces actor and school authorization.
 
-Operation ID: `getNotificationTemplates`. Status: **proposed**.
+Operation ID: `getNotificationTemplates`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -140,11 +140,11 @@ X-Correlation-ID: synthetic-X-Correlation-ID
 
 View allowed notification delivery state
 
-View allowed notification delivery state. Proposed interface; authoritative actor and school checks are mandatory.
+View allowed notification delivery state. The owning service enforces actor and school authorization.
 
-Operation ID: `getNotificationStatus`. Status: **proposed**.
+Operation ID: `getNotificationStatus`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

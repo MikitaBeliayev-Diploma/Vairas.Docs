@@ -12,9 +12,9 @@ Process liveness
 
 Anonymous process liveness at the application layer. No user, school or network dependency checks are performed. Deployment may restrict probe ingress. Implemented for User Management; proposed for other containers.
 
-Operation ID: `getLiveness`. Status: **implemented-user-management; proposed-other-services**.
+Operation ID: `getLiveness`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -48,9 +48,9 @@ Local prerequisite readiness
 
 Anonymous local prerequisite readiness at the application layer. User Management checks its owned database tables; this does not establish remote-provider or broker health. No user or school authorization is required. Deployment may restrict probe ingress.
 
-Operation ID: `getReadiness`. Status: **implemented-user-management; proposed-other-services**.
+Operation ID: `getReadiness`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 

@@ -1,6 +1,6 @@
-# Vairas Authentication API (PROPOSED)
+# Vairas Authentication API
 
-Proposed interface; no provider implementation or deployment is claimed. Source: Authentication database identity/session/token/challenge model and User Management dependency clients. Credential policy, challenge delivery adapter and external issuer allowlist are design settings requiring implementation review; login is not an OAuth password grant. Browser OIDC correlation must use secure server-bound cookies; linking requires the existing user session.
+Source: Authentication database identity/session/token/challenge model and User Management dependency clients. Credential policy, challenge delivery adapter and external issuer allowlist are design settings requiring implementation review; login is not an OAuth password grant. Browser OIDC correlation must use secure server-bound cookies; linking requires the existing user session.
 
 [Canonical OpenAPI](../Api/authentication.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -10,11 +10,11 @@ Proposed interface; no provider implementation or deployment is claimed. Source:
 
 Obtain an outbound workload token using OAuth2 client credentials
 
-Authenticate an allowlisted workload using OAuth2 client credentials and issue only its permitted scopes/audience. No end-user or school membership is implied. This proposed provider is consumed by User Management.
+Authenticate an allowlisted workload using OAuth2 client credentials and issue only its permitted scopes/audience. No end-user or school membership is implied. User Management consumes this interface.
 
-Operation ID: `acquireUserManagementWorkloadToken`. Status: **proposed**.
+Operation ID: `acquireUserManagementWorkloadToken`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -83,9 +83,9 @@ Validate current identity admission and exact session ownership
 
 Require an authenticated workload with identity.validate scope. Verify the exact identity/session pair, revocation and expiry; return authoritative admission and validUntil. This is global Authentication state, not school/enrollment authorization.
 
-Operation ID: `validateUserManagementSession`. Status: **proposed**.
+Operation ID: `validateUserManagementSession`.
 
-**Authorization:** `[{"workloadOAuth": ["identity.validate"]}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadOAuth": ["identity.validate"]}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -170,9 +170,9 @@ Register a local identity without creating a UserProfile
 
 Register a local identity without creating a UserProfile or school enrollment. This entry point is anonymous; validate credentials and account policy, apply abuse controls and avoid disclosing account existence.
 
-Operation ID: `registerIdentity`. Status: **proposed**.
+Operation ID: `registerIdentity`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -305,9 +305,9 @@ Issue an identity/session-bound token pair
 
 Authenticate local credentials and issue an identity/session-bound token pair. This entry point is anonymous; check account activity and apply anti-enumeration and abuse controls. School authorization remains with business services.
 
-Operation ID: `loginIdentity`. Status: **proposed**.
+Operation ID: `loginIdentity`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -445,9 +445,9 @@ Rotate one refresh token; reuse revokes the affected session family
 
 Authenticate the presented refresh-token credential, rotate it once and revoke the affected session family on detected reuse. No access bearer is required; check session activity, expiry and exact token-family binding.
 
-Operation ID: `rotateRefreshToken`. Status: **proposed**.
+Operation ID: `rotateRefreshToken`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -582,9 +582,9 @@ Request a challenge without disclosing account existence
 
 Request a verification or password-reset challenge without revealing account existence. No prior bearer is required. Rate-limit delivery, return a generic acknowledgment and retain only protected challenge material.
 
-Operation ID: `requestAccountChallenge`. Status: **proposed**.
+Operation ID: `requestAccountChallenge`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -717,9 +717,9 @@ Consume one unexpired revision-bound challenge
 
 Consume one unexpired, purpose- and credential-revision-bound challenge. The challenge credential authorizes this operation; no school/enrollment membership or prior access bearer is required. A password-reset challenge requires newPassword and revokes affected sessions under the owner policy.
 
-Operation ID: `completeAccountChallenge`. Status: **proposed**.
+Operation ID: `completeAccountChallenge`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -852,9 +852,9 @@ Start allowlisted OIDC login or authenticated explicit linking
 
 Start allowlisted external OIDC login or explicit linking. Login may be anonymous. Link requires a currently authenticated active identity/session, server-bound to the stored request; reject anonymous Link with 401. Validate exact issuer and redirect URI and retain state, nonce and PKCE bindings. Never infer linking from email.
 
-Operation ID: `beginOidc`. Status: **proposed**.
+Operation ID: `beginOidc`.
 
-**Authorization:** `[{}, {"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{}, {"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -989,9 +989,9 @@ Verify state, nonce, PKCE and exact issuer/subject; never autolink by email
 
 Validate the stored one-time request, state, nonce, PKCE, exact issuer/subject and allowlisted redirect. For Link, recheck the originally bound identity/session before changing its external binding. No caller-supplied school or matching email grants identity ownership.
 
-Operation ID: `completeOidc`. Status: **proposed**.
+Operation ID: `completeOidc`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -1129,9 +1129,9 @@ Revoke an owned session and its refresh family
 
 Require a valid authenticated identity and verify that sessionId belongs to it. Revoke that session and refresh family idempotently; school membership is not authority to revoke another identity session.
 
-Operation ID: `revokeOwnSession`. Status: **proposed**.
+Operation ID: `revokeOwnSession`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1257,9 +1257,9 @@ Return configured issuer metadata
 
 Return public configured issuer metadata used by JWT consumers. No bearer or school/enrollment authorization is required; publish only configured issuer/key locations and supported capabilities.
 
-Operation ID: `getIssuerDiscovery`. Status: **proposed**.
+Operation ID: `getIssuerDiscovery`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -1380,9 +1380,9 @@ Return public signing keys only
 
 Return public signing keys only. No bearer or school/enrollment authorization is required. Never publish private key parameters or symmetric signing material.
 
-Operation ID: `getSigningKeys`. Status: **proposed**.
+Operation ID: `getSigningKeys`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 

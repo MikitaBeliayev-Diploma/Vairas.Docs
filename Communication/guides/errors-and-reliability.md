@@ -7,14 +7,16 @@ Business APIs document `application/problem+json`: `title`, numeric HTTP `status
 | HTTP | Implemented User Management examples | Client action |
 |---|---|---|
 | 400 | `VALIDATION_FAILED` | Correct the request; do not replay the same invalid command |
-| 401/403 | `HTTP_ERROR`, `FORBIDDEN` depending on the rejection path | Renew valid credentials or obtain permission; no privilege escalation |
+| 401 | `AUTHENTICATION_REQUIRED`, `INVALID_IDENTITY`, `SESSION_INVALID` | Authenticate again or restore current session admission |
+| 403 | `ACCESS_DENIED` | Obtain the required workload scope or current business authority; no privilege escalation |
 | 404 | `NOT_FOUND` | Check identity/resource scope; do not enumerate foreign resources |
 | 409 | `REVISION_CONFLICT`, `IDEMPOTENCY_KEY_REUSED`, `RESOURCE_CONFLICT`, `PROFILE_EXISTS` | Refetch/reconcile; changed intent needs a new operation ID |
+| 415 | `HTTP_ERROR` | Send a documented JSON request Content-Type |
 | 422 | `CONFIRMATION_REQUIRED`, `CONFIRMATION_INVALID`, `CONFIRMATION_EXPIRED` | Obtain exact current approval; never invent consent |
 | 503 | `DEPENDENCY_UNAVAILABLE`, `DATABASE_UNAVAILABLE` | Restore authority and reconcile mutations before retrying |
 | 500 | `INTERNAL_ERROR` | Preserve correlation ID; investigate and reconcile |
 
-Other services' error codes are proposed contract vocabulary, not proof of server handlers. Generic examples show a category; operation-specific descriptions constrain its meaning. Problem details must not expose other schools' identifiers, database messages or secrets.
+Other services' error codes are proposed contract vocabulary, not proof of server handlers. User Management response lists and examples are operation-specific: reads have no revision/idempotency or human-confirmation errors; public writes have no MCP-confirmation errors. Bootstrap can reject an inactive target with 422 `USER_INACTIVE`. Problem details must not expose other schools' identifiers, database messages or secrets.
 
 ## Idempotency and revisions
 

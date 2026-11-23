@@ -10,11 +10,11 @@ Exact checked consumer view of Auth, School and Chat provider path items consume
 
 Obtain an outbound workload token using OAuth2 client credentials
 
-Authenticate an allowlisted workload using OAuth2 client credentials and issue only its permitted scopes/audience. No end-user or school membership is implied. This proposed provider is consumed by User Management.
+Authenticate an allowlisted workload using OAuth2 client credentials and issue only its permitted scopes/audience. No end-user or school membership is implied. User Management consumes this interface.
 
-Operation ID: `acquireUserManagementWorkloadToken`. Status: **proposed**.
+Operation ID: `acquireUserManagementWorkloadToken`.
 
-**Authorization:** `[]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -83,9 +83,9 @@ Validate current identity admission and exact session ownership
 
 Require an authenticated workload with identity.validate scope. Verify the exact identity/session pair, revocation and expiry; return authoritative admission and validUntil. This is global Authentication state, not school/enrollment authorization.
 
-Operation ID: `validateUserManagementSession`. Status: **proposed**.
+Operation ID: `validateUserManagementSession`.
 
-**Authorization:** `[{"workloadOAuth": ["identity.validate"]}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadOAuth": ["identity.validate"]}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -168,11 +168,11 @@ Content-Type: application/json
 
 Check exact invitation or initial administrator bootstrap authority
 
-Check exact invitation or initial administrator bootstrap authority. Proposed interface; authoritative actor and school checks are mandatory.
+Check exact invitation or initial administrator bootstrap authority. The owning service enforces actor and school authorization.
 
-Operation ID: `validateProfileProvisioning`. Status: **proposed**.
+Operation ID: `validateProfileProvisioning`.
 
-**Authorization:** `[{"workloadOAuth": ["school.profile-provisioning"]}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadOAuth": ["school.profile-provisioning"]}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -268,11 +268,11 @@ Content-Type: application/json
 
 Validate explicit human approval bound to the exact command
 
-Validate explicit human approval bound to the exact command. Proposed interface; authoritative actor and school checks are mandatory.
+Validate explicit human approval bound to the exact command. The owning service enforces actor and school authorization.
 
-Operation ID: `validateExactProfileConfirmation`. Status: **proposed**.
+Operation ID: `validateExactProfileConfirmation`.
 
-**Authorization:** `[{"workloadOAuth": ["confirmations.validate"]}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadOAuth": ["confirmations.validate"]}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 

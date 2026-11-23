@@ -1,6 +1,6 @@
-# Vairas Chat Backend API (PROPOSED)
+# Vairas Chat Backend API
 
-Proposed interface; no provider implementation or deployment is claimed. Architecture Chat/BFF responsibilities and BA US-018/019/020. Identity delegation remains unimplemented.
+Architecture Chat/BFF responsibilities and BA US-018/019/020. Identity delegation remains unimplemented.
 
 [Canonical OpenAPI](../Api/chat.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -10,11 +10,11 @@ Proposed interface; no provider implementation or deployment is claimed. Archite
 
 Validate explicit human approval bound to the exact command
 
-Validate explicit human approval bound to the exact command. Proposed interface; authoritative actor and school checks are mandatory.
+Validate explicit human approval bound to the exact command. The owning service enforces actor and school authorization.
 
-Operation ID: `validateExactProfileConfirmation`. Status: **proposed**.
+Operation ID: `validateExactProfileConfirmation`.
 
-**Authorization:** `[{"workloadOAuth": ["confirmations.validate"]}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadOAuth": ["confirmations.validate"]}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 **Sample request**
 
@@ -112,9 +112,9 @@ Create an authenticated user-owned conversation
 
 Create an authenticated user-owned conversation. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `createChatSession`. Status: **proposed**.
+Operation ID: `createChatSession`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -239,9 +239,9 @@ Invoke the assistant within verified user and selected school scope
 
 Invoke the assistant within verified user and selected school scope. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `sendChatMessage`. Status: **proposed**.
+Operation ID: `sendChatMessage`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -382,9 +382,9 @@ Record authenticated human approval for exact server-stored preview arguments
 
 Record authenticated human approval for exact server-stored preview arguments. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `recordHumanApproval`. Status: **proposed**.
+Operation ID: `recordHumanApproval`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -529,9 +529,9 @@ Read restricted MCP write-attempt evidence without raw conversation or secrets
 
 Read restricted MCP write-attempt evidence without raw conversation or secrets. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getAssistantAudit`. Status: **proposed**.
+Operation ID: `getAssistantAudit`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|

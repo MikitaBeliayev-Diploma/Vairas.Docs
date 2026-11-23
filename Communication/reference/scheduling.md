@@ -1,6 +1,6 @@
-# Vairas — Scheduling API (PROPOSED)
+# Vairas — Scheduling API
 
-Proposed OpenAPI contract; not evidence of implemented endpoints. Tenant/resource authorization is mandatory inside the owning service.
+HTTP API contract. Tenant/resource authorization is mandatory inside the owning service.
 
 [Canonical OpenAPI](../Api/scheduling.openapi.yaml) | [Security](../guides/security.md) | [Errors](../guides/errors-and-reliability.md)
 
@@ -12,9 +12,9 @@ Atomically reserve student, instructor and vehicle for one timeslot
 
  Unknown reservation outcome is ReconciliationPending; retain the protective reservation and reconcile by operation identity. AC-099 privacy/legal clearance and trusted global-person binding are required before real-data availability checks.
 
-Operation ID: `createPracticalLesson`. Status: **proposed**.
+Operation ID: `createPracticalLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -185,11 +185,11 @@ Content-Type: application/json
 
 Get authorized lesson by ID
 
-Get authorized lesson by ID. Proposed interface; authoritative actor and school checks are mandatory.
+Get authorized lesson by ID. The owning service enforces actor and school authorization.
 
-Operation ID: `getPracticalLesson`. Status: **proposed**.
+Operation ID: `getPracticalLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -319,9 +319,9 @@ Mark scheduled lesson complete and store LessonCompleted Outbox event
 
 Assigned teacher completes a Scheduled practical lesson with verified actualStart/actualEnd and expectedVersion. Enforce increasing, non-future actual time, exact school/lesson authority and CAS. Atomically append OLD state including actuals, persist Completed and a new revision, and enqueue LessonCompleted in an Outbox. Exact Idempotency-Key retries return the prior outcome; different payload or stale revision returns 409. Completion alone never credits minutes. G-01 storage is included in the local design; provider is not implemented.
 
-Operation ID: `completePracticalLesson`. Status: **proposed-provider-design-amended-G-01**.
+Operation ID: `completePracticalLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -468,9 +468,9 @@ Save an incomplete editable Draft Input Set
 
 Save an incomplete editable Draft Input Set. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `createSchedulingDraft`. Status: **proposed**.
+Operation ID: `createSchedulingDraft`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -613,9 +613,9 @@ Read an authorized draft or frozen request
 
 Read an authorized draft or frozen request. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getSchedulingRequest`. Status: **proposed**.
+Operation ID: `getSchedulingRequest`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -743,9 +743,9 @@ Replace draft inputs as a new draft revision
 
 Replace draft inputs as a new draft revision. Access is checked by the owning service for the authenticated actor and exact school/enrollment. expectedRevision is mandatory for a revision; submitted snapshots cannot be edited. Copy into a new draft instead.
 
-Operation ID: `reviseSchedulingDraft`. Status: **proposed**.
+Operation ID: `reviseSchedulingDraft`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -881,9 +881,9 @@ Validate complete inputs and freeze an immutable request revision
 
 Validate complete inputs and freeze an immutable request revision. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `submitSchedulingRequest`. Status: **proposed**.
+Operation ID: `submitSchedulingRequest`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1024,9 +1024,9 @@ Generate an unconfirmed proposal or explain safe infeasibility
 
 Generate an unconfirmed proposal or explain safe infeasibility. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `generateScheduleProposal`. Status: **proposed**.
+Operation ID: `generateScheduleProposal`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1189,9 +1189,9 @@ Revalidate exact proposal and atomically commit reservations
 
 Revalidate exact proposal and atomically commit reservations. Access is checked by the owning service for the authenticated actor and exact school/enrollment. Unknown reservation outcome is ReconciliationPending; retain the protective reservation and reconcile by operation identity. AC-099 privacy/legal clearance and trusted global-person binding are required before real-data availability checks.
 
-Operation ID: `confirmScheduleProposal`. Status: **proposed**.
+Operation ID: `confirmScheduleProposal`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1346,9 +1346,9 @@ Reconcile a timed-out command by its stable identity
 
 Reconcile a timed-out command by its stable identity. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getSchedulingOperation`. Status: **proposed**.
+Operation ID: `getSchedulingOperation`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1476,9 +1476,9 @@ Move an authorized lesson with history and global conflict checks
 
 Move an authorized lesson with history and global conflict checks. Access is checked by the owning service for the authenticated actor and exact school/enrollment. Unknown reservation outcome is ReconciliationPending; retain the protective reservation and reconcile by operation identity. AC-099 privacy/legal clearance and trusted global-person binding are required before real-data availability checks.
 
-Operation ID: `reschedulePracticalLesson`. Status: **proposed**.
+Operation ID: `reschedulePracticalLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1641,9 +1641,9 @@ Cancel a lesson and release its reservations
 
 Cancel a lesson and release its reservations. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `cancelPracticalLesson`. Status: **proposed**.
+Operation ID: `cancelPracticalLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1788,9 +1788,9 @@ Reserve a theory lesson and frozen group roster
 
 Reserve a theory lesson and frozen group roster. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `createTheoryLesson`. Status: **proposed**.
+Operation ID: `createTheoryLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -1942,9 +1942,9 @@ List only the authenticated student or assigned instructor lessons
 
 List only the authenticated student or assigned instructor lessons. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `getMyLessons`. Status: **proposed**.
+Operation ID: `getMyLessons`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2076,9 +2076,9 @@ Find authorized slots without exposing foreign tenant reservations
 
 Find authorized slots without exposing foreign tenant reservations. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `findAvailableLessons`. Status: **proposed**.
+Operation ID: `findAvailableLessons`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2214,9 +2214,9 @@ Create an audited school restriction that cannot weaken verified law
 
 Create an audited school restriction that cannot weaken verified law. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `createSchoolRuleVersion`. Status: **proposed**.
+Operation ID: `createSchoolRuleVersion`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2370,9 +2370,9 @@ Schedule an additional or repeated assessment after authoritative readiness chec
 
 Schedule an additional or repeated assessment after authoritative readiness checks. Access is checked by the owning service for the authenticated actor and exact school/enrollment.
 
-Operation ID: `scheduleAssessmentAppointment`. Status: **proposed**.
+Operation ID: `scheduleAssessmentAppointment`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2525,9 +2525,9 @@ Read authoritative physical lifecycle and actual interval for Learning Tracking
 
 G-01 storage/lifecycle amendment is included in the local Scheduling design. Return one consistent authoritative lesson revision and its physical interval and identities. No provider is implemented yet. Completed-and-valid requires verified increasing actual bounds; legacy missing actuals return sourceValid=false and both actual fields null. Planned time cannot substitute. Learning binds the verified current lessonRevision to an immutable snapshot; source corrections require new fact versions and confirmations.
 
-Operation ID: `getLessonTrainingSource`. Status: **proposed-provider-design-amended-G-01**.
+Operation ID: `getLessonTrainingSource`.
 
-**Authorization:** `[{"workloadBearer": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"workloadBearer": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2664,9 +2664,9 @@ Mark scheduled lesson complete and store LessonCompleted Outbox event
 
 Assigned teacher completes a Scheduled theory lesson with verified actualStart/actualEnd and expectedVersion. Enforce increasing, non-future actual time, exact school/lesson authority and CAS. Atomically append OLD state including actuals, persist Completed and a new revision, and enqueue LessonCompleted in an Outbox. Exact Idempotency-Key retries return the prior outcome; different payload or stale revision returns 409. Completion alone never credits minutes. G-01 storage is included in the local design; provider is not implemented. Preserve the verified historical group membership revision; this command does not record attendance.
 
-Operation ID: `completeTheoryLesson`. Status: **proposed-provider-design-amended-G-01**.
+Operation ID: `completeTheoryLesson`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
@@ -2813,9 +2813,9 @@ Correct a completed lesson physical interval with an audited new revision
 
 Authorized assigned teacher or explicitly authorized correcting actor updates a Completed practical/theory interval with expectedVersion and a required correction reason. Validate scope, increasing non-future interval and exact Idempotency-Key binding. Atomically retain OLD state, update actuals and revision, and enqueue a new-revision LessonCompleted reconciliation signal through Outbox. Preserve planned interval. Existing Learning facts and confirmations are not transferred: reconcile source, block old credit, create new fact versions and obtain fresh required confirmations. Legacy Completed rows without actuals can be repaired only from trusted evidence; no planned-time backfill.
 
-Operation ID: `correctLessonActualInterval`. Status: **proposed-provider-design-amended-G-01**.
+Operation ID: `correctLessonActualInterval`.
 
-**Authorization:** `[{"bearerAuth": []}]`. An empty list is anonymous at the application layer. An empty object is the anonymous alternative; any conditional authentication requirement is stated above. Infrastructure ingress restrictions still apply.
+**Authorization:** `[{"bearerAuth": []}]`. Only an empty top-level `security: []` or an empty requirement object `{}` permits anonymous access. Empty arrays after scheme names do not disable authentication. Schemes within one requirement object are required together; separate objects are alternatives. See the security guide for conditional checks and ingress restrictions.
 
 | Parameter | Location | Required | Example |
 |---|---|---|---|
