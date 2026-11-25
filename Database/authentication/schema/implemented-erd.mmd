@@ -1,0 +1,113 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_account_challenge {
+    uuid challenge_id
+    uuid identity_id
+    varchar purpose
+    varchar login_email
+    int8 credential_revision
+    varchar secret_digest
+    timestamptz created_at
+    timestamptz expires_at
+    timestamptz consumed_at
+    timestamptz invalidated_at
+  }
+  public_auth_operation {
+    uuid operation_id
+    uuid identity_id
+    uuid source_session_id
+    uuid target_session_id
+    varchar fingerprint
+    timestamptz recorded_at
+    int4 outcome_status
+  }
+  public_auth_session {
+    uuid session_id
+    uuid identity_id
+    varchar auth_method
+    timestamptz created_at
+    timestamptz expires_at
+    timestamptz revoked_at
+    varchar revocation_reason
+  }
+  public_challenge_delivery {
+    uuid delivery_id
+    uuid challenge_id
+    text protected_payload
+    varchar status
+    int4 attempts
+    timestamptz created_at
+    timestamptz expires_at
+    timestamptz next_attempt_at
+    uuid lease_id
+    timestamptz leased_until
+    varchar last_error_code
+  }
+  public_external_identity {
+    uuid external_identity_id
+    uuid identity_id
+    varchar issuer
+    varchar subject
+    timestamptz linked_at
+  }
+  public_identity {
+    uuid identity_id
+    varchar login_email
+    timestamptz email_verified_at
+    varchar security_state
+    int8 credential_revision
+    timestamptz created_at
+  }
+  public_oidc_request {
+    uuid request_id
+    varchar purpose
+    varchar issuer
+    varchar state_digest
+    varchar browser_digest
+    varchar nonce_digest
+    text pkce_verifier_ciphertext
+    varchar redirect_uri
+    uuid link_identity_id
+    uuid link_session_id
+    timestamptz created_at
+    timestamptz expires_at
+    timestamptz consumed_at
+  }
+  public_password_credential {
+    uuid identity_id
+    text password_hash
+    timestamptz changed_at
+  }
+  public_refresh_token {
+    uuid refresh_token_id
+    uuid session_id
+    uuid parent_token_id
+    varchar secret_digest
+    timestamptz created_at
+    timestamptz expires_at
+    timestamptz consumed_at
+    timestamptz revoked_at
+  }
+  public_security_event {
+    uuid event_id
+    uuid identity_id
+    uuid session_id
+    varchar event_type
+    varchar outcome_code
+    uuid correlation_id
+    timestamptz occurred_at
+  }
+  public_identity ||--o{ public_external_identity : "external_identity_identity_id_fkey"
+  public_identity ||--o{ public_auth_session : "auth_session_identity_id_fkey"
+  public_identity ||--o{ public_password_credential : "password_credential_identity_id_fkey"
+  public_refresh_token o|--o{ public_refresh_token : "refresh_token_parent_token_id_session_id_fkey"
+  public_auth_session ||--o{ public_refresh_token : "refresh_token_session_id_fkey"
+  public_identity ||--o{ public_account_challenge : "account_challenge_identity_id_fkey"
+  public_auth_session o|--o{ public_oidc_request : "oidc_request_link_session_id_link_identity_id_fkey"
+  public_auth_session o|--o{ public_security_event : "security_event_session_id_identity_id_fkey"
+  public_identity o|--o{ public_security_event : "security_event_identity_id_fkey"
+  public_auth_session ||--o{ public_auth_operation : "auth_operation_source_session_id_identity_id_fkey"
+  public_account_challenge ||--o{ public_challenge_delivery : "challenge_delivery_challenge_id_fkey"

@@ -1,3 +1,5 @@
+> This diagram shows the 17 business tables with G-01. Six reliability tables are listed in the [implementation extension](../docs/implementation.md) and combined [DBML](schema.dbml).
+
 # Scheduling Database Schema
 
 ```mermaid

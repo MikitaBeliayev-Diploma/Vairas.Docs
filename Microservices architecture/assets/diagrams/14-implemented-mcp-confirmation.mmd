@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor Human
+  participant Web
+  participant Chat
+  participant MCP
+  participant Owner as Scheduling
+  Human->>Web: Request lesson action
+  Web->>Chat: Scoped message
+  Chat->>MCP: Delegated preview arguments
+  MCP->>Owner: Authorized preview
+  Owner-->>Web: Advisory preview, no business write
+  Human->>Web: Review exact details and explicitly confirm
+  Web->>Chat: Exact preview/fingerprint/operation consent
+  Chat->>Chat: Expiry, session, chain, integrity and replay checks
+  Chat->>MCP: Confirmed action delegation
+  MCP->>Owner: Exact confirmed action
+  Owner->>Owner: Current rules/resources and atomic reservations
+  Owner-->>Chat: Committed / rejected / reconciliation pending
+  Chat-->>Web: Authoritative outcome

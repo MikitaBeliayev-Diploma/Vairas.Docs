@@ -1,0 +1,20 @@
+flowchart LR
+  User[Administrator / Instructor / Student] --> Web[Angular 21]
+  Web -->|HTTPS JSON / JWT| Gateway[API Gateway :7000]
+  subgraph Services[Authenticated service boundary]
+    Gateway --> Auth[Authentication :7100]
+    Gateway --> Profiles[User Management :7001]
+    Gateway --> School[School Management :7200]
+    Gateway --> Scheduling[Scheduling :7300]
+    Gateway --> Vehicle[Vehicle Management :7400]
+    Gateway --> Learning[Learning Tracking :7500]
+    Gateway --> Notifications[Notifications :7600]
+    Gateway --> Documents[Document Management :7700]
+    Gateway --> Chat[Chat Backend :7800]
+    Chat -->|Delegated MCP / HTTPS| MCP[MCP Server :7900]
+    MCP -->|Delegated owner API / HTTPS| Gateway
+  end
+  Chat -->|Model SDK| Model[Configured model / local deterministic double]
+  Documents --> Blob[Private Blob / Azurite]
+  Documents --> Scan[ClamAV]
+  Notifications --> Mail[Gmail / local deterministic double]

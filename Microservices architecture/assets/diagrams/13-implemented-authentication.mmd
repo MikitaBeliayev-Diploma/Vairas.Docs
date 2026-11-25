@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor User
+  participant Web as Angular SessionStore
+  participant Gateway
+  participant Auth as Authentication
+  participant Owner
+  User->>Web: Sign in
+  Web->>Gateway: Credentials over HTTPS
+  Gateway->>Auth: Login
+  Auth-->>Web: Access + rotating refresh tokens
+  Web->>Gateway: Scoped API request + access token
+  Gateway->>Owner: Public route
+  Owner->>Auth: Current identity/session validation
+  Owner->>Owner: Current school/enrollment/resource authorization
+  Owner-->>Web: Minimized authorized response
+  Web->>Gateway: Refresh expired access
+  Gateway->>Auth: Rotate exact refresh token
+  Auth->>Auth: Atomic consume predecessor / create successor
+  Auth-->>Web: New token pair or safe rejection

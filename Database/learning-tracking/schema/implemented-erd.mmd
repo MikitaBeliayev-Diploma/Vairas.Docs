@@ -1,0 +1,510 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_admission_requirement {
+    uuid id
+    uuid school_id
+    uuid definition_version_id
+    uuid program_version_id
+    varchar code
+    lt_requirement_kind kind
+    int4 minimum_minutes
+    uuid prerequisite_definition_version_id
+    int4 minimum_mark
+  }
+  public_assessment {
+    uuid id
+    uuid school_id
+    uuid enrollment_id
+    uuid program_version_id
+    uuid definition_version_id
+    int4 attempt_number
+    uuid appointment_id
+    int8 revision
+  }
+  public_assessment_definition {
+    uuid id
+    uuid school_id
+    uuid program_id
+    varchar code
+  }
+  public_assessment_definition_version {
+    uuid id
+    uuid school_id
+    uuid definition_id
+    uuid program_id
+    uuid program_version_id
+    varchar name
+    lt_training_kind training_kind
+    lt_assessment_stage stage
+    int4 minimum_mark
+    int4 maximum_mark
+    int4 passing_mark
+    bool required_for_completion
+  }
+  public_assessment_readiness {
+    uuid id
+    uuid school_id
+    uuid enrollment_id
+    uuid program_version_id
+    uuid definition_version_id
+    uuid current_evaluation_id
+    uuid current_decision_id
+    int8 revision
+  }
+  public_assessment_result_version {
+    uuid id
+    uuid school_id
+    uuid assessment_id
+    uuid enrollment_id
+    uuid definition_version_id
+    int4 version
+    uuid command_id
+    lt_result_status status
+    uuid assessor_id
+    timestamptz assessed_at
+    uuid recorded_by
+    timestamptz recorded_at
+    int4 mark
+    lt_outcome outcome
+    uuid readiness_id
+    uuid readiness_decision_id
+    text comment
+    text correction_reason
+    timestamptz reviewed_invalidation_at
+  }
+  public_assessment_topic {
+    uuid id
+    uuid school_id
+    uuid definition_version_id
+    uuid program_version_id
+    uuid topic_id
+  }
+  public_assessment_topic_result {
+    uuid id
+    uuid school_id
+    uuid result_version_id
+    uuid definition_version_id
+    uuid assessment_topic_id
+    int4 mark
+    text comment
+  }
+  public_document_release_decision {
+    uuid id
+    uuid school_id
+    uuid enrollment_id
+    uuid actor_id
+    text fingerprint
+    text status
+    int8 evaluated_revision
+    timestamptz decided_at
+    text reason
+  }
+  public_enrollment_source_state {
+    uuid id
+    uuid school_id
+    int8 revision
+    text status
+    timestamptz verified_at
+  }
+  public_inbox_message {
+    uuid id
+    uuid school_id
+    text producer
+    text event_type
+    uuid aggregate_id
+    int8 aggregate_version
+    text fingerprint
+    timestamptz processed_at
+  }
+  public_learning_audit_event {
+    uuid id
+    uuid school_id
+    uuid actor_id
+    timestamptz occurred_at
+    lt_channel channel
+    varchar action
+    varchar target_type
+    uuid target_id
+    int8 target_version
+    varchar outcome
+    uuid correlation_id
+    uuid command_id
+    text reason
+    uuid source_snapshot_id
+    int8 dependency_revision
+  }
+  public_learning_operation {
+    uuid id
+    uuid school_id
+    uuid actor_id
+    text fingerprint
+    text command
+    text result_json
+    uuid result_id
+    timestamptz applied_at
+  }
+  public_lesson_planning_policy {
+    uuid id
+    uuid school_id
+    uuid program_version_id
+    lt_training_kind kind
+    int4 lesson_minutes
+    bool allow_short_final_lesson
+    int4 minimum_final_lesson_minutes
+  }
+  public_lesson_source_snapshot {
+    uuid id
+    uuid school_id
+    uuid lesson_id
+    int4 lesson_revision
+    lt_training_kind kind
+    uuid instructor_id
+    uuid enrollment_id
+    uuid student_id
+    uuid vehicle_id
+    uuid group_id
+    int8 membership_revision
+    timestamptz actual_start
+    timestamptz actual_end
+    bool physically_completed
+    bool source_valid
+    timestamptz captured_at
+    uuid source_event_id
+  }
+  public_lesson_source_state {
+    uuid id
+    uuid school_id
+    uuid lesson_id
+    uuid current_snapshot_id
+    lt_freshness freshness
+    timestamptz last_verified_at
+    text reason
+  }
+  public_outbox_message {
+    uuid id
+    uuid school_id
+    uuid aggregate_id
+    int8 aggregate_version
+    text event_type
+    text payload
+    text correlation_id
+    timestamptz occurred_at
+    timestamptz sent_at
+    uuid lease_id
+    timestamptz lease_until
+    int4 attempts
+    timestamptz next_attempt_at
+  }
+  public_policy_attestation {
+    uuid id
+    uuid school_id
+    text checksum
+    timestamptz attested_at
+  }
+  public_practical_record_response {
+    uuid id
+    uuid school_id
+    uuid record_id
+    uuid record_version_id
+    int8 sequence
+    uuid actor_id
+    lt_response_role actor_role
+    lt_response_kind response
+    timestamptz responded_at
+    text reason
+    uuid command_id
+  }
+  public_practical_record_topic {
+    uuid id
+    uuid school_id
+    uuid record_version_id
+    uuid program_version_id
+    uuid topic_id
+  }
+  public_practical_record_version {
+    uuid id
+    uuid school_id
+    uuid record_id
+    uuid enrollment_id
+    uuid lesson_id
+    uuid program_version_id
+    int4 version
+    uuid source_snapshot_id
+    int4 training_minutes
+    text duration_explanation
+    numeric distance_km
+    lt_validation validation
+    text validation_reason
+    uuid created_by
+    timestamptz created_at
+    text correction_reason
+  }
+  public_practical_training_record {
+    uuid id
+    uuid school_id
+    uuid lesson_id
+    uuid enrollment_id
+    uuid current_version_id
+    int8 revision
+  }
+  public_program_rule_source {
+    uuid id
+    uuid school_id
+    uuid program_version_id
+    varchar rule_code
+    text source_uri
+    varchar source_edition
+    text applicability
+    uuid verified_by
+    timestamptz verified_at
+    date effective_from
+    date effective_to
+    varchar unit_description
+  }
+  public_readiness_decision {
+    uuid id
+    uuid school_id
+    uuid readiness_id
+    uuid evaluation_id
+    uuid actor_id
+    timestamptz decided_at
+    lt_decision decision
+    text reason
+    text authority_basis
+    uuid command_id
+    timestamptz invalidated_at
+    uuid invalidated_by
+    text invalidation_reason
+    int8 invalidation_dependency_revision
+    lt_invalidation_scope invalidation_scope
+    timestamptz invalidation_effective_at
+    uuid enrollment_id
+  }
+  public_readiness_evaluation {
+    uuid id
+    uuid school_id
+    uuid readiness_id
+    uuid enrollment_id
+    uuid definition_version_id
+    int8 dependency_revision
+    lt_formal_status formal_status
+    timestamptz evaluated_at
+    uuid evaluated_by
+    text explanation
+  }
+  public_readiness_evidence_basis {
+    uuid id
+    uuid school_id
+    uuid evaluation_id
+    uuid enrollment_id
+    uuid lesson_id
+    uuid practical_record_version_id
+    uuid theory_attendance_id
+    uuid result_version_id
+    int4 observed_minutes
+  }
+  public_readiness_requirement_result {
+    uuid id
+    uuid school_id
+    uuid evaluation_id
+    uuid definition_version_id
+    uuid requirement_id
+    lt_formal_status status
+    int4 observed_minutes
+    int4 observed_mark
+    text explanation
+  }
+  public_reporting_declaration {
+    uuid id
+    uuid school_id
+    uuid snapshot_id
+    uuid actor_id
+    timestamptz declared_at
+    text statement
+    uuid command_id
+  }
+  public_school_source_state {
+    uuid id
+    uuid school_id
+    int8 revision
+    timestamptz last_verified_at
+  }
+  public_student_training {
+    uuid id
+    uuid school_id
+    uuid student_id
+    varchar category_code
+    uuid program_version_id
+    uuid program_assigned_by
+    timestamptz program_assigned_at
+    int8 dependency_revision
+    timestamptz created_at
+  }
+  public_theory_attendance {
+    uuid id
+    uuid school_id
+    uuid record_version_id
+    uuid enrollment_id
+    uuid student_id
+    lt_attendance attendance
+  }
+  public_theory_record_version {
+    uuid id
+    uuid school_id
+    uuid record_id
+    uuid lesson_id
+    int4 version
+    uuid source_snapshot_id
+    int4 training_minutes
+    text duration_explanation
+    lt_validation validation
+    uuid created_by
+    timestamptz created_at
+    uuid confirmed_by
+    timestamptz confirmed_at
+    text correction_reason
+  }
+  public_theory_training_record {
+    uuid id
+    uuid school_id
+    uuid lesson_id
+    uuid current_version_id
+    int8 revision
+  }
+  public_training_evidence_check {
+    uuid id
+    uuid school_id
+    uuid snapshot_id
+    uuid enrollment_id
+    varchar check_code
+    lt_check_scope check_scope
+    uuid evidence_item_id
+    varchar field_code
+    lt_check_outcome outcome
+    text explanation
+  }
+  public_training_evidence_item {
+    uuid id
+    uuid school_id
+    uuid snapshot_id
+    uuid enrollment_id
+    uuid lesson_id
+    uuid practical_record_version_id
+    uuid theory_attendance_id
+    uuid result_version_id
+    uuid readiness_decision_id
+    int8 record_response_sequence
+    int4 credited_minutes_at_snapshot
+    varchar observed_state
+    text explanation
+  }
+  public_training_evidence_snapshot {
+    uuid id
+    uuid school_id
+    uuid enrollment_id
+    uuid program_version_id
+    lt_evidence_kind kind
+    lt_evidence_status status
+    uuid checklist_version_id
+    int8 dependency_revision
+    uuid prepared_by
+    timestamptz prepared_at
+    timestamptz source_verified_at
+  }
+  public_training_program {
+    uuid id
+    uuid school_id
+    varchar category_code
+    varchar name
+    timestamptz created_at
+    int8 revision
+  }
+  public_training_program_version {
+    uuid id
+    uuid school_id
+    uuid program_id
+    int4 version
+    lt_program_status status
+    varchar pathway_code
+    int4 required_theory_minutes
+    int4 required_practical_minutes
+    int4 theory_minutes_per_unit
+    int4 practical_minutes_per_unit
+    date effective_from
+    date effective_to
+    bool legal_basis_verified
+    uuid created_by
+    timestamptz created_at
+    uuid published_by
+    timestamptz published_at
+    timestamptz retired_at
+    uuid journal_checklist_version_id
+  }
+  public_training_topic {
+    uuid id
+    uuid school_id
+    uuid program_version_id
+    varchar topic_key
+    varchar name
+    text description
+  }
+  public_training_topic ||--o{ public_assessment_topic : "assessment_topic_topic_id_school_id_program_version_id_fkey"
+  public_assessment_definition_version ||--o{ public_admission_requirement : "admission_requirement_definition_version_id_school_id_prog_fkey"
+  public_assessment_definition_version o|--o{ public_admission_requirement : "admission_requirement_prerequisite_definition_version_id_s_fkey"
+  public_training_program_version o|--o{ public_student_training : "student_training_program_version_id_school_id_fkey"
+  public_lesson_source_snapshot ||--o{ public_lesson_source_state : "lesson_source_state_current_snapshot_id_school_id_lesson_i_fkey"
+  public_training_program ||--o{ public_training_program_version : "training_program_version_program_id_school_id_fkey"
+  public_training_program_version ||--o{ public_program_rule_source : "program_rule_source_program_version_id_school_id_fkey"
+  public_training_program_version ||--o{ public_training_topic : "training_topic_program_version_id_school_id_fkey"
+  public_training_program ||--o{ public_assessment_definition : "assessment_definition_program_id_school_id_fkey"
+  public_assessment_definition ||--o{ public_assessment_definition_version : "assessment_definition_version_definition_id_school_id_prog_fkey"
+  public_training_program_version ||--o{ public_assessment_definition_version : "assessment_definition_version_program_version_id_school_id_fkey"
+  public_assessment_definition_version ||--o{ public_assessment_topic : "assessment_topic_definition_version_id_school_id_program_v_fkey"
+  public_student_training ||--o{ public_practical_training_record : "practical_training_record_enrollment_id_school_id_fkey"
+  public_practical_training_record ||--o{ public_practical_record_version : "practical_record_version_record_id_school_id_enrollment_id_fkey"
+  public_student_training ||--o{ public_practical_record_version : "practical_record_version_enrollment_id_school_id_program_v_fkey"
+  public_lesson_source_snapshot ||--o{ public_practical_record_version : "practical_record_version_source_snapshot_id_school_id_less_fkey"
+  public_practical_record_version o|--o{ public_practical_training_record : "practical_training_record_current_version_id_school_id_id_fkey"
+  public_practical_record_version ||--o{ public_practical_record_topic : "practical_record_topic_record_version_id_school_id_program_fkey"
+  public_training_topic ||--o{ public_practical_record_topic : "practical_record_topic_topic_id_school_id_program_version__fkey"
+  public_practical_record_version ||--o{ public_practical_record_response : "practical_record_response_record_version_id_school_id_reco_fkey"
+  public_theory_training_record ||--o{ public_theory_record_version : "theory_record_version_record_id_school_id_lesson_id_fkey"
+  public_lesson_source_snapshot ||--o{ public_theory_record_version : "theory_record_version_source_snapshot_id_school_id_lesson__fkey"
+  public_theory_record_version o|--o{ public_theory_training_record : "theory_training_record_current_version_id_school_id_id_fkey"
+  public_theory_record_version ||--o{ public_theory_attendance : "theory_attendance_record_version_id_school_id_fkey"
+  public_student_training ||--o{ public_theory_attendance : "theory_attendance_enrollment_id_school_id_student_id_fkey"
+  public_student_training ||--o{ public_assessment_readiness : "assessment_readiness_enrollment_id_school_id_program_versi_fkey"
+  public_assessment_definition_version ||--o{ public_assessment_readiness : "assessment_readiness_definition_version_id_school_id_progr_fkey"
+  public_assessment_readiness ||--o{ public_readiness_evaluation : "readiness_evaluation_readiness_id_school_id_enrollment_id_fkey"
+  public_assessment_readiness ||--o{ public_readiness_evaluation : "readiness_evaluation_readiness_id_school_id_definition_ver_fkey"
+  public_readiness_evaluation o|--o{ public_assessment_readiness : "assessment_readiness_current_evaluation_id_school_id_id_fkey"
+  public_readiness_evaluation ||--o{ public_readiness_requirement_result : "readiness_requirement_result_evaluation_id_school_id_defin_fkey"
+  public_admission_requirement ||--o{ public_readiness_requirement_result : "readiness_requirement_result_requirement_id_school_id_defi_fkey"
+  public_readiness_evaluation ||--o{ public_readiness_evidence_basis : "readiness_evidence_basis_evaluation_id_school_id_enrollmen_fkey"
+  public_practical_record_version o|--o{ public_readiness_evidence_basis : "readiness_evidence_basis_practical_record_version_id_schoo_fkey"
+  public_theory_attendance o|--o{ public_readiness_evidence_basis : "readiness_evidence_basis_theory_attendance_id_school_id_en_fkey"
+  public_assessment_result_version o|--o{ public_readiness_evidence_basis : "readiness_evidence_basis_result_version_id_school_id_enrol_fkey"
+  public_readiness_evaluation ||--o{ public_readiness_decision : "readiness_decision_evaluation_id_school_id_readiness_id_fkey"
+  public_readiness_evaluation ||--o{ public_readiness_decision : "readiness_decision_evaluation_id_school_id_enrollment_id_fkey"
+  public_readiness_decision o|--o{ public_assessment_readiness : "assessment_readiness_current_decision_id_school_id_id_fkey"
+  public_student_training ||--o{ public_assessment : "assessment_enrollment_id_school_id_program_version_id_fkey"
+  public_assessment_definition_version ||--o{ public_assessment : "assessment_definition_version_id_school_id_program_version_fkey"
+  public_assessment ||--o{ public_assessment_result_version : "assessment_result_version_assessment_id_school_id_enrollme_fkey"
+  public_assessment_readiness o|--o{ public_assessment_result_version : "assessment_result_version_readiness_id_school_id_enrollmen_fkey"
+  public_readiness_decision o|--o{ public_assessment_result_version : "assessment_result_version_readiness_decision_id_school_id__fkey"
+  public_assessment_result_version ||--o{ public_assessment_topic_result : "assessment_topic_result_result_version_id_school_id_defini_fkey"
+  public_assessment_topic ||--o{ public_assessment_topic_result : "assessment_topic_result_assessment_topic_id_school_id_defi_fkey"
+  public_student_training ||--o{ public_training_evidence_snapshot : "training_evidence_snapshot_enrollment_id_school_id_program_fkey"
+  public_training_evidence_snapshot ||--o{ public_training_evidence_item : "training_evidence_item_snapshot_id_school_id_enrollment_id_fkey"
+  public_practical_record_version o|--o{ public_training_evidence_item : "training_evidence_item_practical_record_version_id_school__fkey"
+  public_assessment_result_version o|--o{ public_training_evidence_item : "training_evidence_item_result_version_id_school_id_enrollm_fkey"
+  public_theory_attendance o|--o{ public_training_evidence_item : "training_evidence_item_theory_attendance_id_school_id_enro_fkey"
+  public_readiness_decision o|--o{ public_training_evidence_item : "training_evidence_item_readiness_decision_id_school_id_enr_fkey"
+  public_training_evidence_snapshot ||--o{ public_training_evidence_check : "training_evidence_check_snapshot_id_school_id_enrollment_i_fkey"
+  public_training_evidence_item o|--o{ public_training_evidence_check : "training_evidence_check_evidence_item_id_school_id_snapsho_fkey"
+  public_training_evidence_snapshot ||--o{ public_reporting_declaration : "reporting_declaration_snapshot_id_school_id_fkey"
+  public_lesson_source_snapshot o|--o{ public_learning_audit_event : "learning_audit_event_source_snapshot_id_school_id_fkey"
+  public_training_program_version ||--o{ public_lesson_planning_policy : "lesson_planning_policy_program_version_id_school_id_fkey"

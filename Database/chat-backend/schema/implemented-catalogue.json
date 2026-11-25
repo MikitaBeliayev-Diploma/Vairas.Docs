@@ -1,0 +1,1466 @@
+{
+  "database": "vairas_chat",
+  "owningContext": "chat-backend",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 2,
+      "column_name": "conversation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 3,
+      "column_name": "invocation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 4,
+      "column_name": "confirmed_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 5,
+      "column_name": "confirmed_digest",
+      "udt_name": "bpchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "action_confirmation",
+      "ordinal_position": 6,
+      "column_name": "confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 2,
+      "column_name": "provider",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 3,
+      "column_name": "model_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 160
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 4,
+      "column_name": "model_version",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 100
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 5,
+      "column_name": "deployment_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 160
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 6,
+      "column_name": "region",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 7,
+      "column_name": "endpoint_config_key",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 8,
+      "column_name": "credential_secret_ref",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 240
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 9,
+      "column_name": "configuration_version",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 10,
+      "column_name": "enabled",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "ai_model_deployment",
+      "ordinal_position": 11,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 2,
+      "column_name": "conversation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 3,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 4,
+      "column_name": "trigger_message_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 5,
+      "column_name": "response_message_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 6,
+      "column_name": "attempt_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 7,
+      "column_name": "model_deployment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 8,
+      "column_name": "prompt_version",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 100
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 9,
+      "column_name": "status",
+      "udt_name": "run_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 10,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 11,
+      "column_name": "input_tokens",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 12,
+      "column_name": "output_tokens",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 13,
+      "column_name": "error_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 14,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 15,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 16,
+      "column_name": "finished_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 17,
+      "column_name": "execution_profile",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assistant_run",
+      "ordinal_position": 18,
+      "column_name": "deadline_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 2,
+      "column_name": "conversation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 3,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 4,
+      "column_name": "sequence_no",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 5,
+      "column_name": "role",
+      "udt_name": "message_role",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 6,
+      "column_name": "content",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 7,
+      "column_name": "client_request_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "chat_message",
+      "ordinal_position": 8,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 2,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 3,
+      "column_name": "owner_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 4,
+      "column_name": "title",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 5,
+      "column_name": "status",
+      "udt_name": "conversation_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 6,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 7,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 8,
+      "column_name": "archived_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 9,
+      "column_name": "creation_request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 10,
+      "column_name": "access_stamp",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 11,
+      "column_name": "archive_expected_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 12,
+      "column_name": "archive_request_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "conversation",
+      "ordinal_position": 13,
+      "column_name": "execution_profile",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'PreviewOnlyV1'::character varying",
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 2,
+      "column_name": "conversation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 3,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 4,
+      "column_name": "run_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 5,
+      "column_name": "sequence_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 6,
+      "column_name": "tool_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 120
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 7,
+      "column_name": "tool_contract_version",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 8,
+      "column_name": "effect",
+      "udt_name": "tool_effect",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 9,
+      "column_name": "target_context",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 10,
+      "column_name": "canonical_arguments",
+      "udt_name": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 11,
+      "column_name": "preview",
+      "udt_name": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 12,
+      "column_name": "expected_source_revisions",
+      "udt_name": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 13,
+      "column_name": "action_digest",
+      "udt_name": "bpchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 14,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 15,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 16,
+      "column_name": "status",
+      "udt_name": "invocation_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 17,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 18,
+      "column_name": "result_reference",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 240
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 19,
+      "column_name": "result_summary",
+      "udt_name": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 20,
+      "column_name": "error_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 21,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 22,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 23,
+      "column_name": "finished_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "tool_invocation",
+      "ordinal_position": 24,
+      "column_name": "recovery_after",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "conname": "action_confirmation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, conversation_id, invocation_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "conname": "action_confirmation_school_id_conversation_id_invocation_i_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id, invocation_id) REFERENCES tool_invocation(school_id, conversation_id, id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "conname": "ai_confirmation_atomic",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "conname": "confirmation_digest_shape",
+      "contype": "c",
+      "definition": "CHECK ((confirmed_digest ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "conname": "confirmation_finite_time",
+      "contype": "c",
+      "definition": "CHECK (isfinite(confirmed_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_model_deployment",
+      "conname": "ai_model_deployment_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_model_deployment",
+      "conname": "deployment_finite_time",
+      "contype": "c",
+      "definition": "CHECK (isfinite(created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "ai_model_deployment",
+      "conname": "deployment_version_positive",
+      "contype": "c",
+      "definition": "CHECK ((configuration_version > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_check",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(deadline_at) AND (deadline_at > created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_execution_profile_check",
+      "contype": "c",
+      "definition": "CHECK (((execution_profile)::text = ANY ((ARRAY['PreviewOnlyV1'::character varying, 'ConfirmedLessonActionsV1'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_model_deployment_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (model_deployment_id) REFERENCES ai_model_deployment(id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, conversation_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_school_id_conversation_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id) REFERENCES conversation(school_id, id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_school_id_conversation_id_response_message_i_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id, response_message_id) REFERENCES chat_message(school_id, conversation_id, id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "assistant_run_school_id_conversation_id_trigger_message_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id, trigger_message_id) REFERENCES chat_message(school_id, conversation_id, id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_counters_positive",
+      "contype": "c",
+      "definition": "CHECK (((attempt_no > 0) AND (revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_finished_shape",
+      "contype": "c",
+      "definition": "CHECK (((status = ANY (ARRAY['Completed'::run_status, 'Failed'::run_status, 'Cancelled'::run_status])) = (finished_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_finite_time",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(created_at) AND ((started_at IS NULL) OR isfinite(started_at)) AND ((finished_at IS NULL) OR isfinite(finished_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_response_shape",
+      "contype": "c",
+      "definition": "CHECK (((status = 'Completed'::run_status) = (response_message_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_time_order",
+      "contype": "c",
+      "definition": "CHECK ((((started_at IS NULL) OR (started_at >= created_at)) AND ((finished_at IS NULL) OR (finished_at >= COALESCE(started_at, created_at)))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "conname": "run_usage_nonnegative",
+      "contype": "c",
+      "definition": "CHECK ((((input_tokens IS NULL) OR (input_tokens >= 0)) AND ((output_tokens IS NULL) OR (output_tokens >= 0))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "conname": "chat_message_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, conversation_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "conname": "chat_message_school_id_conversation_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id) REFERENCES conversation(school_id, id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "conname": "message_finite_time",
+      "contype": "c",
+      "definition": "CHECK (isfinite(created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "conname": "message_request_role",
+      "contype": "c",
+      "definition": "CHECK (((role = 'User'::message_role) = (client_request_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "conname": "message_sequence_positive",
+      "contype": "c",
+      "definition": "CHECK ((sequence_no > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_access_stamp_check",
+      "contype": "c",
+      "definition": "CHECK (((access_stamp)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_archive_request_ck",
+      "contype": "c",
+      "definition": "CHECK ((((archive_request_id IS NULL) AND (archive_expected_revision IS NULL)) OR ((archive_request_id IS NOT NULL) AND (archive_expected_revision IS NOT NULL) AND (archive_expected_revision > 0) AND (status = 'Archived'::conversation_status))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_archive_shape",
+      "contype": "c",
+      "definition": "CHECK (((status = 'Archived'::conversation_status) = (archived_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_execution_profile_check",
+      "contype": "c",
+      "definition": "CHECK (((execution_profile)::text = ANY ((ARRAY['PreviewOnlyV1'::character varying, 'ConfirmedLessonActionsV1'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_finite_time",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(created_at) AND ((archived_at IS NULL) OR isfinite(archived_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_revision_positive",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "conname": "conversation_time_order",
+      "contype": "c",
+      "definition": "CHECK (((archived_at IS NULL) OR (archived_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_counters_positive",
+      "contype": "c",
+      "definition": "CHECK (((sequence_no > 0) AND (revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_effect_shape",
+      "contype": "c",
+      "definition": "CHECK ((((effect = 'Write'::tool_effect) AND (preview IS NOT NULL) AND (expected_source_revisions IS NOT NULL) AND (action_digest IS NOT NULL) AND (action_digest ~ '^[0-9a-f]{64}$'::text) AND (expires_at IS NOT NULL) AND (expires_at > created_at)) OR ((effect = 'Read'::tool_effect) AND (preview IS NULL) AND (action_digest IS NULL) AND (expires_at IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_effect_status",
+      "contype": "c",
+      "definition": "CHECK ((((effect = 'Read'::tool_effect) AND (status <> ALL (ARRAY['AwaitingConfirmation'::invocation_status, 'Confirmed'::invocation_status, 'Expired'::invocation_status]))) OR ((effect = 'Write'::tool_effect) AND (status <> 'Prepared'::invocation_status))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_finished_shape",
+      "contype": "c",
+      "definition": "CHECK (((status = ANY (ARRAY['Succeeded'::invocation_status, 'Rejected'::invocation_status, 'Failed'::invocation_status, 'Expired'::invocation_status, 'Cancelled'::invocation_status])) = (finished_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_finite_time",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(created_at) AND ((started_at IS NULL) OR isfinite(started_at)) AND ((finished_at IS NULL) OR isfinite(finished_at)) AND ((expires_at IS NULL) OR isfinite(expires_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "invocation_time_order",
+      "contype": "c",
+      "definition": "CHECK ((((started_at IS NULL) OR (started_at >= created_at)) AND ((finished_at IS NULL) OR (finished_at >= COALESCE(started_at, created_at)))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "tool_invocation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, conversation_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "conname": "tool_invocation_school_id_conversation_id_run_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, conversation_id, run_id) REFERENCES assistant_run(school_id, conversation_id, id) DEFERRABLE"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "action_confirmation",
+      "indexname": "action_confirmation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX action_confirmation_pkey ON public.action_confirmation USING btree (school_id, conversation_id, invocation_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "ai_model_deployment",
+      "indexname": "ai_model_deployment_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX ai_model_deployment_pkey ON public.ai_model_deployment USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assistant_run",
+      "indexname": "assistant_run_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX assistant_run_pkey ON public.assistant_run USING btree (school_id, conversation_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assistant_run",
+      "indexname": "assistant_run_school_id_conversation_id_response_message_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX assistant_run_school_id_conversation_id_response_message_id_idx ON public.assistant_run USING btree (school_id, conversation_id, response_message_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assistant_run",
+      "indexname": "assistant_run_school_id_conversation_id_trigger_message_id__idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX assistant_run_school_id_conversation_id_trigger_message_id__idx ON public.assistant_run USING btree (school_id, conversation_id, trigger_message_id, attempt_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assistant_run",
+      "indexname": "one_active_run",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX one_active_run ON public.assistant_run USING btree (school_id, conversation_id) WHERE (status = ANY (ARRAY['Queued'::run_status, 'Running'::run_status, 'AwaitingConfirmation'::run_status]))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_message",
+      "indexname": "chat_message_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX chat_message_pkey ON public.chat_message USING btree (school_id, conversation_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_message",
+      "indexname": "chat_message_school_id_conversation_id_client_request_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX chat_message_school_id_conversation_id_client_request_id_idx ON public.chat_message USING btree (school_id, conversation_id, client_request_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_message",
+      "indexname": "chat_message_school_id_conversation_id_sequence_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX chat_message_school_id_conversation_id_sequence_no_idx ON public.chat_message USING btree (school_id, conversation_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "conversation",
+      "indexname": "IX_conversation_owner_user_id_archive_request_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_conversation_owner_user_id_archive_request_id\" ON public.conversation USING btree (owner_user_id, archive_request_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "conversation",
+      "indexname": "conversation_creation_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX conversation_creation_key ON public.conversation USING btree (owner_user_id, creation_request_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "conversation",
+      "indexname": "conversation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX conversation_pkey ON public.conversation USING btree (school_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "conversation",
+      "indexname": "conversation_school_id_owner_user_id_created_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX conversation_school_id_owner_user_id_created_at_idx ON public.conversation USING btree (school_id, owner_user_id, created_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "invocation_public_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX invocation_public_id ON public.tool_invocation USING btree (school_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "one_active_preview",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX one_active_preview ON public.tool_invocation USING btree (school_id, conversation_id) WHERE ((effect = 'Write'::tool_effect) AND (status = ANY (ARRAY['AwaitingConfirmation'::invocation_status, 'Confirmed'::invocation_status])))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "pending_lesson_recovery",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX pending_lesson_recovery ON public.tool_invocation USING btree (recovery_after, started_at) WHERE ((effect = 'Write'::tool_effect) AND (status = ANY (ARRAY['Executing'::invocation_status, 'Unknown'::invocation_status])))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "tool_invocation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX tool_invocation_pkey ON public.tool_invocation USING btree (school_id, conversation_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "tool_invocation_school_id_conversation_id_run_id_sequence_n_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX tool_invocation_school_id_conversation_id_run_id_sequence_n_idx ON public.tool_invocation USING btree (school_id, conversation_id, run_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "tool_invocation_school_id_operation_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX tool_invocation_school_id_operation_id_idx ON public.tool_invocation USING btree (school_id, operation_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "indexname": "tool_invocation_status_created_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX tool_invocation_status_created_at_idx ON public.tool_invocation USING btree (status, created_at)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "conversation",
+      "policyname": "conversation_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((school_id = chat_scope_school()) AND (owner_user_id = chat_scope_user()))",
+      "with_check": "((school_id = chat_scope_school()) AND (owner_user_id = chat_scope_user()))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "chat_message",
+      "policyname": "private_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = chat_message.school_id) AND (c.id = chat_message.conversation_id)))))",
+      "with_check": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = chat_message.school_id) AND (c.id = chat_message.conversation_id)))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assistant_run",
+      "policyname": "private_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = assistant_run.school_id) AND (c.id = assistant_run.conversation_id)))))",
+      "with_check": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = assistant_run.school_id) AND (c.id = assistant_run.conversation_id)))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tool_invocation",
+      "policyname": "private_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = tool_invocation.school_id) AND (c.id = tool_invocation.conversation_id)))))",
+      "with_check": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = tool_invocation.school_id) AND (c.id = tool_invocation.conversation_id)))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "action_confirmation",
+      "policyname": "private_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = action_confirmation.school_id) AND (c.id = action_confirmation.conversation_id)))))",
+      "with_check": "((school_id = chat_scope_school()) AND (EXISTS ( SELECT 1\n   FROM conversation c\n  WHERE ((c.school_id = action_confirmation.school_id) AND (c.id = action_confirmation.conversation_id)))))"
+    }
+  ],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "ai_model_deployment",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "conversation",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "chat_message",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assistant_run",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "tool_invocation",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "action_confirmation",
+      "enabled": true,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "chat_message",
+      "parent_schema": "public",
+      "parent_table": "conversation",
+      "conname": "chat_message_school_id_conversation_id_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "assistant_run",
+      "parent_schema": "public",
+      "parent_table": "conversation",
+      "conname": "assistant_run_school_id_conversation_id_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "assistant_run",
+      "parent_schema": "public",
+      "parent_table": "chat_message",
+      "conname": "assistant_run_school_id_conversation_id_trigger_message_id_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id",
+        "trigger_message_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "assistant_run",
+      "parent_schema": "public",
+      "parent_table": "chat_message",
+      "conname": "assistant_run_school_id_conversation_id_response_message_i_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id",
+        "response_message_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "assistant_run",
+      "parent_schema": "public",
+      "parent_table": "ai_model_deployment",
+      "conname": "assistant_run_model_deployment_id_fkey",
+      "child_columns": [
+        "model_deployment_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "tool_invocation",
+      "parent_schema": "public",
+      "parent_table": "assistant_run",
+      "conname": "tool_invocation_school_id_conversation_id_run_id_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id",
+        "run_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "action_confirmation",
+      "parent_schema": "public",
+      "parent_table": "tool_invocation",
+      "conname": "action_confirmation_school_id_conversation_id_invocation_i_fkey",
+      "child_columns": [
+        "school_id",
+        "conversation_id",
+        "invocation_id"
+      ]
+    }
+  ]
+}

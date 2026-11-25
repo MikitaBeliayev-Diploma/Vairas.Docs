@@ -2,9 +2,8 @@ asyncapi: 3.0.0
 info:
   title: Vairas — Scheduling Integration Events
   version: 0.1.0
-  description: PROPOSED AsyncAPI 3.0.0 contract for Scheduling. Events are reliable at-least-once messages; see
-    README for exact publishing, ordering, privacy and recovery semantics. This is a proposed inter-service payload,
-    not a claim of implemented integration.
+  description: Implemented Scheduling event sender and UserDeactivated consumer. School and Vehicle eligibility
+    coordination uses synchronous owner APIs. Local broker verification is recorded separately from production deployment.
 defaultContentType: application/json
 channels:
   lessonCancelled:
@@ -35,69 +34,6 @@ channels:
     messages:
       LessonScheduled:
         $ref: '#/components/messages/LessonScheduled'
-  maintenanceCompleted:
-    address: vairas.vehicle.maintenance-completed.v1
-    title: MaintenanceCompleted v1
-    description: Logical integration event channel.
-    messages:
-      MaintenanceCompleted:
-        $ref: '#/components/messages/MaintenanceCompleted'
-  maintenanceStarted:
-    address: vairas.vehicle.maintenance-started.v1
-    title: MaintenanceStarted v1
-    description: Logical integration event channel.
-    messages:
-      MaintenanceStarted:
-        $ref: '#/components/messages/MaintenanceStarted'
-  schoolMembershipEnded:
-    address: vairas.school.membership-ended.v1
-    title: SchoolMembershipEnded v1
-    description: Logical integration event channel.
-    messages:
-      SchoolMembershipEnded:
-        $ref: '#/components/messages/SchoolMembershipEnded'
-  studentAssignedToGroup:
-    address: vairas.school.student-assigned-to-group.v1
-    title: StudentAssignedToGroup v1
-    description: Logical integration event channel.
-    messages:
-      StudentAssignedToGroup:
-        $ref: '#/components/messages/StudentAssignedToGroup'
-  studentEnrollmentCompleted:
-    address: vairas.school.enrollment-completed.v1
-    title: StudentEnrollmentCompleted v1
-    description: Logical integration event channel.
-    messages:
-      StudentEnrollmentCompleted:
-        $ref: '#/components/messages/StudentEnrollmentCompleted'
-  studentEnrollmentEnded:
-    address: vairas.school.enrollment-ended.v1
-    title: StudentEnrollmentEnded v1
-    description: Logical integration event channel.
-    messages:
-      StudentEnrollmentEnded:
-        $ref: '#/components/messages/StudentEnrollmentEnded'
-  studentEnrollmentStarted:
-    address: vairas.school.enrollment-started.v1
-    title: StudentEnrollmentStarted v1
-    description: Logical integration event channel.
-    messages:
-      StudentEnrollmentStarted:
-        $ref: '#/components/messages/StudentEnrollmentStarted'
-  studentRemovedFromGroup:
-    address: vairas.school.student-removed-from-group.v1
-    title: StudentRemovedFromGroup v1
-    description: Logical integration event channel.
-    messages:
-      StudentRemovedFromGroup:
-        $ref: '#/components/messages/StudentRemovedFromGroup'
-  teacherAssignedToGroup:
-    address: vairas.school.teacher-assigned-to-group.v1
-    title: TeacherAssignedToGroup v1
-    description: Logical integration event channel.
-    messages:
-      TeacherAssignedToGroup:
-        $ref: '#/components/messages/TeacherAssignedToGroup'
   userDeactivated:
     address: vairas.user.deactivated.v1
     title: UserDeactivated v1
@@ -105,20 +41,11 @@ channels:
     messages:
       UserDeactivated:
         $ref: '#/components/messages/UserDeactivated'
-  vehicleActivated:
-    address: vairas.vehicle.activated.v1
-    title: VehicleActivated v1
-    description: Logical integration event channel.
+  lessonParticipantsChanged:
+    address: vairas.scheduling.lesson-participants-changed.v1
     messages:
-      VehicleActivated:
-        $ref: '#/components/messages/VehicleActivated'
-  vehicleDeactivated:
-    address: vairas.vehicle.deactivated.v1
-    title: VehicleDeactivated v1
-    description: Logical integration event channel.
-    messages:
-      VehicleDeactivated:
-        $ref: '#/components/messages/VehicleDeactivated'
+      LessonParticipantsChanged:
+        $ref: '#/components/messages/LessonParticipantsChanged'
 operations:
   publishLessonCancelled:
     action: send
@@ -148,69 +75,6 @@ operations:
       $ref: '#/channels/lessonScheduled'
     messages:
     - $ref: '#/channels/lessonScheduled/messages/LessonScheduled'
-  consumeMaintenanceCompleted:
-    action: receive
-    title: Consume MaintenanceCompleted
-    channel:
-      $ref: '#/channels/maintenanceCompleted'
-    messages:
-    - $ref: '#/channels/maintenanceCompleted/messages/MaintenanceCompleted'
-  consumeMaintenanceStarted:
-    action: receive
-    title: Consume MaintenanceStarted
-    channel:
-      $ref: '#/channels/maintenanceStarted'
-    messages:
-    - $ref: '#/channels/maintenanceStarted/messages/MaintenanceStarted'
-  consumeSchoolMembershipEnded:
-    action: receive
-    title: Consume SchoolMembershipEnded
-    channel:
-      $ref: '#/channels/schoolMembershipEnded'
-    messages:
-    - $ref: '#/channels/schoolMembershipEnded/messages/SchoolMembershipEnded'
-  consumeStudentAssignedToGroup:
-    action: receive
-    title: Consume StudentAssignedToGroup
-    channel:
-      $ref: '#/channels/studentAssignedToGroup'
-    messages:
-    - $ref: '#/channels/studentAssignedToGroup/messages/StudentAssignedToGroup'
-  consumeStudentEnrollmentCompleted:
-    action: receive
-    title: Consume StudentEnrollmentCompleted
-    channel:
-      $ref: '#/channels/studentEnrollmentCompleted'
-    messages:
-    - $ref: '#/channels/studentEnrollmentCompleted/messages/StudentEnrollmentCompleted'
-  consumeStudentEnrollmentEnded:
-    action: receive
-    title: Consume StudentEnrollmentEnded
-    channel:
-      $ref: '#/channels/studentEnrollmentEnded'
-    messages:
-    - $ref: '#/channels/studentEnrollmentEnded/messages/StudentEnrollmentEnded'
-  consumeStudentEnrollmentStarted:
-    action: receive
-    title: Consume StudentEnrollmentStarted
-    channel:
-      $ref: '#/channels/studentEnrollmentStarted'
-    messages:
-    - $ref: '#/channels/studentEnrollmentStarted/messages/StudentEnrollmentStarted'
-  consumeStudentRemovedFromGroup:
-    action: receive
-    title: Consume StudentRemovedFromGroup
-    channel:
-      $ref: '#/channels/studentRemovedFromGroup'
-    messages:
-    - $ref: '#/channels/studentRemovedFromGroup/messages/StudentRemovedFromGroup'
-  consumeTeacherAssignedToGroup:
-    action: receive
-    title: Consume TeacherAssignedToGroup
-    channel:
-      $ref: '#/channels/teacherAssignedToGroup'
-    messages:
-    - $ref: '#/channels/teacherAssignedToGroup/messages/TeacherAssignedToGroup'
   consumeUserDeactivated:
     action: receive
     title: Consume UserDeactivated
@@ -218,20 +82,12 @@ operations:
       $ref: '#/channels/userDeactivated'
     messages:
     - $ref: '#/channels/userDeactivated/messages/UserDeactivated'
-  consumeVehicleActivated:
-    action: receive
-    title: Consume VehicleActivated
+  sendLessonParticipantsChanged:
+    action: send
     channel:
-      $ref: '#/channels/vehicleActivated'
+      $ref: '#/channels/lessonParticipantsChanged'
     messages:
-    - $ref: '#/channels/vehicleActivated/messages/VehicleActivated'
-  consumeVehicleDeactivated:
-    action: receive
-    title: Consume VehicleDeactivated
-    channel:
-      $ref: '#/channels/vehicleDeactivated'
-    messages:
-    - $ref: '#/channels/vehicleDeactivated/messages/VehicleDeactivated'
+    - $ref: '#/channels/lessonParticipantsChanged/messages/LessonParticipantsChanged'
 components:
   schemas:
     IntegrationHeaders:
@@ -321,7 +177,9 @@ components:
           - groupId
     LessonCompletedPayload:
       type: object
-      description: Scheduling completed lifecycle, also emitted at a new aggregateVersion after an actual-interval correction. Fetch current training-source for actual bounds and identity; planned startsAt/endsAt are not actuals. Never grants credit. Theory additionally requires verified attendance and confirmation.
+      description: Scheduling completed lifecycle, also emitted at a new aggregateVersion after an actual-interval
+        correction. Fetch current training-source for actual bounds and identity; planned startsAt/endsAt are not
+        actuals. Never grants credit. Theory additionally requires verified attendance and confirmation.
       additionalProperties: false
       required:
       - schoolId
@@ -704,6 +562,36 @@ components:
         reason:
           type: string
           minLength: 1
+    LessonParticipantsChangedPayload:
+      type: object
+      required:
+      - schoolId
+      - lessonId
+      - lessonKind
+      - teacherId
+      - groupId
+      - groupMembershipRevision
+      properties:
+        schoolId:
+          type: string
+          format: uuid
+        lessonId:
+          type: string
+          format: uuid
+        lessonKind:
+          type: string
+          enum:
+          - Theory
+        teacherId:
+          type: string
+          format: uuid
+        groupId:
+          type: string
+          format: uuid
+        groupMembershipRevision:
+          type: integer
+          minimum: 1
+      additionalProperties: false
   messages:
     LessonCancelled:
       name: LessonCancelled
@@ -1186,3 +1074,13 @@ components:
           effectiveAt: '2026-11-15T09:00:00Z'
           reason: Emergency breakdown
       x-contract-status: Base DDD event; integration payload proposed
+    LessonParticipantsChanged:
+      name: LessonParticipantsChanged
+      title: LessonParticipantsChanged v1
+      contentType: application/json
+      headers:
+        $ref: '#/components/schemas/IntegrationHeaders'
+      payload:
+        $ref: '#/components/schemas/LessonParticipantsChangedPayload'
+      correlationId:
+        location: $message.header#/correlationId

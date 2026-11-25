@@ -1,5 +1,11 @@
 # Database Schemas and Data
 
+## Observed implementation catalogue
+
+The 2026-11-25 local migrated PostgreSQL exports are stored per context as `schema/implemented-schema.sql`, `schema/implemented-catalogue.json` and `docs/implemented-data-dictionary.md`. They include actual columns, constraints, indexes, functions/triggers and RLS policy definitions, with no business rows. Reproduce from Backend using `py -3 local/tools/export_schema_evidence.py --container <synthetic-postgres-container>`. Migrations remain authoritative. Adopted design schemas below are preserved and may differ from implemented storage.
+
+Chat Backend has a ninth database: [implemented dictionary](chat-backend/docs/implemented-data-dictionary.md). Gateway and MCP Server are stateless and have no invented database. Authentication and User Management catalogue exports contain no RLS policies; their global identity/profile data is protected by role grants and server authorization. Tenant-owned business databases have the observed per-table policies recorded in their catalogues.
+
 Expert: Aleksei Khariukov, aleksei.khariukov@esdc.lt. The expert will send the table of available review slots.
 
 Each service directory contains its schema, data dictionary, normalization explanation, DDL, access-role definitions and synthetic demo seed.

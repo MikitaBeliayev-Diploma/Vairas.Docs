@@ -1,0 +1,890 @@
+{
+  "database": "vairas_user_management",
+  "owningContext": "user-management",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "administrator_profile",
+      "ordinal_position": 1,
+      "column_name": "administrator_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "administrator_profile",
+      "ordinal_position": 2,
+      "column_name": "user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "administrator_profile",
+      "ordinal_position": 3,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 1,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 2,
+      "column_name": "aggregate_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 3,
+      "column_name": "aggregate_version",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 4,
+      "column_name": "event_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 5,
+      "column_name": "body",
+      "udt_name": "jsonb",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 6,
+      "column_name": "correlation_id",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 128
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 7,
+      "column_name": "trace_parent",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 128
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 8,
+      "column_name": "occurred_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 9,
+      "column_name": "next_attempt_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 10,
+      "column_name": "published_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 11,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 12,
+      "column_name": "leased_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 13,
+      "column_name": "attempts",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 14,
+      "column_name": "last_error_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 1,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 2,
+      "column_name": "actor_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 3,
+      "column_name": "actor_service",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 120
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 4,
+      "column_name": "requesting_school_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 5,
+      "column_name": "authority_basis",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 250
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 6,
+      "column_name": "channel",
+      "udt_name": "um_channel",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 7,
+      "column_name": "command_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 8,
+      "column_name": "target_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 9,
+      "column_name": "target_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 10,
+      "column_name": "expected_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 11,
+      "column_name": "resulting_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 12,
+      "column_name": "request_fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 13,
+      "column_name": "outcome",
+      "udt_name": "um_operation_outcome",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 14,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 15,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 16,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 17,
+      "column_name": "confirmation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "profile_operation",
+      "ordinal_position": 18,
+      "column_name": "confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_profile",
+      "ordinal_position": 1,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_profile",
+      "ordinal_position": 2,
+      "column_name": "user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_profile",
+      "ordinal_position": 3,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_profile",
+      "ordinal_position": 1,
+      "column_name": "teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_profile",
+      "ordinal_position": 2,
+      "column_name": "user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_profile",
+      "ordinal_position": 3,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 1,
+      "column_name": "user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 3,
+      "column_name": "first_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 100
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 4,
+      "column_name": "last_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 100
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 5,
+      "column_name": "email_address",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 254
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 6,
+      "column_name": "phone_number",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 7,
+      "column_name": "status",
+      "udt_name": "um_user_status",
+      "is_nullable": "NO",
+      "column_default": "'Active'::um_user_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 8,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 9,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_profile",
+      "ordinal_position": 10,
+      "column_name": "updated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "administrator_profile",
+      "conname": "administrator_profile_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (administrator_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "administrator_profile",
+      "conname": "administrator_profile_user_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (user_id) REFERENCES user_profile(user_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "administrator_profile",
+      "conname": "administrator_profile_user_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "conname": "outbox_lease",
+      "contype": "c",
+      "definition": "CHECK (((lease_id IS NULL) = (leased_until IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "conname": "outbox_message_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "conname": "outbox_version",
+      "contype": "c",
+      "definition": "CHECK (((aggregate_version > 0) AND (attempts >= 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "profile_operation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (operation_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_accountable_actor",
+      "contype": "c",
+      "definition": "CHECK (((actor_user_id IS NOT NULL) OR ((actor_service IS NOT NULL) AND (length(TRIM(BOTH FROM actor_service)) > 0))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_confirmation_pair",
+      "contype": "c",
+      "definition": "CHECK (((confirmation_id IS NULL) = (confirmed_at IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_expected_revision",
+      "contype": "c",
+      "definition": "CHECK (((expected_revision IS NULL) OR (expected_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_mcp_write_confirmation",
+      "contype": "c",
+      "definition": "CHECK (((channel <> 'MCP'::um_channel) OR (outcome <> 'Applied'::um_operation_outcome) OR (confirmation_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_operation_basis",
+      "contype": "c",
+      "definition": "CHECK (((length((request_fingerprint)::text) = 64) AND (length(TRIM(BOTH FROM authority_basis)) > 0) AND (length(TRIM(BOTH FROM command_name)) > 0) AND (length(TRIM(BOTH FROM target_kind)) > 0) AND (length(TRIM(BOTH FROM outcome_code)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "conname": "um_result_revision",
+      "contype": "c",
+      "definition": "CHECK (((resulting_revision IS NULL) OR (resulting_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_profile",
+      "conname": "student_profile_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (student_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_profile",
+      "conname": "student_profile_user_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (user_id) REFERENCES user_profile(user_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_profile",
+      "conname": "student_profile_user_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_profile",
+      "conname": "teacher_profile_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (teacher_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_profile",
+      "conname": "teacher_profile_user_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (user_id) REFERENCES user_profile(user_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_profile",
+      "conname": "teacher_profile_user_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (user_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "um_nonblank_email",
+      "contype": "c",
+      "definition": "CHECK (((email_address IS NULL) OR (length(TRIM(BOTH FROM email_address)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "um_nonblank_name",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM first_name)) > 0) AND (length(TRIM(BOTH FROM last_name)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "um_nonblank_phone",
+      "contype": "c",
+      "definition": "CHECK (((phone_number IS NULL) OR (length(TRIM(BOTH FROM phone_number)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "um_profile_revision_time",
+      "contype": "c",
+      "definition": "CHECK (((revision > 0) AND (updated_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "user_profile_identity_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (identity_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "conname": "user_profile_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (user_id)"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "administrator_profile",
+      "indexname": "administrator_profile_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX administrator_profile_pkey ON public.administrator_profile USING btree (administrator_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "administrator_profile",
+      "indexname": "administrator_profile_user_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX administrator_profile_user_id_key ON public.administrator_profile USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "indexname": "IX_outbox_message_next_attempt_at_occurred_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_outbox_message_next_attempt_at_occurred_at\" ON public.outbox_message USING btree (next_attempt_at, occurred_at) WHERE (published_at IS NULL)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "indexname": "outbox_message_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX outbox_message_pkey ON public.outbox_message USING btree (event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profile_operation",
+      "indexname": "profile_operation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX profile_operation_pkey ON public.profile_operation USING btree (operation_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "profile_operation",
+      "indexname": "profile_operation_target_kind_target_id_recorded_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX profile_operation_target_kind_target_id_recorded_at_idx ON public.profile_operation USING btree (target_kind, target_id, recorded_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_profile",
+      "indexname": "student_profile_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX student_profile_pkey ON public.student_profile USING btree (student_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_profile",
+      "indexname": "student_profile_user_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX student_profile_user_id_key ON public.student_profile USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_profile",
+      "indexname": "teacher_profile_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX teacher_profile_pkey ON public.teacher_profile USING btree (teacher_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_profile",
+      "indexname": "teacher_profile_user_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX teacher_profile_user_id_key ON public.teacher_profile USING btree (user_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "user_profile",
+      "indexname": "user_profile_identity_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX user_profile_identity_id_key ON public.user_profile USING btree (identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "user_profile",
+      "indexname": "user_profile_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX user_profile_pkey ON public.user_profile USING btree (user_id)"
+    }
+  ],
+  "policies": [],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "user_profile",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_profile",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_profile",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "administrator_profile",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "profile_operation",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "enabled": false,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "student_profile",
+      "parent_schema": "public",
+      "parent_table": "user_profile",
+      "conname": "student_profile_user_id_fkey",
+      "child_columns": [
+        "user_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "teacher_profile",
+      "parent_schema": "public",
+      "parent_table": "user_profile",
+      "conname": "teacher_profile_user_id_fkey",
+      "child_columns": [
+        "user_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "administrator_profile",
+      "parent_schema": "public",
+      "parent_table": "user_profile",
+      "conname": "administrator_profile_user_id_fkey",
+      "child_columns": [
+        "user_id"
+      ]
+    }
+  ]
+}

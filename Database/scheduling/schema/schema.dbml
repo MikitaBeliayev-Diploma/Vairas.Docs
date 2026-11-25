@@ -1,6 +1,6 @@
 Project Vairas_Scheduling_RuleBased {
   database_type: 'PostgreSQL'
-  Note: 'EF Core-first scheduling. Original 17 tables: remove scheduling_validation_issue, add scheduling_operation_rule. No JSONB / outbox. Europe/Vilnius school-local calendar; UTC instants in timestamptz. 4 School + verified Legal rule types. History contains previous state. Missing or unverified law fails closed.'
+  Note: 'D-044 business baseline plus G-01 actual interval and explicit 2026-11-24 reliability implementation. 23 tables; no cross-service database FKs. UTC instants; Europe/Vilnius calendar. See implementation.md for storage and authority boundaries.'
 }
 
 Enum request_status {
@@ -43,15 +43,19 @@ Enum recurrence_frequency {
   Weekly
 }
 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
 
 Table scheduling_request {
+  inputs_json text [not null]
+  basis_json text [not null]
+  school_revision bigint [not null]
+
   id uuid [not null]
   revision int [not null]
   school_id uuid [not null]
@@ -81,7 +85,7 @@ Table scheduling_request {
   }
 }
 
- 
+
 Table scheduling_request_enrollment {
   request_id uuid [not null]
   request_revision int [not null]
@@ -144,8 +148,8 @@ Table scheduling_request_window {
 }
 
 
- 
- 
+
+
 Table scheduling_rule_version {
   id uuid [pk]
   rule_id uuid [not null, note: 'Stable identity across rule versions']
@@ -201,7 +205,7 @@ Table scheduling_request_rule {
 }
 
 
- 
+
 Table scheduling_operation_rule {
   operation_id uuid [not null]
   rule_version_id uuid [not null]
@@ -252,7 +256,7 @@ Table candidate_lesson_participant {
   }
 }
 
- 
+
 Table recurring_lesson_series {
   id uuid [pk]
   school_id uuid [not null]
@@ -318,6 +322,8 @@ Table lesson {
 }
 
 Table lesson_participant {
+  is_active boolean [not null]
+
   lesson_id uuid [not null, ref: > lesson.id]
   enrollment_id uuid [not null]
   student_id uuid [not null, note: 'Existing User Management ID']
@@ -333,6 +339,10 @@ Table lesson_participant {
 }
 
 Table scheduling_operation {
+  fingerprint varchar(64) [not null]
+  result_json text [not null]
+  http_status integer [not null]
+
   id uuid [pk]
   school_id uuid [not null]
   action_type varchar(32) [not null, note: 'ConfirmSchedule / CreateLesson / Reschedule / Cancel / ChangeGroup']
@@ -356,7 +366,7 @@ Table scheduling_operation {
   }
   Note: 'No fingerprint or idempotency key columns. Operation id is the only persisted operation identity (PK); retries with a new operation id are NOT deduplicated by DB. The application must define trusted retry/unknown-outcome recovery and exact MCP consent; do not claim exactly-once write behavior. Revalidate rules/resources and avoid partial writes.'
   checks {
-    `action_type IN ('ConfirmSchedule','CreateLesson','Reschedule','Cancel','ChangeGroup','CompleteLesson','CreateAssessment','CancelAssessment')` [name: 'operation_action']
+    `action_type IN ('ConfirmSchedule','CreateLesson','Reschedule','Cancel','ChangeGroup','CompleteLesson','CorrectActualInterval','CreateAssessment','CancelAssessment','CreateDraft','ReviseDraft','SubmitRequest','GenerateProposal','PublishRule')` [name: 'operation_action']
     `channel IN ('Web','MCP','Internal')` [name: 'operation_channel']
     `(request_id IS NULL) = (request_revision IS NULL)` [name: 'operation_request_pair']
     `(status = 'Pending' AND finished_at IS NULL) OR (status = 'ReconciliationPending') OR (status IN ('Committed','Rejected') AND finished_at IS NOT NULL)` [name: 'operation_finished']
@@ -391,9 +401,9 @@ Table reservation_claim {
   }
 }
 
- 
- 
- 
+
+
+
 Table lesson_change {
   id uuid [pk]
   school_id uuid [not null]
@@ -423,9 +433,12 @@ Table lesson_change {
 }
 
 
- 
- 
+
+
 Table assessment_appointment {
+  readiness_evaluation_id uuid [not null]
+  revision integer [not null]
+
   id uuid [pk]
   school_id uuid [not null]
   kind lesson_kind [not null]
@@ -452,7 +465,7 @@ Table assessment_appointment {
   Note: 'Time/resource appointment only; no assessment result or readiness decision. Allocation/time immutable after creation: cancel and create a new appointment to change them. Operations retain actor/outcome audit for create/cancel. Proposed practical daily-budget accounting includes these reservations conservatively; exact legal inclusion must be verified.'
 }
 
- 
+
 Ref: scheduling_request_enrollment.(request_id, request_revision) > scheduling_request.(id, revision)
 Ref: scheduling_request_group.(request_id, request_revision) > scheduling_request.(id, revision)
 Ref: scheduling_request_resource.(request_id, request_revision) > scheduling_request.(id, revision)
@@ -477,3 +490,61 @@ Ref: scheduling_operation.(result_appointment_id, school_id) > assessment_appoin
 
 Ref: scheduling_operation_rule.operation_id > scheduling_operation.id
 Ref: scheduling_operation_rule.rule_version_id > scheduling_rule_version.id
+
+// 2026-11-24 implementation reliability tables. IDs are logical references unless explicit Ref exists.
+
+Table gate_command {
+  id uuid [pk, not null]
+  school_id uuid [not null]
+  fingerprint text [not null]
+  kind text [not null]
+  result_json text [not null]
+  http_status integer [not null]
+}
+
+Table outbox_message {
+  id uuid [pk, not null]
+  school_id uuid [not null]
+  aggregate_id uuid [not null]
+  aggregate_version integer [not null]
+  event_type text [not null]
+  payload text [not null]
+  occurred_at timestamptz [not null]
+  available_at timestamptz [not null]
+  lease_id uuid
+  lease_until timestamptz
+  published_at timestamptz
+  attempts integer [not null]
+}
+
+Table school_barrier {
+  school_id uuid [pk, not null]
+  revision_floor bigint [not null]
+  pending_operation_id uuid
+}
+
+Table school_transition {
+  id uuid [pk, not null]
+  school_id uuid [not null]
+  before_revision bigint [not null]
+  after_revision bigint [not null]
+  fingerprint text [not null]
+  payload_json text [not null]
+  status text [not null]
+  created_at timestamptz [not null]
+}
+
+Table vehicle_block {
+  id uuid [pk, not null]
+  school_id uuid [not null]
+  vehicle_id uuid [not null]
+  operation_id uuid [not null]
+  reason text [not null]
+  status text [not null]
+  created_at timestamptz [not null]
+}
+
+Table vehicle_guard {
+  vehicle_id uuid [pk, not null]
+  school_id uuid [not null]
+}

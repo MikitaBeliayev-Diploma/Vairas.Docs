@@ -1,0 +1,3524 @@
+{
+  "database": "vairas_school_management",
+  "owningContext": "school-management",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 1,
+      "column_name": "branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 3,
+      "column_name": "name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 4,
+      "column_name": "address_line",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 300
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 5,
+      "column_name": "city",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 120
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 6,
+      "column_name": "postal_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 30
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 7,
+      "column_name": "country_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 2
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 8,
+      "column_name": "status",
+      "udt_name": "sm_status",
+      "is_nullable": "NO",
+      "column_default": "'Active'::sm_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 9,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "branch",
+      "ordinal_position": 10,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 1,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 3,
+      "column_name": "enrollment_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 4,
+      "column_name": "from_status",
+      "udt_name": "sm_enrollment_status",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 5,
+      "column_name": "to_status",
+      "udt_name": "sm_enrollment_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 6,
+      "column_name": "effective_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 7,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 8,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 9,
+      "column_name": "completion_evidence_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 10,
+      "column_name": "completion_dependency_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "enrollment_status_history",
+      "ordinal_position": 11,
+      "column_name": "completion_verified_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 1,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 3,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 4,
+      "column_name": "membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 5,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 6,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 7,
+      "column_name": "enrollment_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 8,
+      "column_name": "enrollment_status",
+      "udt_name": "sm_enrollment_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 9,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 10,
+      "column_name": "enrollment_started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 11,
+      "column_name": "enrollment_ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 12,
+      "column_name": "joined_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_member",
+      "ordinal_position": 13,
+      "column_name": "left_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_revision",
+      "ordinal_position": 1,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_revision",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_revision",
+      "ordinal_position": 3,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_revision",
+      "ordinal_position": 4,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "group_roster_revision",
+      "ordinal_position": 5,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 1,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 2,
+      "column_name": "producer",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 3,
+      "column_name": "event_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 4,
+      "column_name": "fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 5,
+      "column_name": "outcome",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 6,
+      "column_name": "reviews_raised",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 7,
+      "column_name": "processed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 1,
+      "column_name": "grant_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 3,
+      "column_name": "membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 4,
+      "column_name": "permission",
+      "udt_name": "sm_permission",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 5,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 6,
+      "column_name": "ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 7,
+      "column_name": "granted_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_permission_grant",
+      "ordinal_position": 8,
+      "column_name": "ended_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 1,
+      "column_name": "review_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 3,
+      "column_name": "target_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 4,
+      "column_name": "target_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 5,
+      "column_name": "reason_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 6,
+      "column_name": "subject_role",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 7,
+      "column_name": "subject_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 8,
+      "column_name": "source_event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 9,
+      "column_name": "raised_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 10,
+      "column_name": "resolved_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 11,
+      "column_name": "resolved_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "membership_review",
+      "ordinal_position": 12,
+      "column_name": "resolution_note",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 2,
+      "column_name": "name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 3,
+      "column_name": "status",
+      "udt_name": "sm_status",
+      "is_nullable": "NO",
+      "column_default": "'Active'::sm_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 4,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 5,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school",
+      "ordinal_position": 6,
+      "column_name": "updated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 1,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 3,
+      "column_name": "fingerprint",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 4,
+      "column_name": "command_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 5,
+      "column_name": "transition_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 6,
+      "column_name": "payload_hash",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 7,
+      "column_name": "state",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 8,
+      "column_name": "before_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 9,
+      "column_name": "after_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 10,
+      "column_name": "effective_from",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 11,
+      "column_name": "actor_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 12,
+      "column_name": "result_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 13,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_coordination",
+      "ordinal_position": 14,
+      "column_name": "lease_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 1,
+      "column_name": "invitation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 3,
+      "column_name": "target_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 4,
+      "column_name": "role",
+      "udt_name": "sm_role",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 5,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 6,
+      "column_name": "issuer_membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 7,
+      "column_name": "status",
+      "udt_name": "sm_invitation_status",
+      "is_nullable": "NO",
+      "column_default": "'Pending'::sm_invitation_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 8,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 9,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 10,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 11,
+      "column_name": "issued_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 12,
+      "column_name": "accepted_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 13,
+      "column_name": "accepted_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 14,
+      "column_name": "result_membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 15,
+      "column_name": "result_enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 16,
+      "column_name": "revoked_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_invitation",
+      "ordinal_position": 17,
+      "column_name": "revoked_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 3,
+      "column_name": "aggregate_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 4,
+      "column_name": "aggregate_version",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 5,
+      "column_name": "event_type",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 6,
+      "column_name": "payload",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 7,
+      "column_name": "correlation_id",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 8,
+      "column_name": "occurred_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 9,
+      "column_name": "sent_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 10,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 11,
+      "column_name": "lease_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 12,
+      "column_name": "attempts",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_learning_outbox",
+      "ordinal_position": 13,
+      "column_name": "next_attempt_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 1,
+      "column_name": "membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 3,
+      "column_name": "user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 4,
+      "column_name": "role",
+      "udt_name": "sm_role",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 5,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 6,
+      "column_name": "ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 7,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_membership",
+      "ordinal_position": 8,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 1,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 3,
+      "column_name": "command_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 4,
+      "column_name": "target_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 60
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 5,
+      "column_name": "target_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 6,
+      "column_name": "expected_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 7,
+      "column_name": "resulting_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 8,
+      "column_name": "coordination_required",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "false",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 9,
+      "column_name": "expected_school_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 10,
+      "column_name": "resulting_school_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 11,
+      "column_name": "actor_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 12,
+      "column_name": "channel",
+      "udt_name": "sm_channel",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 13,
+      "column_name": "status",
+      "udt_name": "sm_operation_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 14,
+      "column_name": "request_fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 15,
+      "column_name": "requested_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 16,
+      "column_name": "resolved_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 17,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 18,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 19,
+      "column_name": "authority_basis",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 20,
+      "column_name": "confirmation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_operation",
+      "ordinal_position": 21,
+      "column_name": "confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 1,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 3,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 4,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 5,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 6,
+      "column_name": "ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 7,
+      "column_name": "status",
+      "udt_name": "sm_enrollment_status",
+      "is_nullable": "NO",
+      "column_default": "'Active'::sm_enrollment_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 8,
+      "column_name": "status_changed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 9,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_enrollment",
+      "ordinal_position": 10,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 1,
+      "column_name": "membership_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 3,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 4,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 5,
+      "column_name": "joined_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 6,
+      "column_name": "left_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 7,
+      "column_name": "association_program_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 8,
+      "column_name": "association_verified_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 9,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "student_group_membership",
+      "ordinal_position": 10,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 1,
+      "column_name": "assignment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 3,
+      "column_name": "teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 4,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 5,
+      "column_name": "assigned_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 6,
+      "column_name": "ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 7,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "teacher_group_assignment",
+      "ordinal_position": 8,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 1,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 3,
+      "column_name": "branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 4,
+      "column_name": "name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 5,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 6,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 7,
+      "column_name": "ended_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 8,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 9,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_group",
+      "ordinal_position": 10,
+      "column_name": "last_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "branch",
+      "conname": "branch_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "branch",
+      "conname": "branch_name_revision",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM name)) > 0) AND (revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "branch",
+      "conname": "branch_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (branch_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "branch",
+      "conname": "branch_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "completion_basis_required",
+      "contype": "c",
+      "definition": "CHECK (((to_status <> 'Completed'::sm_enrollment_status) OR ((completion_evidence_id IS NOT NULL) AND (completion_dependency_revision IS NOT NULL) AND (completion_dependency_revision > 0) AND (completion_verified_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_history_immediate_terminal",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(effective_at) AND isfinite(recorded_at) AND ((to_status = 'Active'::sm_enrollment_status) OR (effective_at = recorded_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_history_revision",
+      "contype": "c",
+      "definition": "CHECK ((enrollment_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_history_transition",
+      "contype": "c",
+      "definition": "CHECK ((((from_status IS NULL) AND (to_status = 'Active'::sm_enrollment_status)) OR ((from_status IS NOT NULL) AND (from_status = 'Active'::sm_enrollment_status) AND (to_status <> 'Active'::sm_enrollment_status))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_status_history_enrollment_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (enrollment_id, school_id) REFERENCES student_enrollment(enrollment_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_status_history_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "conname": "enrollment_status_history_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (enrollment_id, school_id, enrollment_revision)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "group_roster_member_group_id_school_id_membership_revision_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (group_id, school_id, membership_revision) REFERENCES group_roster_revision(group_id, school_id, membership_revision) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "group_roster_member_membership_id_school_id_group_id_enrol_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (membership_id, school_id, group_id, enrollment_id) REFERENCES student_group_membership(membership_id, school_id, group_id, enrollment_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "group_roster_member_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (group_id, school_id, membership_revision, membership_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "roster_enrollment_basis",
+      "contype": "c",
+      "definition": "CHECK (((enrollment_revision > 0) AND (length(TRIM(BOTH FROM category_code)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "roster_enrollment_period",
+      "contype": "c",
+      "definition": "CHECK (((enrollment_ended_at IS NULL) OR (enrollment_ended_at > enrollment_started_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "roster_enrollment_shape",
+      "contype": "c",
+      "definition": "CHECK ((((enrollment_status = 'Active'::sm_enrollment_status) AND (enrollment_ended_at IS NULL)) OR ((enrollment_status <> 'Active'::sm_enrollment_status) AND (enrollment_ended_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "conname": "roster_membership_period",
+      "contype": "c",
+      "definition": "CHECK (((left_at IS NULL) OR (left_at > joined_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_revision",
+      "conname": "group_roster_revision_group_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (group_id, school_id) REFERENCES training_group(group_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_revision",
+      "conname": "group_roster_revision_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_revision",
+      "conname": "group_roster_revision_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (group_id, school_id, membership_revision)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_revision",
+      "conname": "roster_revision_positive",
+      "contype": "c",
+      "definition": "CHECK ((membership_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "PK_integration_inbox",
+      "contype": "p",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "integration_inbox_fingerprint",
+      "contype": "c",
+      "definition": "CHECK (((fingerprint)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "integration_inbox_reviews",
+      "contype": "c",
+      "definition": "CHECK ((reviews_raised >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "grant_end_evidence",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) = (ended_operation_id IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "grant_period",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) OR (ended_at > started_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "membership_permission_grant_ended_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (ended_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "membership_permission_grant_granted_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (granted_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "membership_permission_grant_membership_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (membership_id, school_id) REFERENCES school_membership(membership_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "membership_permission_grant_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (grant_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "sm_grant_finite",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(started_at) AND ((ended_at IS NULL) OR isfinite(ended_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "conname": "sm_grant_no_overlap",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (school_id WITH =, membership_id WITH =, permission WITH =, tstzrange(started_at, ended_at, '[)'::text) WITH &&)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_review",
+      "conname": "PK_membership_review",
+      "contype": "p",
+      "definition": "PRIMARY KEY (review_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_review",
+      "conname": "membership_review_resolution",
+      "contype": "c",
+      "definition": "CHECK ((((resolved_at IS NULL) = (resolved_by_user_id IS NULL)) AND ((resolved_at IS NULL) = (resolution_note IS NULL)) AND ((resolved_at IS NULL) OR (resolved_at >= raised_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_review",
+      "conname": "membership_review_role",
+      "contype": "c",
+      "definition": "CHECK (((subject_role)::text = ANY ((ARRAY['Student'::character varying, 'Teacher'::character varying, 'Administrator'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_review",
+      "conname": "membership_review_target",
+      "contype": "c",
+      "definition": "CHECK (((target_kind)::text = ANY ((ARRAY['Membership'::character varying, 'Enrollment'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school",
+      "conname": "school_name_nonempty",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM name)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school",
+      "conname": "school_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school",
+      "conname": "school_revision_time",
+      "contype": "c",
+      "definition": "CHECK (((revision > 0) AND (updated_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_coordination",
+      "conname": "PK_school_coordination",
+      "contype": "p",
+      "definition": "PRIMARY KEY (operation_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_accept_time",
+      "contype": "c",
+      "definition": "CHECK (((accepted_at IS NULL) OR (isfinite(accepted_at) AND (accepted_at >= created_at) AND (accepted_at < expires_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_admin_platform_basis",
+      "contype": "c",
+      "definition": "CHECK (((role <> 'Administrator'::sm_role) OR (issuer_membership_id IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_category_shape",
+      "contype": "c",
+      "definition": "CHECK ((((role = 'Student'::sm_role) AND (category_code IS NOT NULL) AND (length(TRIM(BOTH FROM category_code)) > 0)) OR ((role <> 'Student'::sm_role) AND (category_code IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_revision_expiry",
+      "contype": "c",
+      "definition": "CHECK (((revision > 0) AND isfinite(created_at) AND isfinite(expires_at) AND (expires_at > created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_revoke_time",
+      "contype": "c",
+      "definition": "CHECK (((revoked_at IS NULL) OR (isfinite(revoked_at) AND (revoked_at >= created_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "invitation_state_shape",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'Pending'::sm_invitation_status) AND (accepted_operation_id IS NULL) AND (accepted_at IS NULL) AND (result_membership_id IS NULL) AND (result_enrollment_id IS NULL) AND (revoked_operation_id IS NULL) AND (revoked_at IS NULL)) OR ((status = 'Accepted'::sm_invitation_status) AND (accepted_operation_id IS NOT NULL) AND (accepted_at IS NOT NULL) AND (result_membership_id IS NOT NULL) AND (revoked_operation_id IS NULL) AND (revoked_at IS NULL) AND (((role = 'Student'::sm_role) AND (result_enrollment_id IS NOT NULL)) OR ((role <> 'Student'::sm_role) AND (result_enrollment_id IS NULL)))) OR ((status = 'Revoked'::sm_invitation_status) AND (revoked_operation_id IS NOT NULL) AND (revoked_at IS NOT NULL) AND (accepted_operation_id IS NULL) AND (accepted_at IS NULL) AND (result_membership_id IS NULL) AND (result_enrollment_id IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_accepted_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (accepted_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_issued_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (issued_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_issuer_membership_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (issuer_membership_id, school_id) REFERENCES school_membership(membership_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (invitation_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_result_enrollment_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (result_enrollment_id, school_id) REFERENCES student_enrollment(enrollment_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_result_membership_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (result_membership_id, school_id) REFERENCES school_membership(membership_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_revoked_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (revoked_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "conname": "school_invitation_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_learning_outbox",
+      "conname": "PK_school_learning_outbox",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "membership_period",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) OR (ended_at > started_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "membership_revision",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "school_membership_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "school_membership_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (membership_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "school_membership_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "sm_membership_finite",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(started_at) AND ((ended_at IS NULL) OR isfinite(ended_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "conname": "sm_membership_no_overlap",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (school_id WITH =, user_id WITH =, role WITH =, tstzrange(started_at, ended_at, '[)'::text) WITH &&)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_confirmation_pair",
+      "contype": "c",
+      "definition": "CHECK (((confirmation_id IS NULL) = (confirmed_at IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_coordinated_commit",
+      "contype": "c",
+      "definition": "CHECK (((status <> 'Committed'::sm_operation_status) OR (coordination_required = false) OR (resulting_school_revision IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_coordination_revisions",
+      "contype": "c",
+      "definition": "CHECK ((((coordination_required = false) AND (expected_school_revision IS NULL) AND (resulting_school_revision IS NULL)) OR ((coordination_required = true) AND (expected_school_revision IS NOT NULL) AND (expected_school_revision > 0) AND ((resulting_school_revision IS NULL) OR (resulting_school_revision = (expected_school_revision + 1))))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_expected_revision",
+      "contype": "c",
+      "definition": "CHECK (((expected_revision IS NULL) OR (expected_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_mcp_confirmation",
+      "contype": "c",
+      "definition": "CHECK (((status <> 'Committed'::sm_operation_status) OR (channel <> 'MCP'::sm_channel) OR (confirmation_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_required_metadata",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM command_name)) > 0) AND (length(TRIM(BOTH FROM authority_basis)) > 0) AND (length((request_fingerprint)::text) = 64)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_resolution_shape",
+      "contype": "c",
+      "definition": "CHECK ((((status = ANY (ARRAY['Committed'::sm_operation_status, 'Rejected'::sm_operation_status])) AND (resolved_at IS NOT NULL)) OR ((status = ANY (ARRAY['Pending'::sm_operation_status, 'ReconciliationPending'::sm_operation_status])) AND (resolved_at IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_resolution_time",
+      "contype": "c",
+      "definition": "CHECK (((resolved_at IS NULL) OR (resolved_at >= requested_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "operation_result_revision",
+      "contype": "c",
+      "definition": "CHECK (((resulting_revision IS NULL) OR (resulting_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "school_operation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (operation_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "conname": "school_operation_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "enrollment_category_revision",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM category_code)) > 0) AND (revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "enrollment_finite_lifecycle",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(started_at) AND isfinite(status_changed_at) AND ((ended_at IS NULL) OR isfinite(ended_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "enrollment_lifecycle_shape",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'Active'::sm_enrollment_status) AND (ended_at IS NULL)) OR ((status <> 'Active'::sm_enrollment_status) AND (ended_at IS NOT NULL) AND (ended_at = status_changed_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "enrollment_period",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) OR (ended_at > started_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "student_enrollment_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "student_enrollment_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (enrollment_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "conname": "student_enrollment_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "association_revision",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "sm_student_group_finite",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(joined_at) AND ((left_at IS NULL) OR isfinite(left_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "sm_student_group_no_overlap",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (school_id WITH =, enrollment_id WITH =, group_id WITH =, tstzrange(joined_at, left_at, '[)'::text) WITH &&)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "student_group_membership_enrollment_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (enrollment_id, school_id) REFERENCES student_enrollment(enrollment_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "student_group_membership_group_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (group_id, school_id) REFERENCES training_group(group_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "student_group_membership_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "student_group_membership_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (membership_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "conname": "student_group_period",
+      "contype": "c",
+      "definition": "CHECK (((left_at IS NULL) OR (left_at > joined_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "sm_teacher_group_finite",
+      "contype": "c",
+      "definition": "CHECK ((isfinite(assigned_at) AND ((ended_at IS NULL) OR isfinite(ended_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "sm_teacher_group_no_overlap",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (school_id WITH =, teacher_id WITH =, group_id WITH =, tstzrange(assigned_at, ended_at, '[)'::text) WITH &&)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "teacher_assignment_period",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) OR (ended_at > assigned_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "teacher_assignment_revision",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "teacher_group_assignment_group_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (group_id, school_id) REFERENCES training_group(group_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "teacher_group_assignment_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "conname": "teacher_group_assignment_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (assignment_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "group_name_revisions",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM name)) > 0) AND (revision > 0) AND (membership_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "group_optional_category",
+      "contype": "c",
+      "definition": "CHECK (((category_code IS NULL) OR (length(TRIM(BOTH FROM category_code)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "group_period",
+      "contype": "c",
+      "definition": "CHECK (((ended_at IS NULL) OR (ended_at > started_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "training_group_branch_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (branch_id, school_id) REFERENCES branch(branch_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "training_group_last_operation_id_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (last_operation_id, school_id) REFERENCES school_operation(operation_id, school_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "training_group_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (group_id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "conname": "training_group_school_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id) REFERENCES school(school_id) ON DELETE RESTRICT DEFERRABLE"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "branch",
+      "indexname": "branch_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX branch_pkey ON public.branch USING btree (branch_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "enrollment_status_history",
+      "indexname": "enrollment_status_history_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX enrollment_status_history_pkey ON public.enrollment_status_history USING btree (enrollment_id, school_id, enrollment_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "group_roster_member",
+      "indexname": "group_roster_member_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX group_roster_member_pkey ON public.group_roster_member USING btree (group_id, school_id, membership_revision, membership_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "group_roster_revision",
+      "indexname": "group_roster_revision_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX group_roster_revision_pkey ON public.group_roster_revision USING btree (group_id, school_id, membership_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "integration_inbox",
+      "indexname": "PK_integration_inbox",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_integration_inbox\" ON public.integration_inbox USING btree (event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_permission_grant",
+      "indexname": "membership_permission_grant_membership_id_school_id_permiss_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX membership_permission_grant_membership_id_school_id_permiss_idx ON public.membership_permission_grant USING btree (membership_id, school_id, permission, started_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_permission_grant",
+      "indexname": "membership_permission_grant_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX membership_permission_grant_pkey ON public.membership_permission_grant USING btree (grant_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_permission_grant",
+      "indexname": "sm_grant_no_overlap",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX sm_grant_no_overlap ON public.membership_permission_grant USING gist (school_id, membership_id, permission, tstzrange(started_at, ended_at, '[)'::text))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_review",
+      "indexname": "IX_membership_review_school_id_resolved_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_membership_review_school_id_resolved_at\" ON public.membership_review USING btree (school_id, resolved_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_review",
+      "indexname": "IX_membership_review_source_event_id_target_kind_target_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_membership_review_source_event_id_target_kind_target_id\" ON public.membership_review USING btree (source_event_id, target_kind, target_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_review",
+      "indexname": "PK_membership_review",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_membership_review\" ON public.membership_review USING btree (review_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school",
+      "indexname": "school_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_pkey ON public.school USING btree (school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_coordination",
+      "indexname": "PK_school_coordination",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_school_coordination\" ON public.school_coordination USING btree (operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "indexname": "school_invitation_accepted_operation_id_school_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_invitation_accepted_operation_id_school_id_idx ON public.school_invitation USING btree (accepted_operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "indexname": "school_invitation_issued_operation_id_school_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_invitation_issued_operation_id_school_id_idx ON public.school_invitation USING btree (issued_operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "indexname": "school_invitation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_invitation_pkey ON public.school_invitation USING btree (invitation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "indexname": "school_invitation_revoked_operation_id_school_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_invitation_revoked_operation_id_school_id_idx ON public.school_invitation USING btree (revoked_operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "indexname": "school_invitation_school_id_target_user_id_status_expires_a_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX school_invitation_school_id_target_user_id_status_expires_a_idx ON public.school_invitation USING btree (school_id, target_user_id, status, expires_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_learning_outbox",
+      "indexname": "IX_school_learning_outbox_sent_at_next_attempt_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_school_learning_outbox_sent_at_next_attempt_at\" ON public.school_learning_outbox USING btree (sent_at, next_attempt_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_learning_outbox",
+      "indexname": "PK_school_learning_outbox",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_school_learning_outbox\" ON public.school_learning_outbox USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_membership",
+      "indexname": "school_membership_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_membership_pkey ON public.school_membership USING btree (membership_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_membership",
+      "indexname": "school_membership_school_id_user_id_role_started_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX school_membership_school_id_user_id_role_started_at_idx ON public.school_membership USING btree (school_id, user_id, role, started_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_membership",
+      "indexname": "sm_membership_no_overlap",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX sm_membership_no_overlap ON public.school_membership USING gist (school_id, user_id, role, tstzrange(started_at, ended_at, '[)'::text))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_operation",
+      "indexname": "school_operation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX school_operation_pkey ON public.school_operation USING btree (operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_operation",
+      "indexname": "school_operation_school_id_target_kind_target_id_requested__idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX school_operation_school_id_target_kind_target_id_requested__idx ON public.school_operation USING btree (school_id, target_kind, target_id, requested_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_operation",
+      "indexname": "sm_one_unresolved_coordination_per_school",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX sm_one_unresolved_coordination_per_school ON public.school_operation USING btree (school_id) WHERE (coordination_required AND (status = ANY (ARRAY['Pending'::sm_operation_status, 'ReconciliationPending'::sm_operation_status])))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_enrollment",
+      "indexname": "sm_enrollment_global_identity",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX sm_enrollment_global_identity ON public.student_enrollment USING btree (enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_enrollment",
+      "indexname": "student_enrollment_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX student_enrollment_pkey ON public.student_enrollment USING btree (enrollment_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_enrollment",
+      "indexname": "student_enrollment_school_id_student_id_status_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX student_enrollment_school_id_student_id_status_idx ON public.student_enrollment USING btree (school_id, student_id, status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "indexname": "sm_student_group_no_overlap",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX sm_student_group_no_overlap ON public.student_group_membership USING gist (school_id, enrollment_id, group_id, tstzrange(joined_at, left_at, '[)'::text))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "indexname": "student_group_membership_membership_id_school_id_group_id_e_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX student_group_membership_membership_id_school_id_group_id_e_idx ON public.student_group_membership USING btree (membership_id, school_id, group_id, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "indexname": "student_group_membership_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX student_group_membership_pkey ON public.student_group_membership USING btree (membership_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "indexname": "student_group_membership_school_id_enrollment_id_joined_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX student_group_membership_school_id_enrollment_id_joined_at_idx ON public.student_group_membership USING btree (school_id, enrollment_id, joined_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "indexname": "student_group_membership_school_id_group_id_joined_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX student_group_membership_school_id_group_id_joined_at_idx ON public.student_group_membership USING btree (school_id, group_id, joined_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_group_assignment",
+      "indexname": "sm_teacher_group_no_overlap",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX sm_teacher_group_no_overlap ON public.teacher_group_assignment USING gist (school_id, teacher_id, group_id, tstzrange(assigned_at, ended_at, '[)'::text))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_group_assignment",
+      "indexname": "teacher_group_assignment_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX teacher_group_assignment_pkey ON public.teacher_group_assignment USING btree (assignment_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_group_assignment",
+      "indexname": "teacher_group_assignment_school_id_group_id_assigned_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX teacher_group_assignment_school_id_group_id_assigned_at_idx ON public.teacher_group_assignment USING btree (school_id, group_id, assigned_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_group_assignment",
+      "indexname": "teacher_group_assignment_school_id_teacher_id_assigned_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX teacher_group_assignment_school_id_teacher_id_assigned_at_idx ON public.teacher_group_assignment USING btree (school_id, teacher_id, assigned_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_group",
+      "indexname": "training_group_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_group_pkey ON public.training_group USING btree (group_id, school_id)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "membership_permission_grant",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_enrollment",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_operation",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "branch",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_membership",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "enrollment_status_history",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_group",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "student_group_membership",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "membership_review",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "teacher_group_assignment",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "group_roster_revision",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "group_roster_member",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_invitation",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_coordination",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_learning_outbox",
+      "policyname": "learning_delivery",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_delivery"
+      ],
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_learning_outbox",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_school_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    }
+  ],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_permission_grant",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_enrollment",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_operation",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "branch",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_membership",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "enrollment_status_history",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_group",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "student_group_membership",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "membership_review",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "teacher_group_assignment",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_revision",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "group_roster_member",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_invitation",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_coordination",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_learning_outbox",
+      "enabled": true,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "membership_permission_grant",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "membership_permission_grant_ended_operation_id_school_id_fkey",
+      "child_columns": [
+        "ended_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "enrollment_status_history",
+      "parent_schema": "public",
+      "parent_table": "student_enrollment",
+      "conname": "enrollment_status_history_enrollment_id_school_id_fkey",
+      "child_columns": [
+        "enrollment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "enrollment_status_history",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "enrollment_status_history_operation_id_school_id_fkey",
+      "child_columns": [
+        "operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "student_group_membership",
+      "parent_schema": "public",
+      "parent_table": "student_enrollment",
+      "conname": "student_group_membership_enrollment_id_school_id_fkey",
+      "child_columns": [
+        "enrollment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "student_group_membership",
+      "parent_schema": "public",
+      "parent_table": "training_group",
+      "conname": "student_group_membership_group_id_school_id_fkey",
+      "child_columns": [
+        "group_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "student_group_membership",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "student_group_membership_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "teacher_group_assignment",
+      "parent_schema": "public",
+      "parent_table": "training_group",
+      "conname": "teacher_group_assignment_group_id_school_id_fkey",
+      "child_columns": [
+        "group_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "school_invitation_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school_membership",
+      "conname": "school_invitation_issuer_membership_id_school_id_fkey",
+      "child_columns": [
+        "issuer_membership_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "school_invitation_issued_operation_id_school_id_fkey",
+      "child_columns": [
+        "issued_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "school_invitation_accepted_operation_id_school_id_fkey",
+      "child_columns": [
+        "accepted_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "school_invitation_revoked_operation_id_school_id_fkey",
+      "child_columns": [
+        "revoked_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "school_membership",
+      "conname": "school_invitation_result_membership_id_school_id_fkey",
+      "child_columns": [
+        "result_membership_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_invitation",
+      "parent_schema": "public",
+      "parent_table": "student_enrollment",
+      "conname": "school_invitation_result_enrollment_id_school_id_fkey",
+      "child_columns": [
+        "result_enrollment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_operation",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "school_operation_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "branch",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "branch_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_membership",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "school_membership_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "student_enrollment",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "student_enrollment_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_group",
+      "parent_schema": "public",
+      "parent_table": "school",
+      "conname": "training_group_school_id_fkey",
+      "child_columns": [
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_group",
+      "parent_schema": "public",
+      "parent_table": "branch",
+      "conname": "training_group_branch_id_school_id_fkey",
+      "child_columns": [
+        "branch_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "branch",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "branch_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "school_membership",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "school_membership_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "student_enrollment",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "student_enrollment_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_group",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "training_group_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "membership_permission_grant",
+      "parent_schema": "public",
+      "parent_table": "school_membership",
+      "conname": "membership_permission_grant_membership_id_school_id_fkey",
+      "child_columns": [
+        "membership_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "membership_permission_grant",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "membership_permission_grant_granted_operation_id_school_id_fkey",
+      "child_columns": [
+        "granted_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "teacher_group_assignment",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "teacher_group_assignment_last_operation_id_school_id_fkey",
+      "child_columns": [
+        "last_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "group_roster_revision",
+      "parent_schema": "public",
+      "parent_table": "training_group",
+      "conname": "group_roster_revision_group_id_school_id_fkey",
+      "child_columns": [
+        "group_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "group_roster_revision",
+      "parent_schema": "public",
+      "parent_table": "school_operation",
+      "conname": "group_roster_revision_operation_id_school_id_fkey",
+      "child_columns": [
+        "operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "group_roster_member",
+      "parent_schema": "public",
+      "parent_table": "group_roster_revision",
+      "conname": "group_roster_member_group_id_school_id_membership_revision_fkey",
+      "child_columns": [
+        "group_id",
+        "school_id",
+        "membership_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "group_roster_member",
+      "parent_schema": "public",
+      "parent_table": "student_group_membership",
+      "conname": "group_roster_member_membership_id_school_id_group_id_enrol_fkey",
+      "child_columns": [
+        "membership_id",
+        "school_id",
+        "group_id",
+        "enrollment_id"
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Vairas.Docs
 
+Source documentation for all 11 backend services and the Angular frontend: [implemented architecture](<Microservices architecture/IMPLEMENTED-ARCHITECTURE.md>), [API contracts](Communication/README.md), [database models](Database/README.md), and [frontend architecture](Frontend/architecture.md). Application sources remain in the separate service repositories and `Frontend`. CI/CD and production deployment are deferred.
+
 Developer and diploma documentation for Vairas, a driving-school training platform with an MCP-based AI assistant.
 
 Repository: [MikitaBeliayev-Diploma/Vairas.Docs](https://github.com/MikitaBeliayev-Diploma/Vairas.Docs).
@@ -28,6 +30,6 @@ dotnet build Vairas.UserManagement.slnx --no-restore
 dotnet run --project Vairas.UserManagement --launch-profile http
 ```
 
-The configured loopback development address is `http://localhost:5151`; raw API documentation is at `/openapi/v1.json` in Development. Follow [Getting Started](Communication/guides/getting-started.md) for the required database/provider setup and contract validation. Other service providers and MCP interfaces are proposed designs; their specifications do not establish running implementations.
+The User Management launch profile above is separate from the complete isolated HTTPS stack. Follow the service READMEs for runtime configuration and [Getting Started](Communication/guides/getting-started.md) for contracts. Historical proposed specifications do not themselves establish runtime functionality.
 
 Store secrets in environment variables, user-secrets or an external secret store. Never commit passwords, private keys, bearer/refresh tokens or connection credentials.

@@ -6,16 +6,146 @@ info:
     fetch current resource state separately.
   version: 1.0.1
 servers:
-- url: http://localhost:5151
-  description: Loopback development launch profile; use HTTPS outside local development.
+- url: https://localhost:7001/
 paths:
+  /internal/v1/profiles/assistant-actor:
+    post:
+      tags:
+      - AssistantActor
+      description: ' Required workload scope and local client allowlist: profiles.binding.read.'
+      operationId: readAssistantActorBinding
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantActorRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AssistantActorRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AssistantActorRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssistantActorResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AssistantActorResponse'
+        '400':
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '401':
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+            SESSION_INVALID).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '403':
+          description: Access policy or current business authority rejected (ACCESS_DENIED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '409':
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '415':
+          description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '500':
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '503':
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+      security:
+      - WorkloadBearer: []
+  /internal/v1/users/{userId}/document-profile:
+    get:
+      tags:
+      - DocumentProfile
+      summary: Read current name and profile revision without contacts or credentials.
+      description: ' Required workload scope and local client allowlist: profiles.binding.read.'
+      operationId: getDocumentProfile
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentProfileResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/DocumentProfileResponse'
+        '401':
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '403':
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '404':
+          description: Profile, target user or role not found (NOT_FOUND).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '500':
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '503':
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+      security:
+      - WorkloadBearer: []
   /internal/v1/users/{userId}/status:
     get:
       tags:
       - InternalProfiles
       summary: Read operational status using a permitted workload identity.
-      description: ' Required workload scope and local client allowlist: profiles.status.read. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.status.read.'
       parameters:
       - name: userId
         in: path
@@ -23,7 +153,6 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       responses:
         '200':
           description: OK
@@ -31,103 +160,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserStatusResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             text/json:
               schema:
                 $ref: '#/components/schemas/UserStatusResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
         '401':
           description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
         '403':
           description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
           description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
-      x-status: implemented
-      operationId: getInternalV1UsersUserIdStatus
-    parameters: []
   /internal/v1/users/{userId}/contact:
     get:
       tags:
       - InternalProfiles
       summary: Read a minimal contact projection for a configured notification/document workload.
-      description: ' Required workload scope and local client allowlist: profiles.contact.read. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.contact.read.'
       parameters:
       - name: userId
         in: path
@@ -135,7 +209,6 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       responses:
         '200':
           description: OK
@@ -143,119 +216,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserContactResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    email: alex@example.test
             text/json:
               schema:
                 $ref: '#/components/schemas/UserContactResponse'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    email: alex@example.test
         '401':
           description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
         '403':
           description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
           description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
-      x-status: implemented
-      operationId: getInternalV1UsersUserIdContact
-    parameters: []
+  /internal/v1/users/{userId}/role-profiles:
+    get:
+      tags:
+      - InternalProfiles
+      summary: Resolve a global user to its role identifiers and current status, for deactivation reconciliation.
+      description: ' Required workload scope and local client allowlist: profiles.binding.read.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleProfilesResult'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserRoleProfilesResult'
+        '401':
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '403':
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '404':
+          description: Profile, target user or role not found (NOT_FOUND).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '500':
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '503':
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+      security:
+      - WorkloadBearer: []
   /internal/v1/profiles/{kind}/{profileId}:
     get:
       tags:
       - InternalProfiles
       summary: Resolve a role identifier to its global user and active state.
-      description: ' Required workload scope and local client allowlist: profiles.binding.read. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.binding.read.'
       parameters:
       - name: kind
         in: path
         required: true
         schema:
           type: string
-        example: teacher
-        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
-          values return 404.'
       - name: profileId
         in: path
         required: true
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       responses:
         '200':
           description: OK
@@ -263,107 +333,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Teacher
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             text/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
         '401':
           description: Workload authentication required (AUTHENTICATION_REQUIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
         '403':
           description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
           description: Owned database unavailable (DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
-      x-status: implemented
-      operationId: getInternalV1ProfilesKindProfileId
-    parameters: []
   /internal/v1/users/{userId}/deactivate:
     post:
       tags:
       - InternalProfiles
       summary: Deactivate a global user using both platform-operator and workload authorization.
-      description: ' Required workload scope and local client allowlist: profiles.deactivate. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.deactivate.'
       parameters:
       - name: userId
         in: path
@@ -371,42 +382,22 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/DeactivateRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  expectedRevision: 1
-                  reason: Instructor requested a schedule correction.
           text/json:
             schema:
               $ref: '#/components/schemas/DeactivateRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  expectedRevision: 1
-                  reason: Instructor requested a schedule correction.
           application/*+json:
             schema:
               $ref: '#/components/schemas/DeactivateRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  expectedRevision: 1
-                  reason: Instructor requested a schedule correction.
         required: true
       responses:
         '200':
@@ -415,221 +406,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                applied:
-                  summary: User deactivated
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: 2
-                    recordedAt: '2026-12-01T10:00:00Z'
-                already_inactive:
-                  summary: Target already inactive
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: ALREADY_INACTIVE
-                    targetKind: UserProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: 2
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                applied:
-                  summary: User deactivated
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: 2
-                    recordedAt: '2026-12-01T10:00:00Z'
-                already_inactive:
-                  summary: Target already inactive
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: ALREADY_INACTIVE
-                    targetKind: UserProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: 2
-                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
-            conflict; changed intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                revision_conflict:
-                  summary: REVISION_CONFLICT
-                  value:
-                    title: The resource has changed.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: postInternalV1UsersUserIdDeactivate
-      x-negative-request:
-        description: 'Missing required expectedRevision: reject with 400 before business work.'
-        mediaType: application/*+json
-        value:
-          reason: Instructor requested a schedule correction.
-        expectedStatus: 400
-    parameters: []
   /internal/v1/users/{userId}/administrator-profile/bootstrap:
     post:
       tags:
       - InternalProfiles
       summary: Bootstrap an administrator after checking platform and school authority.
-      description: ' Required workload scope and local client allowlist: profiles.bootstrap. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.bootstrap.'
       parameters:
       - name: userId
         in: path
@@ -637,39 +476,22 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BootstrapRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
           text/json:
             schema:
               $ref: '#/components/schemas/BootstrapRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
           application/*+json:
             schema:
               $ref: '#/components/schemas/BootstrapRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
         '200':
@@ -678,238 +500,135 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                already_exists:
-                  summary: Existing administrator reused
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: ALREADY_EXISTS
-                    targetKind: AdministratorProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                already_exists:
-                  summary: Existing administrator reused
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: ALREADY_EXISTS
-                    targetKind: AdministratorProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
         '201':
           description: Administrator profile created; operation receipt and Location header.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                applied:
-                  summary: Administrator created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: AdministratorProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                applied:
-                  summary: Administrator created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: AdministratorProfile
-                    targetId: 22222222-2222-4222-8222-222222222222
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-          headers:
-            Location:
-              description: Canonical administrator profile resource.
-              schema:
-                type: string
-                format: uri-reference
-              example: /internal/v1/profiles/administrator/22222222-2222-4222-8222-222222222222
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
-            intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '422':
           description: The target user is inactive (USER_INACTIVE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                user_inactive:
-                  summary: USER_INACTIVE
-                  value:
-                    title: The command was rejected.
-                    status: 422
-                    code: USER_INACTIVE
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: postInternalV1UsersUserIdAdministratorProfileBootstrap
-      x-negative-request:
-        description: 'Missing required schoolId: reject with 400 before business work.'
-        mediaType: application/*+json
-        value: {}
-        expectedStatus: 400
-    parameters: []
+  /internal/v1/users/{userId}/notification-binding:
+    get:
+      tags:
+      - NotificationBinding
+      summary: Resolve the canonical user's immutable Authentication binding and current activity.
+      description: ' Required workload scope and local client allowlist: profiles.binding.read.'
+      operationId: getNotificationContactBinding
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationBindingResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/NotificationBindingResponse'
+        '401':
+          description: Workload authentication required (AUTHENTICATION_REQUIRED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '403':
+          description: Workload scope or local client allowlist rejected (ACCESS_DENIED).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '404':
+          description: Profile, target user or role not found (NOT_FOUND).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '500':
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+        '503':
+          description: Owned database unavailable (DATABASE_UNAVAILABLE).
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ApiProblem'
+      security:
+      - WorkloadBearer: []
   /api/v1/users/me:
     get:
       tags:
@@ -922,141 +641,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
             text/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - UserBearer: []
-      x-status: implemented
-      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
-        and retry behavior.'
-      operationId: getApiV1UsersMe
-      parameters: []
     post:
       tags:
       - Profiles
@@ -1067,42 +688,17 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
           text/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
           application/*+json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
         required: true
       responses:
         '201':
@@ -1111,182 +707,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
-            conflict; changed intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                profile_exists:
-                  summary: PROFILE_EXISTS
-                  value:
-                    title: The command was rejected.
-                    status: 409
-                    code: PROFILE_EXISTS
-                    correlationId: integration-example-01
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - UserBearer: []
-      x-status: implemented
-      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
-        and retry behavior.'
-      operationId: postApiV1UsersMe
-      x-negative-request:
-        description: 'Missing required firstName: reject with 400 before business work.'
-        mediaType: application/*+json
-        value:
-          lastName: Example
-          emailAddress: alex@example.test
-          phoneNumber: null
-        expectedStatus: 400
     put:
       tags:
       - Profiles
@@ -1297,45 +767,17 @@ paths:
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
           text/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
           application/*+json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
         required: true
       responses:
         '200':
@@ -1344,192 +786,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
-            conflict; changed intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                revision_conflict:
-                  summary: REVISION_CONFLICT
-                  value:
-                    title: The resource has changed.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - UserBearer: []
-      x-status: implemented
-      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
-        and retry behavior. expectedRevision must be positive and match the current profile; a create request must
-        omit it or set null.'
-      operationId: putApiV1UsersMe
-      x-negative-request:
-        description: 'Missing required firstName: reject with 400 before business work.'
-        mediaType: application/*+json
-        value:
-          lastName: Example
-          emailAddress: alex@example.test
-          phoneNumber: null
-          expectedRevision: 1
-        expectedStatus: 400
-    parameters: []
   /internal/v1/delegated/users/me:
     get:
       tags:
       - Profiles
       summary: Read the current user's global profile and role bindings.
-      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write.'
       responses:
         '200':
           description: OK
@@ -1537,191 +849,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
             text/json:
               schema:
                 $ref: '#/components/schemas/UserProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    userId: 11111111-1111-4111-8111-111111111111
-                    firstName: Alex
-                    lastName: Example
-                    emailAddress: alex@example.test
-                    phoneNumber: '+37060000000'
-                    status: Active
-                    revision: 1
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-                    studentId: 11111111-1111-4111-8111-111111111111
-                    teacherId: 11111111-1111-4111-8111-111111111111
-                    administratorId: 11111111-1111-4111-8111-111111111111
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: getInternalV1DelegatedUsersMe
-      parameters: []
     post:
       tags:
       - Profiles
       summary: Create a profile bound to the authenticated identity.
-      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write.'
       parameters:
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           text/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           application/*+json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  confirmationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
         '201':
@@ -1730,267 +917,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: PROFILE_EXISTS, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
-            conflict; changed intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                profile_exists:
-                  summary: PROFILE_EXISTS
-                  value:
-                    title: The command was rejected.
-                    status: 409
-                    code: PROFILE_EXISTS
-                    correlationId: integration-example-01
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '422':
-          description: >-
-            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+          description: Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
             CONFIRMATION_EXPIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                confirmation_required:
-                  summary: CONFIRMATION_REQUIRED
-                  value:
-                    title: Exact confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
-                confirmation_invalid:
-                  summary: CONFIRMATION_INVALID
-                  value:
-                    title: Confirmation does not match the command.
-                    status: 422
-                    code: CONFIRMATION_INVALID
-                    correlationId: integration-example-01
-                confirmation_expired:
-                  summary: CONFIRMATION_EXPIRED
-                  value:
-                    title: A fresh confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_EXPIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: postInternalV1DelegatedUsersMe
-      x-negative-request:
-        description: 'Missing required firstName: reject with 400 before business work.'
-        mediaType: application/*+json
-        value:
-          lastName: Example
-          emailAddress: alex@example.test
-          phoneNumber: null
-          confirmationId: 11111111-1111-4111-8111-111111111111
-        expectedStatus: 400
     put:
       tags:
       - Profiles
       summary: Replace personal information using the expected resource revision.
-      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior. expectedRevision must
-        be positive and match the current profile; a create request must omit it or set null.'
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write.'
       parameters:
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           text/json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           application/*+json:
             schema:
               $ref: '#/components/schemas/ProfileRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  firstName: Alex
-                  lastName: Example
-                  emailAddress: alex@example.test
-                  phoneNumber: null
-                  expectedRevision: 1
-                  confirmationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
         '200':
@@ -1999,214 +1005,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: UserProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: 1
-                    recordedAt: '2026-12-01T10:00:00Z'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: REVISION_CONFLICT, IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision
-            conflict; changed intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                revision_conflict:
-                  summary: REVISION_CONFLICT
-                  value:
-                    title: The resource has changed.
-                    status: 409
-                    code: REVISION_CONFLICT
-                    correlationId: integration-example-01
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '422':
-          description: >-
-            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+          description: Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
             CONFIRMATION_EXPIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                confirmation_required:
-                  summary: CONFIRMATION_REQUIRED
-                  value:
-                    title: Exact confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
-                confirmation_invalid:
-                  summary: CONFIRMATION_INVALID
-                  value:
-                    title: Confirmation does not match the command.
-                    status: 422
-                    code: CONFIRMATION_INVALID
-                    correlationId: integration-example-01
-                confirmation_expired:
-                  summary: CONFIRMATION_EXPIRED
-                  value:
-                    title: A fresh confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_EXPIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: putInternalV1DelegatedUsersMe
-      x-negative-request:
-        description: 'Missing required firstName: reject with 400 before business work.'
-        mediaType: application/*+json
-        value:
-          lastName: Example
-          emailAddress: alex@example.test
-          phoneNumber: null
-          expectedRevision: 1
-          confirmationId: 11111111-1111-4111-8111-111111111111
-        expectedStatus: 400
-    parameters: []
   /api/v1/users/me/{role}-profile:
     get:
       tags:
@@ -2218,9 +1074,6 @@ paths:
         required: true
         schema:
           type: string
-        example: teacher
-        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
-          values return 404.'
       responses:
         '200':
           description: OK
@@ -2228,124 +1081,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Teacher
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             text/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - UserBearer: []
-      x-status: implemented
-      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
-        and retry behavior.'
-      operationId: getApiV1UsersMeRoleProfile
     post:
       tags:
       - Profiles
@@ -2356,276 +1128,107 @@ paths:
         required: true
         schema:
           type: string
-        example: teacher
-        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
-          values return 404.'
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
           text/json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
           application/*+json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
         '201':
           description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
-            intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - UserBearer: []
-      x-status: implemented
-      description: ' See ../guides/security.md and ../guides/errors-and-reliability.md for current authorization
-        and retry behavior. student requires schoolId and invitationId to be null; teacher/administrator require
-        both. All delegated mutations require confirmationId.'
-      operationId: postApiV1UsersMeRoleProfile
-    parameters: []
   /internal/v1/delegated/users/me/{role}-profile:
     get:
       tags:
       - Profiles
       summary: Read a role profile; it does not establish school membership.
-      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior.'
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write.'
       parameters:
       - name: role
         in: path
         required: true
         schema:
           type: string
-        example: teacher
-        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
-          values return 404.'
       responses:
         '200':
           description: OK
@@ -2633,421 +1236,152 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Teacher
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
             text/json:
               schema:
                 $ref: '#/components/schemas/RoleProfileResult'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    kind: Student
-                    profileId: 11111111-1111-4111-8111-111111111111
-                    userId: 11111111-1111-4111-8111-111111111111
-                    active: true
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: getInternalV1DelegatedUsersMeRoleProfile
     post:
       tags:
       - Profiles
       summary: Create or reuse a stable role profile after current authorization checks.
-      description: ' Required workload scope and local client allowlist: profiles.mcp.write. See ../guides/security.md
-        and ../guides/errors-and-reliability.md for current authorization and retry behavior. student requires schoolId
-        and invitationId to be null; teacher/administrator require both. All delegated mutations require confirmationId.'
+      description: ' Required workload scope and local client allowlist: profiles.mcp.write.'
       parameters:
       - name: role
         in: path
         required: true
         schema:
           type: string
-        example: teacher
-        description: 'Supported profile kinds: student, teacher, administrator. Parsing is case-insensitive; unsupported
-          values return 404.'
       - name: Idempotency-Key
         in: header
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           text/json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
-                  confirmationId: 11111111-1111-4111-8111-111111111111
           application/*+json:
             schema:
               $ref: '#/components/schemas/RoleRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  schoolId: 11111111-1111-4111-8111-111111111111
-                  invitationId: 11111111-1111-4111-8111-111111111111
-                  confirmationId: 11111111-1111-4111-8111-111111111111
         required: true
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: OK
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
         '201':
           description: Created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
             text/json:
               schema:
                 $ref: '#/components/schemas/OperationReceipt'
-              examples:
-                typical:
-                  summary: Created
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    outcome: Applied
-                    code: APPLIED
-                    targetKind: TeacherProfile
-                    targetId: 11111111-1111-4111-8111-111111111111
-                    resultingRevision: null
-                    recordedAt: '2026-12-01T10:00:00Z'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OperationReceipt'
         '400':
-          description: 'Invalid JSON, required properties or command arguments (VALIDATION_FAILED).'
+          description: Invalid JSON, required properties or command arguments (VALIDATION_FAILED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                validation_failed:
-                  summary: VALIDATION_FAILED
-                  value:
-                    title: The request is invalid.
-                    status: 400
-                    code: VALIDATION_FAILED
-                    correlationId: integration-example-01
         '401':
-          description: >-
-            Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
+          description: Authentication required or user identity/session invalid (AUTHENTICATION_REQUIRED, INVALID_IDENTITY,
             SESSION_INVALID).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                authentication_required:
-                  summary: AUTHENTICATION_REQUIRED
-                  value:
-                    title: Authentication required.
-                    status: 401
-                    code: AUTHENTICATION_REQUIRED
-                    correlationId: integration-example-01
-                invalid_identity:
-                  summary: INVALID_IDENTITY
-                  value:
-                    title: A valid user token with a session is required.
-                    status: 401
-                    code: INVALID_IDENTITY
-                    correlationId: integration-example-01
-                session_invalid:
-                  summary: SESSION_INVALID
-                  value:
-                    title: The session is not active.
-                    status: 401
-                    code: SESSION_INVALID
-                    correlationId: integration-example-01
         '403':
           description: Access policy or current business authority rejected (ACCESS_DENIED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                access_denied:
-                  summary: ACCESS_DENIED
-                  value:
-                    title: Access denied.
-                    status: 403
-                    code: ACCESS_DENIED
-                    correlationId: integration-example-01
         '404':
-          description: 'Profile, target user or role not found (NOT_FOUND).'
+          description: Profile, target user or role not found (NOT_FOUND).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                not_found:
-                  summary: NOT_FOUND
-                  value:
-                    title: Resource not found or not visible.
-                    status: 404
-                    code: NOT_FOUND
-                    correlationId: integration-example-01
         '409':
-          description: >-
-            Command rejected: IDEMPOTENCY_KEY_REUSED, RESOURCE_CONFLICT. Refetch on revision conflict; changed
-            intent requires a new Idempotency-Key.
+          description: Command identity, resource uniqueness or expected revision conflict; applicable codes depend
+            on the command.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                idempotency_key_reused:
-                  summary: IDEMPOTENCY_KEY_REUSED
-                  value:
-                    title: The operation ID is already in use.
-                    status: 409
-                    code: IDEMPOTENCY_KEY_REUSED
-                    correlationId: integration-example-01
-                resource_conflict:
-                  summary: RESOURCE_CONFLICT
-                  value:
-                    title: The resource already exists.
-                    status: 409
-                    code: RESOURCE_CONFLICT
-                    correlationId: integration-example-01
         '415':
           description: Unsupported request Content-Type (HTTP_ERROR); send a documented JSON media type.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                http_error:
-                  summary: HTTP_ERROR
-                  value:
-                    title: The request could not be processed.
-                    status: 415
-                    code: HTTP_ERROR
-                    correlationId: integration-example-01
         '422':
-          description: >-
-            Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
+          description: Exact MCP confirmation is missing, invalid or expired (CONFIRMATION_REQUIRED, CONFIRMATION_INVALID,
             CONFIRMATION_EXPIRED).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                confirmation_required:
-                  summary: CONFIRMATION_REQUIRED
-                  value:
-                    title: Exact confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_REQUIRED
-                    correlationId: integration-example-01
-                confirmation_invalid:
-                  summary: CONFIRMATION_INVALID
-                  value:
-                    title: Confirmation does not match the command.
-                    status: 422
-                    code: CONFIRMATION_INVALID
-                    correlationId: integration-example-01
-                confirmation_expired:
-                  summary: CONFIRMATION_EXPIRED
-                  value:
-                    title: A fresh confirmation is required.
-                    status: 422
-                    code: CONFIRMATION_EXPIRED
-                    correlationId: integration-example-01
         '500':
-          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before retrying.
+          description: Unexpected failure (INTERNAL_ERROR); preserve correlation ID and reconcile mutations before
+            retrying.
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                internal_error:
-                  summary: INTERNAL_ERROR
-                  value:
-                    title: An unexpected error occurred.
-                    status: 500
-                    code: INTERNAL_ERROR
-                    correlationId: integration-example-01
         '503':
-          description: 'Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).'
+          description: Authoritative dependency or owned database unavailable (DEPENDENCY_UNAVAILABLE, DATABASE_UNAVAILABLE).
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ApiProblem'
-              examples:
-                dependency_unavailable:
-                  summary: DEPENDENCY_UNAVAILABLE
-                  value:
-                    title: A required dependency is unavailable.
-                    status: 503
-                    code: DEPENDENCY_UNAVAILABLE
-                    correlationId: integration-example-01
-                database_unavailable:
-                  summary: DATABASE_UNAVAILABLE
-                  value:
-                    title: The database is unavailable.
-                    status: 503
-                    code: DATABASE_UNAVAILABLE
-                    correlationId: integration-example-01
       security:
       - WorkloadBearer: []
         DelegatedUser: []
-      x-status: implemented
-      operationId: postInternalV1DelegatedUsersMeRoleProfile
-    parameters: []
 components:
   schemas:
     ApiProblem:
@@ -3066,20 +1400,49 @@ components:
           type: string
         correlationId:
           type: string
-        type:
+    AssistantActorRequest:
+      required:
+      - identityId
+      - sessionId
+      type: object
+      properties:
+        identityId:
           type: string
-          format: uri-reference
-        instance:
+          format: uuid
+        sessionId:
           type: string
-        errors:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        operation:
-          $ref: '#/components/schemas/OperationReceipt'
-      description: Api Problem. See the operation descriptions for authorization and lifecycle constraints.
+          format: uuid
+      description: Exact identity/session supplied by a locally authenticated owner workload.
+    AssistantActorResponse:
+      required:
+      - userId
+      - status
+      - studentId
+      - teacherId
+      - administratorId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        status:
+          type: string
+        studentId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        teacherId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        administratorId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+      description: Minimal current active profile; no contacts or cross-school permissions.
     BootstrapRequest:
       required:
       - schoolId
@@ -3089,7 +1452,6 @@ components:
           type: string
           format: uuid
       description: School-authorized bootstrap of the first administrator.
-      additionalProperties: false
     DeactivateRequest:
       required:
       - expectedRevision
@@ -3105,16 +1467,56 @@ components:
           type:
           - 'null'
           - string
-          maxLength: 1000
       description: Global deactivation of a user at a specific revision.
-      additionalProperties: false
+    DocumentProfileResponse:
+      required:
+      - userId
+      - firstName
+      - lastName
+      - revision
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+      description: Minimal identity fields for a specifically allowlisted document workload.
+    NotificationBindingResponse:
+      required:
+      - userId
+      - identityId
+      - active
+      - revision
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        identityId:
+          type: string
+          format: uuid
+        active:
+          type: boolean
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+      description: Minimal identity binding. Email ownership is validated separately with Authentication.
     OperationOutcome:
-      type: string
       enum:
       - Applied
       - Rejected
-      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
-        integer enum input values; these models are responses.
     OperationReceipt:
       required:
       - operationId
@@ -3148,15 +1550,11 @@ components:
         recordedAt:
           type: string
           format: date-time
-      description: Operation Receipt. See the operation descriptions for authorization and lifecycle constraints.
     ProfileKind:
-      type: string
       enum:
       - Student
       - Teacher
       - Administrator
-      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
-        integer enum input values; these models are responses.
     ProfileRequest:
       required:
       - firstName
@@ -3167,27 +1565,16 @@ components:
       properties:
         firstName:
           type: string
-          minLength: 1
-          maxLength: 100
-          description: Required non-whitespace personal name; original value is retained in the command fingerprint.
         lastName:
           type: string
-          minLength: 1
-          maxLength: 100
-          description: Required non-whitespace personal name; original value is retained in the command fingerprint.
         emailAddress:
           type:
           - 'null'
           - string
-          maxLength: 254
-          description: Contact email or null; non-null values must pass FluentValidation EmailAddress. Not an authentication
-            identity.
         phoneNumber:
           type:
           - 'null'
           - string
-          maxLength: 32
-          description: Non-whitespace contact number or null.
         expectedRevision:
           pattern: ^-?(?:0|[1-9]\d*)$
           type:
@@ -3201,7 +1588,6 @@ components:
           - string
           format: uuid
       description: Personal information for creating or replacing the authenticated profile.
-      additionalProperties: false
     RoleProfileResult:
       required:
       - kind
@@ -3220,7 +1606,6 @@ components:
           format: uuid
         active:
           type: boolean
-      description: Role Profile Result. See the operation descriptions for authorization and lifecycle constraints.
     RoleRequest:
       type: object
       properties:
@@ -3240,7 +1625,6 @@ components:
           - string
           format: uuid
       description: Role provisioning arguments; school and invitation are mandatory for staff roles.
-      additionalProperties: false
     UserContactResponse:
       required:
       - userId
@@ -3315,14 +1699,46 @@ components:
           - 'null'
           - string
           format: uuid
-      description: User Profile Result. See the operation descriptions for authorization and lifecycle constraints.
+    UserRoleProfilesResult:
+      required:
+      - userId
+      - status
+      - revision
+      - studentId
+      - teacherId
+      - administratorId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/UserStatus'
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        studentId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        teacherId:
+          type:
+          - 'null'
+          - string
+          format: uuid
+        administratorId:
+          type:
+          - 'null'
+          - string
+          format: uuid
     UserStatus:
-      type: string
       enum:
       - Active
       - Inactive
-      description: Canonical response names from JsonStringEnumConverter. The default converter also accepts defined
-        integer enum input values; these models are responses.
     UserStatusResponse:
       required:
       - userId
@@ -3350,7 +1766,8 @@ components:
       name: X-User-Authorization
       in: header
 tags:
+- name: AssistantActor
+- name: DocumentProfile
 - name: InternalProfiles
+- name: NotificationBinding
 - name: Profiles
-x-status: implemented
-x-source: 'Backend/Vairas.UserManagement: controllers, Program.cs, security, middleware, business validation.'

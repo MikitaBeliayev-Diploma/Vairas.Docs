@@ -58,7 +58,6 @@ ALTER TABLE "lesson_change" ENABLE ROW LEVEL SECURITY;
 CREATE POLICY tenant_scope ON "lesson_change" TO v_scheduling_runtime USING (school_id=nullif(current_setting('vairas.school_id',true),'')::uuid) WITH CHECK (school_id=nullif(current_setting('vairas.school_id',true),'')::uuid);
 ALTER TABLE "assessment_appointment" ENABLE ROW LEVEL SECURITY;
 CREATE POLICY tenant_scope ON "assessment_appointment" TO v_scheduling_runtime USING (school_id=nullif(current_setting('vairas.school_id',true),'')::uuid) WITH CHECK (school_id=nullif(current_setting('vairas.school_id',true),'')::uuid);
-CREATE ROLE v_scheduling_reservation_authority LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS NOREPLICATION NOINHERIT;
 GRANT USAGE ON SCHEMA public TO v_scheduling_reservation_authority;
 DO $$ BEGIN EXECUTE format('GRANT CONNECT ON DATABASE %I TO v_scheduling_reservation_authority',current_database()); END $$;
 GRANT SELECT(resource_kind,resource_key,starts_at,ends_at,status) ON reservation_claim TO v_scheduling_reservation_authority;

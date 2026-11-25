@@ -10,3 +10,30 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+# Local generated output and private configuration
+**/bin/
+**/obj/
+**/node_modules/
+**/.angular/
+**/.cache/
+**/dist/
+**/coverage/
+**/test-results/
+**/TestResults/
+**/playwright-report/
+**/.evidence/
+**/evidence/
+**/.codex/
+**/.agents/
+**/.vscode/
+*.trx
+*.binlog
+*.log
+*.tsbuildinfo
+*.pfx
+*.p12
+*.key
+.env
+.env.*
+!.env.example
+**/appsettings.Local.json

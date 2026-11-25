@@ -1,0 +1,71 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_administrator_profile {
+    uuid administrator_id
+    uuid user_id
+    timestamptz created_at
+  }
+  public_outbox_message {
+    uuid event_id
+    uuid aggregate_id
+    int8 aggregate_version
+    varchar event_type
+    jsonb body
+    varchar correlation_id
+    varchar trace_parent
+    timestamptz occurred_at
+    timestamptz next_attempt_at
+    timestamptz published_at
+    uuid lease_id
+    timestamptz leased_until
+    int4 attempts
+    varchar last_error_code
+  }
+  public_profile_operation {
+    uuid operation_id
+    uuid actor_user_id
+    varchar actor_service
+    uuid requesting_school_id
+    varchar authority_basis
+    um_channel channel
+    varchar command_name
+    varchar target_kind
+    uuid target_id
+    int8 expected_revision
+    int8 resulting_revision
+    varchar request_fingerprint
+    um_operation_outcome outcome
+    varchar outcome_code
+    timestamptz recorded_at
+    text reason
+    uuid confirmation_id
+    timestamptz confirmed_at
+  }
+  public_student_profile {
+    uuid student_id
+    uuid user_id
+    timestamptz created_at
+  }
+  public_teacher_profile {
+    uuid teacher_id
+    uuid user_id
+    timestamptz created_at
+  }
+  public_user_profile {
+    uuid user_id
+    uuid identity_id
+    varchar first_name
+    varchar last_name
+    varchar email_address
+    varchar phone_number
+    um_user_status status
+    int8 revision
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  public_user_profile ||--o{ public_student_profile : "student_profile_user_id_fkey"
+  public_user_profile ||--o{ public_teacher_profile : "teacher_profile_user_id_fkey"
+  public_user_profile ||--o{ public_administrator_profile : "administrator_profile_user_id_fkey"

@@ -1,0 +1,125 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_command_request {
+    uuid request_id
+    uuid school_id
+    uuid actor_user_id
+    varchar idempotency_key
+    varchar command_name
+    varchar fingerprint
+    uuid vehicle_id
+    text response_json
+    timestamptz created_at
+  }
+  public_maintenance {
+    uuid maintenance_id
+    uuid school_id
+    uuid vehicle_id
+    vm_maintenance_type type
+    timestamptz scheduled_at
+    timestamptz started_at
+    timestamptz completed_at
+    timestamptz cancelled_at
+    vm_maintenance_status status
+    text comment
+    int8 revision
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  public_outbox_message {
+    uuid message_id
+    uuid school_id
+    uuid vehicle_id
+    int8 aggregate_version
+    varchar event_type
+    text payload_json
+    varchar correlation_id
+    timestamptz occurred_at
+    timestamptz next_attempt_at
+    uuid lease_token
+    timestamptz lease_until
+    int4 attempts
+    timestamptz published_at
+  }
+  public_vehicle {
+    uuid vehicle_id
+    uuid school_id
+    uuid branch_id
+    varchar registration_country_code
+    varchar registration_number
+    varchar manufacturer
+    varchar model
+    int2 manufacture_year
+    vm_transmission transmission
+    vm_vehicle_status status
+    int8 revision
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  public_vehicle_operation {
+    uuid operation_id
+    uuid school_id
+    uuid vehicle_id
+    uuid maintenance_id
+    uuid actor_user_id
+    varchar actor_service
+    vm_channel channel
+    varchar command_name
+    varchar request_fingerprint
+    int8 expected_vehicle_revision
+    int8 expected_maintenance_revision
+    int8 resulting_vehicle_revision
+    int8 resulting_maintenance_revision
+    text reason
+    uuid confirmation_id
+    timestamptz confirmed_at
+    timestamptz recorded_at
+  }
+  public_vehicle_state_change_operation {
+    uuid operation_id
+    uuid school_id
+    uuid vehicle_id
+    uuid actor_user_id
+    uuid branch_id
+    varchar operation_type
+    varchar status
+    varchar resume_status
+    int8 expected_vehicle_revision
+    varchar fingerprint
+    varchar reason
+    varchar correlation_id
+    uuid block_id
+    uuid block_operation_id
+    uuid release_operation_id
+    vm_vehicle_status result_vehicle_status
+    varchar error_code
+    int4 attempts
+    timestamptz next_attempt_at
+    uuid lease_token
+    timestamptz lease_until
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  public_vehicle_supported_category {
+    uuid vehicle_id
+    uuid school_id
+    varchar category_code
+  }
+  public_vehicle_teacher_assignment {
+    uuid vehicle_id
+    uuid school_id
+    uuid teacher_id
+    uuid school_membership_id
+    timestamptz assigned_at
+  }
+  public_vehicle ||--o{ public_vehicle_state_change_operation : "vehicle_state_change_operation_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_command_request : "command_request_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_vehicle_supported_category : "vehicle_supported_category_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_vehicle_teacher_assignment : "vehicle_teacher_assignment_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_maintenance : "maintenance_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_vehicle_operation : "vehicle_operation_vehicle_id_school_id_fkey"
+  public_maintenance o|--o{ public_vehicle_operation : "vehicle_operation_maintenance_id_vehicle_id_school_id_fkey"
+  public_vehicle ||--o{ public_outbox_message : "outbox_message_vehicle_id_school_id_fkey"

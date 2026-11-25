@@ -1,3 +1,5 @@
+> Baseline design reference. The [2026-11-24 implementation extension](implementation.md) records nine added columns, six reliability tables and current deployment/verification boundaries. The current combined schema is [DBML](../schema/schema.dbml).
+
 # Scheduling — Data Dictionary
 
 Current source: [Vairas_Scheduling_FINAL.dbml](../schema/schema.dbml), SHA-256 `6341781f50ab1cd668a3189f06215571a704094c99ef6cfa6e7c1105d4c84232`. Owner-adopted D-044; scheduling-refined is NOT silently adopted.

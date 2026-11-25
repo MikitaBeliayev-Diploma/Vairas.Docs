@@ -1,0 +1,13 @@
+# School Scheduling coordination implementation — 2026-11-24
+
+The canonical design retains thirteen business tables and 137 columns. Backend adds one technical `school_coordination` table with fourteen columns, producing fourteen tables and 151 columns. This is an explicit implementation extension, not a replacement of the adopted business model.
+
+The composite primary key is `(operation_id, school_id)`. Required UUIDs are `actor_user_id` and `result_id`; `operation_id` and `school_id` are UUIDs too. Required text fields are `fingerprint`, `command_json`, `transition_json`, `payload_hash` and `state`. Required bigint fields are `before_revision` and `after_revision`; `effective_from` is required timestamptz. `lease_id` UUID and `lease_until` timestamptz are nullable reserved lease metadata. The current worker relies on retained state and transactional serialization; it does not claim distributed exclusive queue leases.
+
+Intent and transition basis are immutable after freezing. States are Pending, LocalApplied, Committed, AbortPending and Aborted. Pending transitions withhold new admission. The worker retries durable state; timeout does not authorize unlock. Operator abort records its actor/reason in immutable School operation evidence and is refused after local commit. Scheduling must acknowledge a verified negative decision before AbortPending becomes Aborted.
+
+[Generated incremental migration SQL](../ddl/002-scheduling-coordination.sql) is for the matching EF-managed Backend initial migration `20261123205742_InitialSchoolManagement`. The raw canonical design installer does not establish that migration history or the Backend initial hardening. For the executable service use Backend/Vairas.SchoolManagement's EF initialization instructions and current `database/runtime-grants.sql`; do not append this migration blindly to an arbitrary raw-design database. Startup never migrates automatically.
+
+Runtime RLS scopes this table to school; the SECURITY DEFINER worker queue exposes only pending school/operation IDs. The runtime role remains non-owner and cannot delete evidence. Coordination payloads contain personal identifiers and require the same approved retention/access policies as School operations.
+
+Unit tests and PostgreSQL 17/actual HTTP pipeline checks are recorded in Backend/Vairas.SchoolManagement/VALIDATION.md and the four-service Scheduling report. Activation is disabled by default and requires real workload credentials/audiences/scopes on both services. Learning programme applicability/completion providers, production hosting and broker consumers remain separate gates.

@@ -1,0 +1,106 @@
+erDiagram
+  notifications_notification {
+    uuid school_id
+    uuid notification_id
+    uuid recipient_user_id
+    uuid template_id
+    int8 template_revision
+    varchar notification_type
+    varchar channel
+    varchar subject
+    text body
+    varchar destination_address
+    varchar contact_revision
+    varchar source_context
+    uuid source_id
+    int8 source_revision
+    uuid source_event_id
+    varchar dispatch_key
+    timestamptz scheduled_at
+    varchar status
+    int8 revision
+    int4 attempt_count
+    timestamptz next_attempt_at
+    timestamptz sent_at
+    timestamptz cancelled_at
+    varchar failure_code
+    timestamptz created_at
+    timestamptz updated_at
+    varchar correlation_id
+    timestamptz content_purged_at
+  }
+  notifications_notification_delivery_attempt {
+    uuid school_id
+    uuid attempt_id
+    uuid notification_id
+    int4 attempt_no
+    varchar provider_key
+    varchar provider_message_id
+    varchar status
+    timestamptz started_at
+    timestamptz finished_at
+    varchar error_code
+  }
+  notifications_notification_inbox {
+    uuid school_id
+    varchar producer
+    uuid event_id
+    varchar payload_hash
+    uuid source_id
+    int8 source_revision
+    varchar outcome
+    varchar outcome_code
+    timestamptz received_at
+    timestamptz processed_at
+  }
+  notifications_notification_operation {
+    uuid school_id
+    uuid operation_id
+    uuid actor_user_id
+    varchar channel
+    varchar command_name
+    uuid target_id
+    varchar request_hash
+    text authority_basis
+    uuid confirmation_id
+    timestamptz confirmed_at
+    varchar outcome
+    varchar outcome_code
+    int8 resulting_revision
+    timestamptz recorded_at
+    jsonb response_json
+  }
+  notifications_notification_retention_run {
+    uuid run_id
+    timestamptz cutoff
+    int4 affected
+    timestamptz executed_at
+    text executed_by
+    varchar reason
+  }
+  notifications_notification_template {
+    uuid school_id
+    uuid template_id
+    varchar notification_type
+    varchar subject_template
+    text body_template
+    varchar status
+    int8 revision
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  notifications_notification_work {
+    uuid school_id
+    uuid notification_id
+    varchar status
+    timestamptz available_at
+    timestamptz created_at
+  }
+  notifications_schema_history {
+    text version
+    text checksum
+    timestamptz applied_at
+  }
+  notifications_notification ||--o{ notifications_notification_delivery_attempt : "notification_delivery_attempt_school_id_notification_id_fkey"
+  notifications_notification_template o|--o{ notifications_notification : "notification_school_id_template_id_fkey"
+  notifications_notification ||--o{ notifications_notification_work : "notification_work_school_id_notification_id_fkey"

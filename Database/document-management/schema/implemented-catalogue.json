@@ -1,0 +1,3630 @@
+{
+  "database": "vairas_document_management",
+  "owningContext": "document-management",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 1,
+      "column_name": "signed_copy_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 3,
+      "column_name": "contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 4,
+      "column_name": "copy_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 5,
+      "column_name": "file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 6,
+      "column_name": "is_current",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 7,
+      "column_name": "declared_signed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 8,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 9,
+      "column_name": "recorded_by",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "contract_signed_copy",
+      "ordinal_position": 10,
+      "column_name": "basis",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 3,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 4,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 5,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 6,
+      "column_name": "session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 7,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 8,
+      "column_name": "snapshot_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 9,
+      "column_name": "replaces_contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 10,
+      "column_name": "source_snapshot_version",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 11,
+      "column_name": "kind",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 12,
+      "column_name": "status",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 13,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 14,
+      "column_name": "error_code",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 15,
+      "column_name": "attempts",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 16,
+      "column_name": "next_attempt_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 17,
+      "column_name": "lease_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 18,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 19,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 20,
+      "column_name": "missing_items_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": "'[]'::text",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_job",
+      "ordinal_position": 21,
+      "column_name": "result_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 3,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 4,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 5,
+      "column_name": "reviewed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_review",
+      "ordinal_position": 6,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 1,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 3,
+      "column_name": "kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 4,
+      "column_name": "name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 5,
+      "column_name": "active_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_template",
+      "ordinal_position": 6,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 1,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 3,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 4,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 5,
+      "column_name": "version_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 6,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 7,
+      "column_name": "evidence_snapshot_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 8,
+      "column_name": "dependency_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 9,
+      "column_name": "evidence_status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 10,
+      "column_name": "rendered_file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 11,
+      "column_name": "basis_file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 12,
+      "column_name": "basis_schema_version",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 13,
+      "column_name": "renderer_version",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 14,
+      "column_name": "state",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 15,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 16,
+      "column_name": "generated_by",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "document_version",
+      "ordinal_position": 17,
+      "column_name": "generated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 3,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 4,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 5,
+      "column_name": "file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 6,
+      "column_name": "version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 7,
+      "column_name": "historical",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 8,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "download_grant",
+      "ordinal_position": 9,
+      "column_name": "signed_copy_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "evidence_checkpoint",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "evidence_checkpoint",
+      "ordinal_position": 2,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "evidence_checkpoint",
+      "ordinal_position": 3,
+      "column_name": "dependency_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "evidence_checkpoint",
+      "ordinal_position": 4,
+      "column_name": "last_change_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "evidence_checkpoint",
+      "ordinal_position": 5,
+      "column_name": "observed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 1,
+      "column_name": "file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 3,
+      "column_name": "storage_key",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 4,
+      "column_name": "purpose",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 5,
+      "column_name": "sha256",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 6,
+      "column_name": "byte_length",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 7,
+      "column_name": "media_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 8,
+      "column_name": "scan_status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 9,
+      "column_name": "uploaded_by",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "file_object",
+      "ordinal_position": 10,
+      "column_name": "uploaded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "inbox_message",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "inbox_message",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "inbox_message",
+      "ordinal_position": 3,
+      "column_name": "fingerprint",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "inbox_message",
+      "ordinal_position": 4,
+      "column_name": "processed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_outcome",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_outcome",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_outcome",
+      "ordinal_position": 3,
+      "column_name": "response_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 1,
+      "column_name": "command_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 3,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 4,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 5,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 6,
+      "column_name": "operation",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 7,
+      "column_name": "request_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 8,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 9,
+      "column_name": "contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 10,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 11,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 12,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 13,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "operation_receipt",
+      "ordinal_position": 14,
+      "column_name": "completed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 3,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 4,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 5,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 6,
+      "column_name": "session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 7,
+      "column_name": "expected_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 8,
+      "column_name": "expected_version_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 9,
+      "column_name": "artifact_digest",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 10,
+      "column_name": "status",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 11,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 12,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "publication_decision",
+      "ordinal_position": 13,
+      "column_name": "decided_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 3,
+      "column_name": "contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 4,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 5,
+      "column_name": "file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "rendered_artifact",
+      "ordinal_position": 6,
+      "column_name": "format",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 1,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 3,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 4,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 5,
+      "column_name": "signed_copy_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 6,
+      "column_name": "action",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 7,
+      "column_name": "contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 8,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 9,
+      "column_name": "document_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 10,
+      "column_name": "sequence_no",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 11,
+      "column_name": "from_state",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 12,
+      "column_name": "to_state",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 13,
+      "column_name": "actor_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 14,
+      "column_name": "occurred_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 15,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "state_event",
+      "ordinal_position": 16,
+      "column_name": "command_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 1,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 3,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 4,
+      "column_name": "version_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 5,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 6,
+      "column_name": "file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 7,
+      "column_name": "created_by",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "template_version",
+      "ordinal_position": 8,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 1,
+      "column_name": "contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 3,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 4,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 5,
+      "column_name": "template_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 6,
+      "column_name": "generated_file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 7,
+      "column_name": "basis_file_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 8,
+      "column_name": "basis_schema_version",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 9,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 10,
+      "column_name": "replaces_contract_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 11,
+      "column_name": "generated_by",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 12,
+      "column_name": "generated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_contract",
+      "ordinal_position": 13,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 1,
+      "column_name": "document_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 3,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 4,
+      "column_name": "kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 5,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "training_document",
+      "ordinal_position": 6,
+      "column_name": "current_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_basis_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM basis)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_check",
+      "contype": "c",
+      "definition": "CHECK ((declared_signed_at <= recorded_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_copy_no_check",
+      "contype": "c",
+      "definition": "CHECK ((copy_no > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (signed_copy_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_school_id_contract_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, contract_id) REFERENCES training_contract(school_id, contract_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "contract_signed_copy_school_id_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "dm_signed_audit",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "conname": "dm_signed_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "dm_job_result_version",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, result_version_id) REFERENCES document_version(school_id, document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_attempts_check",
+      "contype": "c",
+      "definition": "CHECK ((attempts >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_kind_check",
+      "contype": "c",
+      "definition": "CHECK ((kind = ANY (ARRAY['TrainingContract'::text, 'PracticalJournal'::text, 'CompletionReport'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_school_id_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, id) REFERENCES operation_receipt(school_id, command_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_school_id_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (school_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_school_id_template_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_version_id) REFERENCES template_version(school_id, template_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "conname": "document_job_status_check",
+      "contype": "c",
+      "definition": "CHECK ((status = ANY (ARRAY['Pending'::text, 'Generating'::text, 'Completed'::text, 'Failed'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_review",
+      "conname": "document_review_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_review",
+      "conname": "document_review_school_id_document_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_version_id) REFERENCES document_version(school_id, document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "dm_template_audit",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "dm_template_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "document_template_kind_check",
+      "contype": "c",
+      "definition": "CHECK (((kind)::text = ANY ((ARRAY['TrainingContract'::character varying, 'PracticalJournal'::character varying, 'CompletionReport'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "document_template_name_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM name)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "document_template_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (template_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "document_template_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "conname": "document_template_school_id_template_id_active_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id, active_version_id) REFERENCES template_version(school_id, template_id, template_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "dm_selection_child_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "dm_version_audit",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_check",
+      "contype": "c",
+      "definition": "CHECK ((((state)::text <> 'PublishedReady'::text) OR ((evidence_status)::text = 'Ready'::text)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_check1",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM basis_schema_version)) > 0) AND (length(TRIM(BOTH FROM renderer_version)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_dependency_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((dependency_revision >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_evidence_status_check",
+      "contype": "c",
+      "definition": "CHECK (((evidence_status)::text = ANY ((ARRAY['Ready'::character varying, 'Incomplete'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_school_id_basis_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, basis_file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_school_id_document_id_enrollment_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_id, enrollment_id) REFERENCES training_document(school_id, document_id, enrollment_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_school_id_rendered_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, rendered_file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_school_id_template_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_version_id) REFERENCES template_version(school_id, template_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_state_check",
+      "contype": "c",
+      "definition": "CHECK (((state)::text = ANY ((ARRAY['Prepared'::character varying, 'Indeterminate'::character varying, 'PublishedReview'::character varying, 'PublishedReady'::character varying, 'Stale'::character varying, 'Withdrawn'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "conname": "document_version_version_no_check",
+      "contype": "c",
+      "definition": "CHECK ((version_no > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "download_grant",
+      "conname": "dm_download_signed_copy",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, signed_copy_id) REFERENCES contract_signed_copy(school_id, signed_copy_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "download_grant",
+      "conname": "dm_download_version",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, version_id) REFERENCES document_version(school_id, document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "download_grant",
+      "conname": "download_grant_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "download_grant",
+      "conname": "download_grant_school_id_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, file_id) REFERENCES file_object(school_id, file_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "evidence_checkpoint",
+      "conname": "dm_checkpoint_selection",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "evidence_checkpoint",
+      "conname": "evidence_checkpoint_dependency_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((dependency_revision >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "evidence_checkpoint",
+      "conname": "evidence_checkpoint_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, enrollment_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_byte_length_check",
+      "contype": "c",
+      "definition": "CHECK ((byte_length > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_check",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM storage_key)) > 0) AND (length(TRIM(BOTH FROM media_type)) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (file_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_purpose_check",
+      "contype": "c",
+      "definition": "CHECK (((purpose)::text = ANY ((ARRAY['Template'::character varying, 'Rendered'::character varying, 'SignedCopy'::character varying, 'SourceBasis'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_scan_status_check",
+      "contype": "c",
+      "definition": "CHECK (((scan_status)::text = ANY ((ARRAY['Pending'::character varying, 'Clean'::character varying, 'Rejected'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "conname": "file_object_sha256_check",
+      "contype": "c",
+      "definition": "CHECK (((sha256)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "inbox_message",
+      "conname": "inbox_message_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_outcome",
+      "conname": "operation_outcome_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_outcome",
+      "conname": "operation_outcome_school_id_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, id) REFERENCES operation_receipt(school_id, command_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check",
+      "contype": "c",
+      "definition": "CHECK (((((status)::text = ANY ((ARRAY['Pending'::character varying, 'Indeterminate'::character varying])::text[])) AND (completed_at IS NULL)) OR (((status)::text = ANY ((ARRAY['Succeeded'::character varying, 'Rejected'::character varying])::text[])) AND (completed_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check1",
+      "contype": "c",
+      "definition": "CHECK (((completed_at IS NULL) OR (completed_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check2",
+      "contype": "c",
+      "definition": "CHECK ((num_nonnulls(template_id, contract_id, document_id, document_version_id) <= 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check3",
+      "contype": "c",
+      "definition": "CHECK (((template_version_id IS NULL) OR (template_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check4",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text <> ALL ((ARRAY['Succeeded'::character varying, 'Rejected'::character varying])::text[])) OR (outcome_code IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_check5",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM operation)) > 0) AND ((outcome_code IS NULL) OR (length(TRIM(BOTH FROM outcome_code)) > 0))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (command_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_request_digest_check",
+      "contype": "c",
+      "definition": "CHECK (((request_digest)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_school_id_contract_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, contract_id) REFERENCES training_contract(school_id, contract_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_school_id_document_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_id) REFERENCES training_document(school_id, document_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_school_id_document_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_version_id) REFERENCES document_version(school_id, document_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_school_id_template_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id) REFERENCES document_template(school_id, template_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_school_id_template_id_template_version_i_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id, template_version_id) REFERENCES template_version(school_id, template_id, template_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "conname": "operation_receipt_status_check",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Pending'::character varying, 'Succeeded'::character varying, 'Rejected'::character varying, 'Indeterminate'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "publication_decision",
+      "conname": "publication_decision_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "publication_decision",
+      "conname": "publication_decision_school_id_document_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_version_id) REFERENCES document_version(school_id, document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "publication_decision",
+      "conname": "publication_decision_school_id_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, id) REFERENCES operation_receipt(school_id, command_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "publication_decision",
+      "conname": "publication_decision_status_check",
+      "contype": "c",
+      "definition": "CHECK ((status = ANY (ARRAY['Pending'::text, 'Accepted'::text, 'Rejected'::text, 'Stale'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_check",
+      "contype": "c",
+      "definition": "CHECK ((num_nonnulls(contract_id, document_version_id) = 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_format_check",
+      "contype": "c",
+      "definition": "CHECK ((format = ANY (ARRAY['pdf'::text, 'docx'::text])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_school_id_contract_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, contract_id) REFERENCES training_contract(school_id, contract_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_school_id_document_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_version_id) REFERENCES document_version(school_id, document_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "conname": "rendered_artifact_school_id_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, file_id) REFERENCES file_object(school_id, file_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_action_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM action)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_check",
+      "contype": "c",
+      "definition": "CHECK ((num_nonnulls(template_id, contract_id, document_id, document_version_id) = 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_check1",
+      "contype": "c",
+      "definition": "CHECK (((template_version_id IS NULL) OR (template_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_check2",
+      "contype": "c",
+      "definition": "CHECK (((signed_copy_id IS NULL) OR (contract_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_reason_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM reason)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_command_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, command_id) REFERENCES operation_receipt(school_id, command_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_contract_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, contract_id) REFERENCES training_contract(school_id, contract_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_contract_id_signed_copy_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, contract_id, signed_copy_id) REFERENCES contract_signed_copy(school_id, contract_id, signed_copy_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_document_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_id) REFERENCES training_document(school_id, document_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_document_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_version_id) REFERENCES document_version(school_id, document_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_template_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id) REFERENCES document_template(school_id, template_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_school_id_template_id_template_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id, template_version_id) REFERENCES template_version(school_id, template_id, template_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "conname": "state_event_sequence_no_check",
+      "contype": "c",
+      "definition": "CHECK ((sequence_no > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "dm_template_child_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "template_version_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (template_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "template_version_school_id_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "template_version_school_id_template_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id) REFERENCES document_template(school_id, template_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "template_version_status_check",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Draft'::character varying, 'Active'::character varying, 'Archived'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "conname": "template_version_version_no_check",
+      "contype": "c",
+      "definition": "CHECK ((version_no > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "dm_contract_audit",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "dm_contract_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_basis_schema_version_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM basis_schema_version)) > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_check",
+      "contype": "c",
+      "definition": "CHECK (((replaces_contract_id IS NULL) OR (replaces_contract_id <> contract_id)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (contract_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_school_id_basis_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, basis_file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_school_id_enrollment_id_replaces_contrac_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, enrollment_id, replaces_contract_id) REFERENCES training_contract(school_id, enrollment_id, contract_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_school_id_generated_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, generated_file_id) REFERENCES file_object(school_id, file_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_school_id_template_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_version_id) REFERENCES template_version(school_id, template_version_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "conname": "training_contract_status_check",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Generated'::character varying, 'Signed'::character varying, 'Cancelled'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "dm_document_audit",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "dm_selection_final",
+      "contype": "t",
+      "definition": "TRIGGER DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "training_document_kind_check",
+      "contype": "c",
+      "definition": "CHECK (((kind)::text = ANY ((ARRAY['PracticalJournal'::character varying, 'CompletionReport'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "training_document_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (document_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "training_document_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "conname": "training_document_school_id_document_id_current_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, document_id, current_version_id) REFERENCES document_version(school_id, document_id, document_version_id) DEFERRABLE"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "indexname": "contract_signed_copy_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX contract_signed_copy_pkey ON public.contract_signed_copy USING btree (signed_copy_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "indexname": "contract_signed_copy_school_id_contract_id_copy_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX contract_signed_copy_school_id_contract_id_copy_no_idx ON public.contract_signed_copy USING btree (school_id, contract_id, copy_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "indexname": "contract_signed_copy_school_id_contract_id_signed_copy_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX contract_signed_copy_school_id_contract_id_signed_copy_id_idx ON public.contract_signed_copy USING btree (school_id, contract_id, signed_copy_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "indexname": "contract_signed_copy_school_id_signed_copy_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX contract_signed_copy_school_id_signed_copy_id_idx ON public.contract_signed_copy USING btree (school_id, signed_copy_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "indexname": "dm_one_current_signed_copy",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX dm_one_current_signed_copy ON public.contract_signed_copy USING btree (school_id, contract_id) WHERE is_current"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_job",
+      "indexname": "dm_due_jobs",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX dm_due_jobs ON public.document_job USING btree (next_attempt_at) WHERE (status = ANY (ARRAY['Pending'::text, 'Generating'::text]))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_job",
+      "indexname": "document_job_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_job_pkey ON public.document_job USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_job",
+      "indexname": "document_job_school_id_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_job_school_id_id_key ON public.document_job USING btree (school_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_review",
+      "indexname": "document_review_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_review_pkey ON public.document_review USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_template",
+      "indexname": "document_template_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_template_pkey ON public.document_template USING btree (template_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_template",
+      "indexname": "document_template_school_id_template_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_template_school_id_template_id_idx ON public.document_template USING btree (school_id, template_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "dm_evidence_versions",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX dm_evidence_versions ON public.document_version USING btree (school_id, enrollment_id, dependency_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "dm_version_template",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX dm_version_template ON public.document_version USING btree (school_id, template_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "document_version_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_version_pkey ON public.document_version USING btree (document_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "document_version_school_id_document_id_document_version_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_version_school_id_document_id_document_version_id_idx ON public.document_version USING btree (school_id, document_id, document_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "document_version_school_id_document_id_version_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_version_school_id_document_id_version_no_idx ON public.document_version USING btree (school_id, document_id, version_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "indexname": "document_version_school_id_document_version_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX document_version_school_id_document_version_id_idx ON public.document_version USING btree (school_id, document_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "download_grant",
+      "indexname": "download_grant_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX download_grant_pkey ON public.download_grant USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "evidence_checkpoint",
+      "indexname": "evidence_checkpoint_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX evidence_checkpoint_pkey ON public.evidence_checkpoint USING btree (school_id, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "file_object",
+      "indexname": "file_object_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX file_object_pkey ON public.file_object USING btree (file_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "file_object",
+      "indexname": "file_object_school_id_file_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX file_object_school_id_file_id_idx ON public.file_object USING btree (school_id, file_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "file_object",
+      "indexname": "file_object_school_id_storage_key_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX file_object_school_id_storage_key_idx ON public.file_object USING btree (school_id, storage_key)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inbox_message",
+      "indexname": "inbox_message_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX inbox_message_pkey ON public.inbox_message USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "operation_outcome",
+      "indexname": "operation_outcome_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX operation_outcome_pkey ON public.operation_outcome USING btree (school_id, id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "operation_receipt",
+      "indexname": "operation_receipt_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX operation_receipt_pkey ON public.operation_receipt USING btree (command_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "operation_receipt",
+      "indexname": "operation_receipt_school_id_command_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX operation_receipt_school_id_command_id_idx ON public.operation_receipt USING btree (school_id, command_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "publication_decision",
+      "indexname": "publication_decision_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX publication_decision_pkey ON public.publication_decision USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rendered_artifact",
+      "indexname": "dm_contract_format",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX dm_contract_format ON public.rendered_artifact USING btree (school_id, contract_id, format) WHERE (contract_id IS NOT NULL)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rendered_artifact",
+      "indexname": "dm_version_format",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX dm_version_format ON public.rendered_artifact USING btree (school_id, document_version_id, format) WHERE (document_version_id IS NOT NULL)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rendered_artifact",
+      "indexname": "rendered_artifact_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX rendered_artifact_pkey ON public.rendered_artifact USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "dm_event_command",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX dm_event_command ON public.state_event USING btree (school_id, command_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_pkey ON public.state_event USING btree (event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_school_id_contract_id_sequence_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_school_id_contract_id_sequence_no_idx ON public.state_event USING btree (school_id, contract_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_school_id_document_id_sequence_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_school_id_document_id_sequence_no_idx ON public.state_event USING btree (school_id, document_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_school_id_document_version_id_sequence_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_school_id_document_version_id_sequence_no_idx ON public.state_event USING btree (school_id, document_version_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_school_id_event_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_school_id_event_id_idx ON public.state_event USING btree (school_id, event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "indexname": "state_event_school_id_template_id_sequence_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX state_event_school_id_template_id_sequence_no_idx ON public.state_event USING btree (school_id, template_id, sequence_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "dm_one_active_template",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX dm_one_active_template ON public.template_version USING btree (school_id, template_id) WHERE ((status)::text = 'Active'::text)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "dm_template_file",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX dm_template_file ON public.template_version USING btree (school_id, file_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "template_version_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX template_version_pkey ON public.template_version USING btree (template_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "template_version_school_id_template_id_template_version_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX template_version_school_id_template_id_template_version_id_idx ON public.template_version USING btree (school_id, template_id, template_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "template_version_school_id_template_id_version_no_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX template_version_school_id_template_id_version_no_idx ON public.template_version USING btree (school_id, template_id, version_no)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "indexname": "template_version_school_id_template_version_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX template_version_school_id_template_version_id_idx ON public.template_version USING btree (school_id, template_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_contract",
+      "indexname": "training_contract_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_contract_pkey ON public.training_contract USING btree (contract_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_contract",
+      "indexname": "training_contract_school_id_contract_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_contract_school_id_contract_id_idx ON public.training_contract USING btree (school_id, contract_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_contract",
+      "indexname": "training_contract_school_id_enrollment_id_contract_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_contract_school_id_enrollment_id_contract_id_idx ON public.training_contract USING btree (school_id, enrollment_id, contract_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_document",
+      "indexname": "training_document_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_document_pkey ON public.training_document USING btree (document_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_document",
+      "indexname": "training_document_school_id_document_id_enrollment_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_document_school_id_document_id_enrollment_id_idx ON public.training_document USING btree (school_id, document_id, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_document",
+      "indexname": "training_document_school_id_document_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_document_school_id_document_id_idx ON public.training_document USING btree (school_id, document_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_document",
+      "indexname": "training_document_school_id_enrollment_id_kind_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX training_document_school_id_enrollment_id_kind_idx ON public.training_document USING btree (school_id, enrollment_id, kind)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "document_template",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "template_version",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "file_object",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_contract",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "contract_signed_copy",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "training_document",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_version",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "state_event",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "operation_receipt",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "evidence_checkpoint",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_job",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "operation_outcome",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "rendered_artifact",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "publication_decision",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "download_grant",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "inbox_message",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "document_review",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_document_management_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    }
+  ],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_job",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_template",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "template_version",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "file_object",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_contract",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "contract_signed_copy",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "training_document",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_version",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "state_event",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_receipt",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "evidence_checkpoint",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "operation_outcome",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "rendered_artifact",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "publication_decision",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "download_grant",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "inbox_message",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "document_review",
+      "enabled": true,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "document_version",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "document_version_school_id_template_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_version",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "document_version_school_id_rendered_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "rendered_file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "contract_signed_copy",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "contract_signed_copy_school_id_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_version",
+      "parent_schema": "public",
+      "parent_table": "training_document",
+      "conname": "document_version_school_id_document_id_enrollment_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_id",
+        "enrollment_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "template_version",
+      "parent_schema": "public",
+      "parent_table": "document_template",
+      "conname": "template_version_school_id_template_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_template",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "document_template_school_id_template_id_active_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id",
+        "active_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "template_version",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "template_version_school_id_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_contract",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "training_contract_school_id_generated_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "generated_file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_contract",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "training_contract_school_id_basis_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "basis_file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_contract",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "training_contract_school_id_template_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_contract",
+      "parent_schema": "public",
+      "parent_table": "training_contract",
+      "conname": "training_contract_school_id_enrollment_id_replaces_contrac_fkey",
+      "child_columns": [
+        "school_id",
+        "enrollment_id",
+        "replaces_contract_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "contract_signed_copy",
+      "parent_schema": "public",
+      "parent_table": "training_contract",
+      "conname": "contract_signed_copy_school_id_contract_id_fkey",
+      "child_columns": [
+        "school_id",
+        "contract_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_version",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "document_version_school_id_basis_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "basis_file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "training_contract",
+      "conname": "state_event_school_id_contract_id_fkey",
+      "child_columns": [
+        "school_id",
+        "contract_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "state_event_school_id_document_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_receipt",
+      "parent_schema": "public",
+      "parent_table": "training_contract",
+      "conname": "operation_receipt_school_id_contract_id_fkey",
+      "child_columns": [
+        "school_id",
+        "contract_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_receipt",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "operation_receipt_school_id_document_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "training_document",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "training_document_school_id_document_id_current_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_id",
+        "current_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "document_template",
+      "conname": "state_event_school_id_template_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "state_event_school_id_template_id_template_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id",
+        "template_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "contract_signed_copy",
+      "conname": "state_event_school_id_contract_id_signed_copy_id_fkey",
+      "child_columns": [
+        "school_id",
+        "contract_id",
+        "signed_copy_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "operation_receipt",
+      "conname": "state_event_school_id_command_id_fkey",
+      "child_columns": [
+        "school_id",
+        "command_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_receipt",
+      "parent_schema": "public",
+      "parent_table": "document_template",
+      "conname": "operation_receipt_school_id_template_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_receipt",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "operation_receipt_school_id_template_id_template_version_i_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id",
+        "template_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "state_event",
+      "parent_schema": "public",
+      "parent_table": "training_document",
+      "conname": "state_event_school_id_document_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_receipt",
+      "parent_schema": "public",
+      "parent_table": "training_document",
+      "conname": "operation_receipt_school_id_document_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_job",
+      "parent_schema": "public",
+      "parent_table": "operation_receipt",
+      "conname": "document_job_school_id_id_fkey",
+      "child_columns": [
+        "school_id",
+        "id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_job",
+      "parent_schema": "public",
+      "parent_table": "template_version",
+      "conname": "document_job_school_id_template_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "operation_outcome",
+      "parent_schema": "public",
+      "parent_table": "operation_receipt",
+      "conname": "operation_outcome_school_id_id_fkey",
+      "child_columns": [
+        "school_id",
+        "id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "rendered_artifact",
+      "parent_schema": "public",
+      "parent_table": "training_contract",
+      "conname": "rendered_artifact_school_id_contract_id_fkey",
+      "child_columns": [
+        "school_id",
+        "contract_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "rendered_artifact",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "rendered_artifact_school_id_document_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "rendered_artifact",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "rendered_artifact_school_id_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "publication_decision",
+      "parent_schema": "public",
+      "parent_table": "operation_receipt",
+      "conname": "publication_decision_school_id_id_fkey",
+      "child_columns": [
+        "school_id",
+        "id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "publication_decision",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "publication_decision_school_id_document_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "download_grant",
+      "parent_schema": "public",
+      "parent_table": "file_object",
+      "conname": "download_grant_school_id_file_id_fkey",
+      "child_columns": [
+        "school_id",
+        "file_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_review",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "document_review_school_id_document_version_id_fkey",
+      "child_columns": [
+        "school_id",
+        "document_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "document_job",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "dm_job_result_version",
+      "child_columns": [
+        "school_id",
+        "result_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "download_grant",
+      "parent_schema": "public",
+      "parent_table": "document_version",
+      "conname": "dm_download_version",
+      "child_columns": [
+        "school_id",
+        "version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "download_grant",
+      "parent_schema": "public",
+      "parent_table": "contract_signed_copy",
+      "conname": "dm_download_signed_copy",
+      "child_columns": [
+        "school_id",
+        "signed_copy_id"
+      ]
+    }
+  ]
+}

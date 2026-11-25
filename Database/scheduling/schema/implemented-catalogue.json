@@ -1,0 +1,4565 @@
+{
+  "database": "vairas_scheduling",
+  "owningContext": "scheduling",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 3,
+      "column_name": "kind",
+      "udt_name": "lesson_kind",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 4,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 5,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 6,
+      "column_name": "assessment_definition_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 7,
+      "column_name": "outstanding_requirement_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 8,
+      "column_name": "reason",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 9,
+      "column_name": "teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 10,
+      "column_name": "vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 11,
+      "column_name": "branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 12,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 13,
+      "column_name": "starts_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 14,
+      "column_name": "ends_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 15,
+      "column_name": "status",
+      "udt_name": "lesson_status",
+      "is_nullable": "NO",
+      "column_default": "'Scheduled'::lesson_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 16,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 17,
+      "column_name": "readiness_evaluation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": "'00000000-0000-0000-0000-000000000000'::uuid",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "assessment_appointment",
+      "ordinal_position": 18,
+      "column_name": "revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 2,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 3,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 4,
+      "column_name": "kind",
+      "udt_name": "lesson_kind",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 5,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 6,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 7,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 8,
+      "column_name": "teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 9,
+      "column_name": "vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 10,
+      "column_name": "branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 11,
+      "column_name": "series_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 12,
+      "column_name": "starts_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 13,
+      "column_name": "ends_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson",
+      "ordinal_position": 14,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson_participant",
+      "ordinal_position": 1,
+      "column_name": "candidate_lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson_participant",
+      "ordinal_position": 2,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson_participant",
+      "ordinal_position": 3,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "candidate_lesson_participant",
+      "ordinal_position": 4,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 3,
+      "column_name": "fingerprint",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 4,
+      "column_name": "kind",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 5,
+      "column_name": "result_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "gate_command",
+      "ordinal_position": 6,
+      "column_name": "http_status",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 1,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 2,
+      "column_name": "producer",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 3,
+      "column_name": "event_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 4,
+      "column_name": "fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 5,
+      "column_name": "outcome",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 6,
+      "column_name": "reviews_raised",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "integration_inbox",
+      "ordinal_position": 7,
+      "column_name": "processed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 3,
+      "column_name": "kind",
+      "udt_name": "lesson_kind",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 4,
+      "column_name": "branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 5,
+      "column_name": "teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 6,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 7,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 8,
+      "column_name": "vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 9,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 10,
+      "column_name": "group_membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 11,
+      "column_name": "starts_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 12,
+      "column_name": "ends_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 13,
+      "column_name": "status",
+      "udt_name": "lesson_status",
+      "is_nullable": "NO",
+      "column_default": "'Scheduled'::lesson_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 14,
+      "column_name": "revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 15,
+      "column_name": "series_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 16,
+      "column_name": "source_candidate_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 17,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 18,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 19,
+      "column_name": "actual_start",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 20,
+      "column_name": "actual_end",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson",
+      "ordinal_position": 21,
+      "column_name": "reason",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 3,
+      "column_name": "lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 4,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 5,
+      "column_name": "revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 6,
+      "column_name": "previous_status",
+      "udt_name": "lesson_status",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 7,
+      "column_name": "previous_start",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 8,
+      "column_name": "previous_end",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 9,
+      "column_name": "previous_teacher_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 10,
+      "column_name": "previous_vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 11,
+      "column_name": "previous_branch_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 12,
+      "column_name": "previous_series_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 13,
+      "column_name": "previous_group_membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 14,
+      "column_name": "changed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 15,
+      "column_name": "previous_actual_start",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_change",
+      "ordinal_position": 16,
+      "column_name": "previous_actual_end",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_participant",
+      "ordinal_position": 1,
+      "column_name": "lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_participant",
+      "ordinal_position": 2,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_participant",
+      "ordinal_position": 3,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_participant",
+      "ordinal_position": 4,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_participant",
+      "ordinal_position": 5,
+      "column_name": "is_active",
+      "udt_name": "bool",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 3,
+      "column_name": "target_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 4,
+      "column_name": "target_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 5,
+      "column_name": "reason_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 6,
+      "column_name": "subject_role",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 7,
+      "column_name": "subject_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 8,
+      "column_name": "source_event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 9,
+      "column_name": "raised_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 10,
+      "column_name": "resolved_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 11,
+      "column_name": "resolved_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "lesson_review",
+      "ordinal_position": 12,
+      "column_name": "resolution_note",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 3,
+      "column_name": "aggregate_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 4,
+      "column_name": "aggregate_version",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 5,
+      "column_name": "event_type",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 6,
+      "column_name": "payload",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 7,
+      "column_name": "occurred_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 8,
+      "column_name": "available_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 9,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 10,
+      "column_name": "lease_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 11,
+      "column_name": "published_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "outbox_message",
+      "ordinal_position": 12,
+      "column_name": "attempts",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 3,
+      "column_name": "kind",
+      "udt_name": "lesson_kind",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 4,
+      "column_name": "frequency",
+      "udt_name": "recurrence_frequency",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 5,
+      "column_name": "recurrence_interval",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 6,
+      "column_name": "weekdays",
+      "udt_name": "_int2",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 7,
+      "column_name": "local_start_time",
+      "udt_name": "time",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 8,
+      "column_name": "duration_minutes",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 9,
+      "column_name": "time_zone",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 10,
+      "column_name": "starts_on",
+      "udt_name": "date",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 11,
+      "column_name": "ends_on",
+      "udt_name": "date",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "recurring_lesson_series",
+      "ordinal_position": 12,
+      "column_name": "occurrence_count",
+      "udt_name": "int4",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 2,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 3,
+      "column_name": "lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 4,
+      "column_name": "assessment_appointment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 5,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 6,
+      "column_name": "resource_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 24
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 7,
+      "column_name": "resource_key",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 8,
+      "column_name": "starts_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 9,
+      "column_name": "ends_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 10,
+      "column_name": "status",
+      "udt_name": "reservation_status",
+      "is_nullable": "NO",
+      "column_default": "'Active'::reservation_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 11,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "reservation_claim",
+      "ordinal_position": 12,
+      "column_name": "released_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 3,
+      "column_name": "action_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 4,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 5,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 6,
+      "column_name": "actor_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 7,
+      "column_name": "channel",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 8,
+      "column_name": "reason",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 9,
+      "column_name": "status",
+      "udt_name": "operation_status",
+      "is_nullable": "NO",
+      "column_default": "'Pending'::operation_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 10,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 11,
+      "column_name": "finished_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 12,
+      "column_name": "target_lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 13,
+      "column_name": "expected_lesson_revision",
+      "udt_name": "int4",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 14,
+      "column_name": "target_appointment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 15,
+      "column_name": "result_lesson_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 16,
+      "column_name": "result_appointment_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 17,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 18,
+      "column_name": "user_confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 19,
+      "column_name": "fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "''::character varying",
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 20,
+      "column_name": "result_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": "''::text",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation",
+      "ordinal_position": 21,
+      "column_name": "http_status",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation_rule",
+      "ordinal_position": 1,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_operation_rule",
+      "ordinal_position": 2,
+      "column_name": "rule_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 2,
+      "column_name": "revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 3,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 4,
+      "column_name": "status",
+      "udt_name": "request_status",
+      "is_nullable": "NO",
+      "column_default": "'Draft'::request_status",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 5,
+      "column_name": "planning_start",
+      "udt_name": "date",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 6,
+      "column_name": "planning_end",
+      "udt_name": "date",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 7,
+      "column_name": "submitted_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 8,
+      "column_name": "submitted_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 9,
+      "column_name": "generated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 10,
+      "column_name": "confirmed_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 11,
+      "column_name": "confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 12,
+      "column_name": "created_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 13,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 14,
+      "column_name": "inputs_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": "'{}'::text",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 15,
+      "column_name": "basis_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": "''::text",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request",
+      "ordinal_position": 16,
+      "column_name": "school_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 1,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 2,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 3,
+      "column_name": "enrollment_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 4,
+      "column_name": "student_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 5,
+      "column_name": "enrollment_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 6,
+      "column_name": "training_program_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_enrollment",
+      "ordinal_position": 7,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 1,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 2,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 3,
+      "column_name": "group_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 4,
+      "column_name": "training_program_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 5,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_group",
+      "ordinal_position": 6,
+      "column_name": "membership_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_resource",
+      "ordinal_position": 1,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_resource",
+      "ordinal_position": 2,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_resource",
+      "ordinal_position": 3,
+      "column_name": "resource_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 24
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_resource",
+      "ordinal_position": 4,
+      "column_name": "resource_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_resource",
+      "ordinal_position": 5,
+      "column_name": "eligibility_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_rule",
+      "ordinal_position": 1,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_rule",
+      "ordinal_position": 2,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_rule",
+      "ordinal_position": 3,
+      "column_name": "rule_version_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_window",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_window",
+      "ordinal_position": 2,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_window",
+      "ordinal_position": 3,
+      "column_name": "request_revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_window",
+      "ordinal_position": 4,
+      "column_name": "starts_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_request_window",
+      "ordinal_position": 5,
+      "column_name": "ends_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 2,
+      "column_name": "rule_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 3,
+      "column_name": "revision",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 4,
+      "column_name": "source_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 5,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 6,
+      "column_name": "category_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 7,
+      "column_name": "rule_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 8,
+      "column_name": "severity",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 9,
+      "column_name": "override_policy",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 24
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 10,
+      "column_name": "scope_kind",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 24
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 11,
+      "column_name": "scope_resource_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 12,
+      "column_name": "decision_reason",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 13,
+      "column_name": "numeric_limit",
+      "udt_name": "numeric",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 14,
+      "column_name": "unit",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 15,
+      "column_name": "effective_from",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 16,
+      "column_name": "effective_to",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 17,
+      "column_name": "source_reference",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 400
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 18,
+      "column_name": "verification_status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 24
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 19,
+      "column_name": "decided_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 20,
+      "column_name": "created_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 21,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "scheduling_rule_version",
+      "ordinal_position": 22,
+      "column_name": "decided_by_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_barrier",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_barrier",
+      "ordinal_position": 2,
+      "column_name": "revision_floor",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_barrier",
+      "ordinal_position": 3,
+      "column_name": "pending_operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 3,
+      "column_name": "before_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 4,
+      "column_name": "after_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 5,
+      "column_name": "fingerprint",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 6,
+      "column_name": "payload_json",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 7,
+      "column_name": "status",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "school_transition",
+      "ordinal_position": 8,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 1,
+      "column_name": "id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 3,
+      "column_name": "vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 4,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 5,
+      "column_name": "reason",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 6,
+      "column_name": "status",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_block",
+      "ordinal_position": 7,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_guard",
+      "ordinal_position": 1,
+      "column_name": "vehicle_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vehicle_guard",
+      "ordinal_position": 2,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assessment_appointment",
+      "conname": "AK_assessment_appointment_id_school_id",
+      "contype": "u",
+      "definition": "UNIQUE (id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assessment_appointment",
+      "conname": "PK_assessment_appointment",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assessment_appointment",
+      "conname": "assessment_interval",
+      "contype": "c",
+      "definition": "CHECK ((ends_at > starts_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assessment_appointment",
+      "conname": "assessment_type",
+      "contype": "c",
+      "definition": "CHECK ((((kind = 'Practical'::lesson_kind) AND (vehicle_id IS NOT NULL)) OR ((kind = 'Theory'::lesson_kind) AND (vehicle_id IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "AK_candidate_lesson_id_request_id_request_revision",
+      "contype": "u",
+      "definition": "UNIQUE (id, request_id, request_revision)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "FK_candidate_lesson_recurring_lesson_series_series_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (series_id) REFERENCES recurring_lesson_series(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "FK_candidate_lesson_scheduling_request_request_id_request_revi~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "PK_candidate_lesson",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "candidate_interval",
+      "contype": "c",
+      "definition": "CHECK ((ends_at > starts_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "conname": "candidate_type",
+      "contype": "c",
+      "definition": "CHECK ((((kind = 'Practical'::lesson_kind) AND (enrollment_id IS NOT NULL) AND (student_id IS NOT NULL) AND (vehicle_id IS NOT NULL) AND (group_id IS NULL)) OR ((kind = 'Theory'::lesson_kind) AND (group_id IS NOT NULL) AND (enrollment_id IS NULL) AND (student_id IS NULL) AND (vehicle_id IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson_participant",
+      "conname": "FK_candidate_lesson_participant_candidate_lesson_candidate_les~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (candidate_lesson_id) REFERENCES candidate_lesson(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson_participant",
+      "conname": "PK_candidate_lesson_participant",
+      "contype": "p",
+      "definition": "PRIMARY KEY (candidate_lesson_id, enrollment_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson_participant",
+      "conname": "candidate_lesson_participant_membership_revision",
+      "contype": "c",
+      "definition": "CHECK ((membership_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "gate_command",
+      "conname": "PK_gate_command",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "PK_integration_inbox",
+      "contype": "p",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "integration_inbox_fingerprint",
+      "contype": "c",
+      "definition": "CHECK (((fingerprint)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "conname": "integration_inbox_reviews",
+      "contype": "c",
+      "definition": "CHECK ((reviews_raised >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "AK_lesson_id_school_id",
+      "contype": "u",
+      "definition": "UNIQUE (id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "FK_lesson_candidate_lesson_source_candidate_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (source_candidate_id) REFERENCES candidate_lesson(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "FK_lesson_recurring_lesson_series_series_id_school_id_kind",
+      "contype": "f",
+      "definition": "FOREIGN KEY (series_id, school_id, kind) REFERENCES recurring_lesson_series(id, school_id, kind) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "PK_lesson",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_actual_interval",
+      "contype": "c",
+      "definition": "CHECK ((((actual_start IS NULL) AND (actual_end IS NULL)) OR ((actual_start IS NOT NULL) AND (actual_end IS NOT NULL) AND (actual_end > actual_start))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_completed_requires_actuals",
+      "contype": "c",
+      "definition": "CHECK (((status <> 'Completed'::lesson_status) OR ((actual_start IS NOT NULL) AND (actual_end IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_interval",
+      "contype": "c",
+      "definition": "CHECK ((ends_at > starts_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_membership_basis",
+      "contype": "c",
+      "definition": "CHECK ((((kind = 'Practical'::lesson_kind) AND (group_membership_revision IS NULL)) OR ((kind = 'Theory'::lesson_kind) AND (group_membership_revision IS NOT NULL) AND (group_membership_revision > 0))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_reason",
+      "contype": "c",
+      "definition": "CHECK (((reason IS NULL) OR ((kind = 'Practical'::lesson_kind) AND ((reason)::text = btrim((reason)::text)) AND ((reason)::text <> ''::text))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_revision_positive",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "conname": "lesson_type",
+      "contype": "c",
+      "definition": "CHECK ((((kind = 'Practical'::lesson_kind) AND (enrollment_id IS NOT NULL) AND (student_id IS NOT NULL) AND (vehicle_id IS NOT NULL) AND (group_id IS NULL)) OR ((kind = 'Theory'::lesson_kind) AND (group_id IS NOT NULL) AND (enrollment_id IS NULL) AND (student_id IS NULL) AND (vehicle_id IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "FK_lesson_change_lesson_lesson_id_school_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (lesson_id, school_id) REFERENCES lesson(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "FK_lesson_change_scheduling_operation_operation_id_school_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (operation_id, school_id) REFERENCES scheduling_operation(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "PK_lesson_change",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "history_actual_interval",
+      "contype": "c",
+      "definition": "CHECK ((((previous_actual_start IS NULL) AND (previous_actual_end IS NULL)) OR ((previous_actual_start IS NOT NULL) AND (previous_actual_end IS NOT NULL) AND (previous_actual_end > previous_actual_start))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "history_previous_interval",
+      "contype": "c",
+      "definition": "CHECK ((previous_end > previous_start))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "conname": "history_revision_positive",
+      "contype": "c",
+      "definition": "CHECK ((revision > 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_participant",
+      "conname": "FK_lesson_participant_lesson_lesson_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (lesson_id) REFERENCES lesson(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_participant",
+      "conname": "PK_lesson_participant",
+      "contype": "p",
+      "definition": "PRIMARY KEY (lesson_id, enrollment_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_participant",
+      "conname": "lesson_participant_membership_revision",
+      "contype": "c",
+      "definition": "CHECK ((membership_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_review",
+      "conname": "PK_lesson_review",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_review",
+      "conname": "lesson_review_resolution",
+      "contype": "c",
+      "definition": "CHECK ((((resolved_at IS NULL) = (resolved_by_user_id IS NULL)) AND ((resolved_at IS NULL) = (resolution_note IS NULL)) AND ((resolved_at IS NULL) OR (resolved_at >= raised_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_review",
+      "conname": "lesson_review_role",
+      "contype": "c",
+      "definition": "CHECK (((subject_role)::text = ANY ((ARRAY['Teacher'::character varying, 'Student'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_review",
+      "conname": "lesson_review_target",
+      "contype": "c",
+      "definition": "CHECK (((target_kind)::text = ANY ((ARRAY['Lesson'::character varying, 'AssessmentAppointment'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "conname": "PK_outbox_message",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "AK_recurring_lesson_series_id_school_id_kind",
+      "contype": "u",
+      "definition": "UNIQUE (id, school_id, kind)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "PK_recurring_lesson_series",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "recurrence_count",
+      "contype": "c",
+      "definition": "CHECK (((occurrence_count IS NULL) OR (occurrence_count > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "recurrence_end_choice",
+      "contype": "c",
+      "definition": "CHECK (((((ends_on IS NOT NULL))::integer + ((occurrence_count IS NOT NULL))::integer) = 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "recurrence_end_range",
+      "contype": "c",
+      "definition": "CHECK (((ends_on IS NULL) OR (ends_on >= starts_on)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "recurrence_positive",
+      "contype": "c",
+      "definition": "CHECK (((recurrence_interval > 0) AND (duration_minutes > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "conname": "recurrence_weekdays",
+      "contype": "c",
+      "definition": "CHECK ((((frequency = 'Daily'::recurrence_frequency) AND (COALESCE(cardinality(weekdays), 0) = 0)) OR ((frequency = 'Weekly'::recurrence_frequency) AND (weekdays IS NOT NULL) AND ((cardinality(weekdays) >= 1) AND (cardinality(weekdays) <= 7)) AND (weekdays <@ ARRAY[(1)::smallint, (2)::smallint, (3)::smallint, (4)::smallint, (5)::smallint, (6)::smallint, (7)::smallint]))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "FK_reservation_claim_assessment_appointment_assessment_appoint~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (assessment_appointment_id, school_id) REFERENCES assessment_appointment(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "FK_reservation_claim_lesson_lesson_id_school_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (lesson_id, school_id) REFERENCES lesson(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "FK_reservation_claim_scheduling_operation_operation_id_school_~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (operation_id, school_id) REFERENCES scheduling_operation(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "PK_reservation_claim",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "active_resource_no_overlap",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (resource_kind WITH =, resource_key WITH =, tstzrange(starts_at, ends_at, '[)'::text) WITH &&) WHERE ((status = 'Active'::reservation_status))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "claim_interval",
+      "contype": "c",
+      "definition": "CHECK ((ends_at > starts_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "claim_kind",
+      "contype": "c",
+      "definition": "CHECK (((resource_kind)::text = ANY ((ARRAY['Student'::character varying, 'Instructor'::character varying, 'Vehicle'::character varying, 'Group'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "claim_owner",
+      "contype": "c",
+      "definition": "CHECK (((((lesson_id IS NOT NULL))::integer + ((assessment_appointment_id IS NOT NULL))::integer) = 1))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "conname": "claim_release",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'Active'::reservation_status) AND (released_at IS NULL)) OR ((status = 'Released'::reservation_status) AND (released_at IS NOT NULL) AND (released_at >= created_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "AK_scheduling_operation_id_school_id",
+      "contype": "u",
+      "definition": "UNIQUE (id, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "FK_scheduling_operation_assessment_appointment_result_appointm~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (result_appointment_id, school_id) REFERENCES assessment_appointment(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "FK_scheduling_operation_assessment_appointment_target_appointm~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (target_appointment_id, school_id) REFERENCES assessment_appointment(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "FK_scheduling_operation_lesson_result_lesson_id_school_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (result_lesson_id, school_id) REFERENCES lesson(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "FK_scheduling_operation_lesson_target_lesson_id_school_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (target_lesson_id, school_id) REFERENCES lesson(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "FK_scheduling_operation_scheduling_request_request_id_request_~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision, school_id) REFERENCES scheduling_request(id, revision, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "PK_scheduling_operation",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_action",
+      "contype": "c",
+      "definition": "CHECK (((action_type)::text = ANY ((ARRAY['ConfirmSchedule'::character varying, 'CreateLesson'::character varying, 'Reschedule'::character varying, 'Cancel'::character varying, 'ChangeGroup'::character varying, 'CompleteLesson'::character varying, 'CorrectActualInterval'::character varying, 'CreateAssessment'::character varying, 'CancelAssessment'::character varying, 'CreateDraft'::character varying, 'ReviseDraft'::character varying, 'SubmitRequest'::character varying, 'GenerateProposal'::character varying, 'PublishRule'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_channel",
+      "contype": "c",
+      "definition": "CHECK (((channel)::text = ANY ((ARRAY['Web'::character varying, 'MCP'::character varying, 'Internal'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_expected_revision",
+      "contype": "c",
+      "definition": "CHECK (((expected_lesson_revision IS NULL) OR (expected_lesson_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_finished",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'Pending'::operation_status) AND (finished_at IS NULL)) OR (status = 'ReconciliationPending'::operation_status) OR ((status = ANY (ARRAY['Committed'::operation_status, 'Rejected'::operation_status])) AND (finished_at IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_request_pair",
+      "contype": "c",
+      "definition": "CHECK (((request_id IS NULL) = (request_revision IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "conname": "operation_target_xor",
+      "contype": "c",
+      "definition": "CHECK (((target_lesson_id IS NULL) OR (target_appointment_id IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation_rule",
+      "conname": "FK_scheduling_operation_rule_scheduling_operation_operation_id",
+      "contype": "f",
+      "definition": "FOREIGN KEY (operation_id) REFERENCES scheduling_operation(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation_rule",
+      "conname": "FK_scheduling_operation_rule_scheduling_rule_version_rule_vers~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (rule_version_id) REFERENCES scheduling_rule_version(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation_rule",
+      "conname": "PK_scheduling_operation_rule",
+      "contype": "p",
+      "definition": "PRIMARY KEY (operation_id, rule_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "AK_scheduling_request_id_revision_school_id",
+      "contype": "u",
+      "definition": "UNIQUE (id, revision, school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "FK_scheduling_request_scheduling_operation_confirmed_operation~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (confirmed_operation_id, school_id) REFERENCES scheduling_operation(id, school_id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "PK_scheduling_request",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id, revision)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_confirmed_metadata",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'Confirmed'::request_status) AND (confirmed_at IS NOT NULL) AND (confirmed_operation_id IS NOT NULL)) OR ((status <> 'Confirmed'::request_status) AND (confirmed_at IS NULL) AND (confirmed_operation_id IS NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_period",
+      "contype": "c",
+      "definition": "CHECK (((planning_start IS NULL) OR (planning_end IS NULL) OR (planning_end >= planning_start)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_ready_metadata",
+      "contype": "c",
+      "definition": "CHECK (((status <> ALL (ARRAY['Ready'::request_status, 'Confirmed'::request_status])) OR (generated_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_revision_positive",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_single_school",
+      "contype": "x",
+      "definition": "EXCLUDE USING gist (id WITH =, school_id WITH <>)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_submitted_pair",
+      "contype": "c",
+      "definition": "CHECK (((submitted_at IS NULL) = (submitted_by_user_id IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "conname": "request_validated_metadata",
+      "contype": "c",
+      "definition": "CHECK (((status <> ALL (ARRAY['Submitted'::request_status, 'Ready'::request_status, 'Infeasible'::request_status, 'Stale'::request_status, 'Superseded'::request_status, 'Confirmed'::request_status])) OR ((submitted_at IS NOT NULL) AND (planning_start IS NOT NULL) AND (planning_end IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_enrollment",
+      "conname": "FK_scheduling_request_enrollment_scheduling_request_request_id~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_enrollment",
+      "conname": "PK_scheduling_request_enrollment",
+      "contype": "p",
+      "definition": "PRIMARY KEY (request_id, request_revision, enrollment_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_enrollment",
+      "conname": "scheduling_request_enrollment_revision",
+      "contype": "c",
+      "definition": "CHECK ((request_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_group",
+      "conname": "FK_scheduling_request_group_scheduling_request_request_id_requ~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_group",
+      "conname": "PK_scheduling_request_group",
+      "contype": "p",
+      "definition": "PRIMARY KEY (request_id, request_revision, group_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_group",
+      "conname": "scheduling_request_group_revision",
+      "contype": "c",
+      "definition": "CHECK ((request_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "conname": "FK_scheduling_request_resource_scheduling_request_request_id_r~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "conname": "PK_scheduling_request_resource",
+      "contype": "p",
+      "definition": "PRIMARY KEY (request_id, request_revision, resource_kind, resource_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "conname": "resource_kind_valid",
+      "contype": "c",
+      "definition": "CHECK (((resource_kind)::text = ANY ((ARRAY['Instructor'::character varying, 'Vehicle'::character varying, 'Branch'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "conname": "resource_source_revision",
+      "contype": "c",
+      "definition": "CHECK (((eligibility_revision IS NULL) OR (eligibility_revision > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "conname": "scheduling_request_resource_revision",
+      "contype": "c",
+      "definition": "CHECK ((request_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_rule",
+      "conname": "FK_scheduling_request_rule_scheduling_request_request_id_reque~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_rule",
+      "conname": "FK_scheduling_request_rule_scheduling_rule_version_rule_versio~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (rule_version_id) REFERENCES scheduling_rule_version(id) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_rule",
+      "conname": "PK_scheduling_request_rule",
+      "contype": "p",
+      "definition": "PRIMARY KEY (request_id, request_revision, rule_version_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_rule",
+      "conname": "scheduling_request_rule_revision",
+      "contype": "c",
+      "definition": "CHECK ((request_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_window",
+      "conname": "FK_scheduling_request_window_scheduling_request_request_id_req~",
+      "contype": "f",
+      "definition": "FOREIGN KEY (request_id, request_revision) REFERENCES scheduling_request(id, revision) ON DELETE RESTRICT"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_window",
+      "conname": "PK_scheduling_request_window",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_window",
+      "conname": "window_interval",
+      "contype": "c",
+      "definition": "CHECK ((ends_at > starts_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "PK_scheduling_rule_version",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_decision_actor",
+      "contype": "c",
+      "definition": "CHECK (((((verification_status)::text = 'Pending'::text) AND (decided_at IS NULL) AND (decided_by_user_id IS NULL)) OR (((verification_status)::text = ANY ((ARRAY['Verified'::character varying, 'Rejected'::character varying])::text[])) AND (decided_at IS NOT NULL) AND (decided_by_user_id IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_effective_interval",
+      "contype": "c",
+      "definition": "CHECK (((effective_to IS NULL) OR (effective_to > effective_from)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_override_policy",
+      "contype": "c",
+      "definition": "CHECK ((((override_policy)::text = ANY ((ARRAY['Locked'::character varying, 'SchoolEditable'::character varying])::text[])) AND ((((source_kind)::text = 'Legal'::text) AND ((override_policy)::text = 'Locked'::text)) OR (((source_kind)::text = 'School'::text) AND ((override_policy)::text = 'SchoolEditable'::text)))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_revision",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_school_scope",
+      "contype": "c",
+      "definition": "CHECK (((((source_kind)::text = 'Legal'::text) AND (school_id IS NULL)) OR (((source_kind)::text = 'School'::text) AND (school_id IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_scope",
+      "contype": "c",
+      "definition": "CHECK ((((scope_kind)::text = ANY ((ARRAY['School'::character varying, 'Instructor'::character varying, 'Vehicle'::character varying, 'Branch'::character varying, 'Group'::character varying, 'Student'::character varying])::text[])) AND ((((scope_kind)::text = 'School'::text) AND (scope_resource_id IS NULL)) OR (((scope_kind)::text <> 'School'::text) AND (scope_resource_id IS NOT NULL)))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_severity",
+      "contype": "c",
+      "definition": "CHECK ((((severity)::text = ANY ((ARRAY['Hard'::character varying, 'Preference'::character varying])::text[])) AND (((source_kind)::text <> 'Legal'::text) OR ((severity)::text = 'Hard'::text))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_source_kind",
+      "contype": "c",
+      "definition": "CHECK (((source_kind)::text = ANY ((ARRAY['Legal'::character varying, 'School'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_typed_limit",
+      "contype": "c",
+      "definition": "CHECK ((((numeric_limit IS NULL) AND (unit IS NULL)) OR ((numeric_limit > (0)::numeric) AND (unit IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "conname": "rule_verification",
+      "contype": "c",
+      "definition": "CHECK (((verification_status)::text = ANY ((ARRAY['Verified'::character varying, 'Pending'::character varying, 'Rejected'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_barrier",
+      "conname": "PK_school_barrier",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_transition",
+      "conname": "PK_school_transition",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "vehicle_block",
+      "conname": "PK_vehicle_block",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "vehicle_guard",
+      "conname": "PK_vehicle_guard",
+      "contype": "p",
+      "definition": "PRIMARY KEY (vehicle_id)"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assessment_appointment",
+      "indexname": "AK_assessment_appointment_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_assessment_appointment_id_school_id\" ON public.assessment_appointment USING btree (id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assessment_appointment",
+      "indexname": "PK_assessment_appointment",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_assessment_appointment\" ON public.assessment_appointment USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson",
+      "indexname": "AK_candidate_lesson_id_request_id_request_revision",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_candidate_lesson_id_request_id_request_revision\" ON public.candidate_lesson USING btree (id, request_id, request_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson",
+      "indexname": "IX_candidate_lesson_request_id_request_revision",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_candidate_lesson_request_id_request_revision\" ON public.candidate_lesson USING btree (request_id, request_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson",
+      "indexname": "IX_candidate_lesson_series_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_candidate_lesson_series_id\" ON public.candidate_lesson USING btree (series_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson",
+      "indexname": "PK_candidate_lesson",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_candidate_lesson\" ON public.candidate_lesson USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson_participant",
+      "indexname": "IX_candidate_lesson_participant_candidate_lesson_id_student_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_candidate_lesson_participant_candidate_lesson_id_student_id\" ON public.candidate_lesson_participant USING btree (candidate_lesson_id, student_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson_participant",
+      "indexname": "PK_candidate_lesson_participant",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_candidate_lesson_participant\" ON public.candidate_lesson_participant USING btree (candidate_lesson_id, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "gate_command",
+      "indexname": "PK_gate_command",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_gate_command\" ON public.gate_command USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "integration_inbox",
+      "indexname": "PK_integration_inbox",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_integration_inbox\" ON public.integration_inbox USING btree (event_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "AK_lesson_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_lesson_id_school_id\" ON public.lesson USING btree (id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "IX_lesson_school_id_starts_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_school_id_starts_at\" ON public.lesson USING btree (school_id, starts_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "IX_lesson_series_id_school_id_kind",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_series_id_school_id_kind\" ON public.lesson USING btree (series_id, school_id, kind)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "IX_lesson_source_candidate_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_lesson_source_candidate_id\" ON public.lesson USING btree (source_candidate_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "IX_lesson_teacher_id_starts_at_ends_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_teacher_id_starts_at_ends_at\" ON public.lesson USING btree (teacher_id, starts_at, ends_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "indexname": "PK_lesson",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_lesson\" ON public.lesson USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_change",
+      "indexname": "IX_lesson_change_lesson_id_revision",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_lesson_change_lesson_id_revision\" ON public.lesson_change USING btree (lesson_id, revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_change",
+      "indexname": "IX_lesson_change_lesson_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_change_lesson_id_school_id\" ON public.lesson_change USING btree (lesson_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_change",
+      "indexname": "IX_lesson_change_operation_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_change_operation_id_school_id\" ON public.lesson_change USING btree (operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_change",
+      "indexname": "PK_lesson_change",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_lesson_change\" ON public.lesson_change USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_participant",
+      "indexname": "IX_lesson_participant_lesson_id_student_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_lesson_participant_lesson_id_student_id\" ON public.lesson_participant USING btree (lesson_id, student_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_participant",
+      "indexname": "PK_lesson_participant",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_lesson_participant\" ON public.lesson_participant USING btree (lesson_id, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_review",
+      "indexname": "IX_lesson_review_school_id_resolved_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_lesson_review_school_id_resolved_at\" ON public.lesson_review USING btree (school_id, resolved_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_review",
+      "indexname": "IX_lesson_review_source_event_id_target_kind_target_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_lesson_review_source_event_id_target_kind_target_id\" ON public.lesson_review USING btree (source_event_id, target_kind, target_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_review",
+      "indexname": "PK_lesson_review",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_lesson_review\" ON public.lesson_review USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "indexname": "IX_outbox_message_published_at_available_at",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_outbox_message_published_at_available_at\" ON public.outbox_message USING btree (published_at, available_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "indexname": "PK_outbox_message",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_outbox_message\" ON public.outbox_message USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "recurring_lesson_series",
+      "indexname": "AK_recurring_lesson_series_id_school_id_kind",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_recurring_lesson_series_id_school_id_kind\" ON public.recurring_lesson_series USING btree (id, school_id, kind)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "recurring_lesson_series",
+      "indexname": "PK_recurring_lesson_series",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_recurring_lesson_series\" ON public.recurring_lesson_series USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "IX_reservation_claim_assessment_appointment_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_reservation_claim_assessment_appointment_id_school_id\" ON public.reservation_claim USING btree (assessment_appointment_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "IX_reservation_claim_lesson_id_resource_kind_resource_key",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_reservation_claim_lesson_id_resource_kind_resource_key\" ON public.reservation_claim USING btree (lesson_id, resource_kind, resource_key)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "IX_reservation_claim_lesson_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_reservation_claim_lesson_id_school_id\" ON public.reservation_claim USING btree (lesson_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "IX_reservation_claim_operation_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_reservation_claim_operation_id_school_id\" ON public.reservation_claim USING btree (operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "IX_reservation_claim_resource_kind_resource_key_starts_at_ends~",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_reservation_claim_resource_kind_resource_key_starts_at_ends~\" ON public.reservation_claim USING btree (resource_kind, resource_key, starts_at, ends_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "PK_reservation_claim",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_reservation_claim\" ON public.reservation_claim USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "indexname": "active_resource_no_overlap",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX active_resource_no_overlap ON public.reservation_claim USING gist (resource_kind, resource_key, tstzrange(starts_at, ends_at, '[)'::text)) WHERE (status = 'Active'::reservation_status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "AK_scheduling_operation_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_scheduling_operation_id_school_id\" ON public.scheduling_operation USING btree (id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "IX_scheduling_operation_request_id_request_revision_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_request_id_request_revision_school_id\" ON public.scheduling_operation USING btree (request_id, request_revision, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "IX_scheduling_operation_result_appointment_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_result_appointment_id_school_id\" ON public.scheduling_operation USING btree (result_appointment_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "IX_scheduling_operation_result_lesson_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_result_lesson_id_school_id\" ON public.scheduling_operation USING btree (result_lesson_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "IX_scheduling_operation_target_appointment_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_target_appointment_id_school_id\" ON public.scheduling_operation USING btree (target_appointment_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "IX_scheduling_operation_target_lesson_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_target_lesson_id_school_id\" ON public.scheduling_operation USING btree (target_lesson_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "indexname": "PK_scheduling_operation",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_operation\" ON public.scheduling_operation USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation_rule",
+      "indexname": "IX_scheduling_operation_rule_rule_version_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_operation_rule_rule_version_id\" ON public.scheduling_operation_rule USING btree (rule_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation_rule",
+      "indexname": "PK_scheduling_operation_rule",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_operation_rule\" ON public.scheduling_operation_rule USING btree (operation_id, rule_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "indexname": "AK_scheduling_request_id_revision_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"AK_scheduling_request_id_revision_school_id\" ON public.scheduling_request USING btree (id, revision, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "indexname": "IX_scheduling_request_confirmed_operation_id_school_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_request_confirmed_operation_id_school_id\" ON public.scheduling_request USING btree (confirmed_operation_id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "indexname": "IX_scheduling_request_school_id_status",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_request_school_id_status\" ON public.scheduling_request USING btree (school_id, status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "indexname": "PK_scheduling_request",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request\" ON public.scheduling_request USING btree (id, revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "indexname": "request_single_school",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX request_single_school ON public.scheduling_request USING gist (id, school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_enrollment",
+      "indexname": "PK_scheduling_request_enrollment",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request_enrollment\" ON public.scheduling_request_enrollment USING btree (request_id, request_revision, enrollment_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_group",
+      "indexname": "PK_scheduling_request_group",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request_group\" ON public.scheduling_request_group USING btree (request_id, request_revision, group_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_resource",
+      "indexname": "PK_scheduling_request_resource",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request_resource\" ON public.scheduling_request_resource USING btree (request_id, request_revision, resource_kind, resource_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_rule",
+      "indexname": "IX_scheduling_request_rule_rule_version_id",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_request_rule_rule_version_id\" ON public.scheduling_request_rule USING btree (rule_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_rule",
+      "indexname": "PK_scheduling_request_rule",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request_rule\" ON public.scheduling_request_rule USING btree (request_id, request_revision, rule_version_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_window",
+      "indexname": "IX_scheduling_request_window_request_id_request_revision",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_request_window_request_id_request_revision\" ON public.scheduling_request_window USING btree (request_id, request_revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_window",
+      "indexname": "PK_scheduling_request_window",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_request_window\" ON public.scheduling_request_window USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_rule_version",
+      "indexname": "IX_scheduling_rule_version_rule_id_revision",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"IX_scheduling_rule_version_rule_id_revision\" ON public.scheduling_rule_version USING btree (rule_id, revision)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_rule_version",
+      "indexname": "IX_scheduling_rule_version_source_kind_school_id_rule_code",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_scheduling_rule_version_source_kind_school_id_rule_code\" ON public.scheduling_rule_version USING btree (source_kind, school_id, rule_code)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_rule_version",
+      "indexname": "PK_scheduling_rule_version",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_scheduling_rule_version\" ON public.scheduling_rule_version USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_barrier",
+      "indexname": "PK_school_barrier",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_school_barrier\" ON public.school_barrier USING btree (school_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_transition",
+      "indexname": "IX_school_transition_school_id_status",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_school_transition_school_id_status\" ON public.school_transition USING btree (school_id, status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_transition",
+      "indexname": "PK_school_transition",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_school_transition\" ON public.school_transition USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vehicle_block",
+      "indexname": "IX_vehicle_block_vehicle_id_status",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX \"IX_vehicle_block_vehicle_id_status\" ON public.vehicle_block USING btree (vehicle_id, status)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vehicle_block",
+      "indexname": "PK_vehicle_block",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_vehicle_block\" ON public.vehicle_block USING btree (id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vehicle_guard",
+      "indexname": "PK_vehicle_guard",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK_vehicle_guard\" ON public.vehicle_guard USING btree (vehicle_id)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_enrollment",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_enrollment.request_id) AND (p.revision = scheduling_request_enrollment.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_enrollment.request_id) AND (p.revision = scheduling_request_enrollment.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_group",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_group.request_id) AND (p.revision = scheduling_request_group.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_group.request_id) AND (p.revision = scheduling_request_group.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_resource",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_resource.request_id) AND (p.revision = scheduling_request_resource.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_resource.request_id) AND (p.revision = scheduling_request_resource.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_window",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_window.request_id) AND (p.revision = scheduling_request_window.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_window.request_id) AND (p.revision = scheduling_request_window.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_rule_version",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(((NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid IS NOT NULL) AND ((school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid) OR (school_id IS NULL)))",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_request_rule",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_rule.request_id) AND (p.revision = scheduling_request_rule.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = scheduling_request_rule.request_id) AND (p.revision = scheduling_request_rule.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation_rule",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_operation p\n  WHERE ((p.id = scheduling_operation_rule.operation_id) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_operation p\n  WHERE ((p.id = scheduling_operation_rule.operation_id) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = candidate_lesson.request_id) AND (p.revision = candidate_lesson.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM scheduling_request p\n  WHERE ((p.id = candidate_lesson.request_id) AND (p.revision = candidate_lesson.request_revision) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "candidate_lesson_participant",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM candidate_lesson p\n  WHERE ((p.id = candidate_lesson_participant.candidate_lesson_id) AND ((NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid IS NOT NULL))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM candidate_lesson p\n  WHERE ((p.id = candidate_lesson_participant.candidate_lesson_id) AND ((NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid IS NOT NULL))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "recurring_lesson_series",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_participant",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM lesson p\n  WHERE ((p.id = lesson_participant.lesson_id) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))",
+      "with_check": "(EXISTS ( SELECT 1\n   FROM lesson p\n  WHERE ((p.id = lesson_participant.lesson_id) AND (p.school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid))))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "scheduling_operation",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_change",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assessment_appointment",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "reservation_claim",
+      "policyname": "reservation_internal",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_reservation_authority"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson",
+      "policyname": "reservation_internal",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_reservation_authority"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "assessment_appointment",
+      "policyname": "reservation_internal",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_reservation_authority"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vehicle_guard",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vehicle_block",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "gate_command",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_barrier",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "school_transition",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_participant",
+      "policyname": "reservation_internal",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_reservation_authority"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "outbox_message",
+      "policyname": "outbox_worker",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_outbox"
+      ],
+      "cmd": "ALL",
+      "qual": "true",
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "lesson_review",
+      "policyname": "tenant_scope",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "v_scheduling_runtime"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('vairas.school_id'::text, true), ''::text))::uuid)"
+    }
+  ],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "candidate_lesson_participant",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "recurring_lesson_series",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "outbox_message",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_transition",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_rule",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation_rule",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_participant",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_operation",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "reservation_claim",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_enrollment",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_group",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_resource",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_request_window",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_change",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "assessment_appointment",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "integration_inbox",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "lesson_review",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "scheduling_rule_version",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "vehicle_guard",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "vehicle_block",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "gate_command",
+      "enabled": true,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "school_barrier",
+      "enabled": true,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "candidate_lesson",
+      "parent_schema": "public",
+      "parent_table": "recurring_lesson_series",
+      "conname": "FK_candidate_lesson_recurring_lesson_series_series_id",
+      "child_columns": [
+        "series_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "candidate_lesson_participant",
+      "parent_schema": "public",
+      "parent_table": "candidate_lesson",
+      "conname": "FK_candidate_lesson_participant_candidate_lesson_candidate_les~",
+      "child_columns": [
+        "candidate_lesson_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "lesson",
+      "parent_schema": "public",
+      "parent_table": "candidate_lesson",
+      "conname": "FK_lesson_candidate_lesson_source_candidate_id",
+      "child_columns": [
+        "source_candidate_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "lesson",
+      "parent_schema": "public",
+      "parent_table": "recurring_lesson_series",
+      "conname": "FK_lesson_recurring_lesson_series_series_id_school_id_kind",
+      "child_columns": [
+        "series_id",
+        "school_id",
+        "kind"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "lesson_participant",
+      "parent_schema": "public",
+      "parent_table": "lesson",
+      "conname": "FK_lesson_participant_lesson_lesson_id",
+      "child_columns": [
+        "lesson_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "lesson_change",
+      "parent_schema": "public",
+      "parent_table": "lesson",
+      "conname": "FK_lesson_change_lesson_lesson_id_school_id",
+      "child_columns": [
+        "lesson_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "reservation_claim",
+      "parent_schema": "public",
+      "parent_table": "assessment_appointment",
+      "conname": "FK_reservation_claim_assessment_appointment_assessment_appoint~",
+      "child_columns": [
+        "assessment_appointment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "reservation_claim",
+      "parent_schema": "public",
+      "parent_table": "lesson",
+      "conname": "FK_reservation_claim_lesson_lesson_id_school_id",
+      "child_columns": [
+        "lesson_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation",
+      "parent_schema": "public",
+      "parent_table": "assessment_appointment",
+      "conname": "FK_scheduling_operation_assessment_appointment_result_appointm~",
+      "child_columns": [
+        "result_appointment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation",
+      "parent_schema": "public",
+      "parent_table": "assessment_appointment",
+      "conname": "FK_scheduling_operation_assessment_appointment_target_appointm~",
+      "child_columns": [
+        "target_appointment_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation",
+      "parent_schema": "public",
+      "parent_table": "lesson",
+      "conname": "FK_scheduling_operation_lesson_result_lesson_id_school_id",
+      "child_columns": [
+        "result_lesson_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation",
+      "parent_schema": "public",
+      "parent_table": "lesson",
+      "conname": "FK_scheduling_operation_lesson_target_lesson_id_school_id",
+      "child_columns": [
+        "target_lesson_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation_rule",
+      "parent_schema": "public",
+      "parent_table": "scheduling_operation",
+      "conname": "FK_scheduling_operation_rule_scheduling_operation_operation_id",
+      "child_columns": [
+        "operation_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation_rule",
+      "parent_schema": "public",
+      "parent_table": "scheduling_rule_version",
+      "conname": "FK_scheduling_operation_rule_scheduling_rule_version_rule_vers~",
+      "child_columns": [
+        "rule_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_group",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_request_group_scheduling_request_request_id_requ~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request",
+      "parent_schema": "public",
+      "parent_table": "scheduling_operation",
+      "conname": "FK_scheduling_request_scheduling_operation_confirmed_operation~",
+      "child_columns": [
+        "confirmed_operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_enrollment",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_request_enrollment_scheduling_request_request_id~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_resource",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_request_resource_scheduling_request_request_id_r~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_rule",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_request_rule_scheduling_request_request_id_reque~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_rule",
+      "parent_schema": "public",
+      "parent_table": "scheduling_rule_version",
+      "conname": "FK_scheduling_request_rule_scheduling_rule_version_rule_versio~",
+      "child_columns": [
+        "rule_version_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_request_window",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_request_window_scheduling_request_request_id_req~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "candidate_lesson",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_candidate_lesson_scheduling_request_request_id_request_revi~",
+      "child_columns": [
+        "request_id",
+        "request_revision"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "lesson_change",
+      "parent_schema": "public",
+      "parent_table": "scheduling_operation",
+      "conname": "FK_lesson_change_scheduling_operation_operation_id_school_id",
+      "child_columns": [
+        "operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "reservation_claim",
+      "parent_schema": "public",
+      "parent_table": "scheduling_operation",
+      "conname": "FK_reservation_claim_scheduling_operation_operation_id_school_~",
+      "child_columns": [
+        "operation_id",
+        "school_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "scheduling_operation",
+      "parent_schema": "public",
+      "parent_table": "scheduling_request",
+      "conname": "FK_scheduling_operation_scheduling_request_request_id_request_~",
+      "child_columns": [
+        "request_id",
+        "request_revision",
+        "school_id"
+      ]
+    }
+  ]
+}

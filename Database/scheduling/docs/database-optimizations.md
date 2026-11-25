@@ -1,3 +1,5 @@
+> Baseline design reference. The [2026-11-24 implementation extension](implementation.md) records nine added columns, six reliability tables and current deployment/verification boundaries. The current combined schema is [DBML](../schema/schema.dbml).
+
 # Scheduling — Indexes and database rules
 
 | Feature | Necessary? | Business/technical reason |

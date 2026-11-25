@@ -1,0 +1,253 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_branch {
+    uuid branch_id
+    uuid school_id
+    varchar name
+    varchar address_line
+    varchar city
+    varchar postal_code
+    varchar country_code
+    sm_status status
+    int8 revision
+    uuid last_operation_id
+  }
+  public_enrollment_status_history {
+    uuid enrollment_id
+    uuid school_id
+    int8 enrollment_revision
+    sm_enrollment_status from_status
+    sm_enrollment_status to_status
+    timestamptz effective_at
+    timestamptz recorded_at
+    uuid operation_id
+    uuid completion_evidence_id
+    int8 completion_dependency_revision
+    timestamptz completion_verified_at
+  }
+  public_group_roster_member {
+    uuid group_id
+    uuid school_id
+    int8 membership_revision
+    uuid membership_id
+    uuid enrollment_id
+    uuid student_id
+    int8 enrollment_revision
+    sm_enrollment_status enrollment_status
+    varchar category_code
+    timestamptz enrollment_started_at
+    timestamptz enrollment_ended_at
+    timestamptz joined_at
+    timestamptz left_at
+  }
+  public_group_roster_revision {
+    uuid group_id
+    uuid school_id
+    int8 membership_revision
+    timestamptz recorded_at
+    uuid operation_id
+  }
+  public_integration_inbox {
+    uuid event_id
+    varchar producer
+    varchar event_type
+    varchar fingerprint
+    varchar outcome
+    int4 reviews_raised
+    timestamptz processed_at
+  }
+  public_membership_permission_grant {
+    uuid grant_id
+    uuid school_id
+    uuid membership_id
+    sm_permission permission
+    timestamptz started_at
+    timestamptz ended_at
+    uuid granted_operation_id
+    uuid ended_operation_id
+  }
+  public_membership_review {
+    uuid review_id
+    uuid school_id
+    varchar target_kind
+    uuid target_id
+    varchar reason_code
+    varchar subject_role
+    uuid subject_user_id
+    uuid source_event_id
+    timestamptz raised_at
+    timestamptz resolved_at
+    uuid resolved_by_user_id
+    varchar resolution_note
+  }
+  public_school {
+    uuid school_id
+    varchar name
+    sm_status status
+    int8 revision
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  public_school_coordination {
+    uuid operation_id
+    uuid school_id
+    text fingerprint
+    text command_json
+    text transition_json
+    text payload_hash
+    text state
+    int8 before_revision
+    int8 after_revision
+    timestamptz effective_from
+    uuid actor_user_id
+    uuid result_id
+    uuid lease_id
+    timestamptz lease_until
+  }
+  public_school_invitation {
+    uuid invitation_id
+    uuid school_id
+    uuid target_user_id
+    sm_role role
+    varchar category_code
+    uuid issuer_membership_id
+    sm_invitation_status status
+    int8 revision
+    timestamptz created_at
+    timestamptz expires_at
+    uuid issued_operation_id
+    uuid accepted_operation_id
+    timestamptz accepted_at
+    uuid result_membership_id
+    uuid result_enrollment_id
+    uuid revoked_operation_id
+    timestamptz revoked_at
+  }
+  public_school_learning_outbox {
+    uuid id
+    uuid school_id
+    uuid aggregate_id
+    int8 aggregate_version
+    text event_type
+    text payload
+    text correlation_id
+    timestamptz occurred_at
+    timestamptz sent_at
+    uuid lease_id
+    timestamptz lease_until
+    int4 attempts
+    timestamptz next_attempt_at
+  }
+  public_school_membership {
+    uuid membership_id
+    uuid school_id
+    uuid user_id
+    sm_role role
+    timestamptz started_at
+    timestamptz ended_at
+    int8 revision
+    uuid last_operation_id
+  }
+  public_school_operation {
+    uuid operation_id
+    uuid school_id
+    varchar command_name
+    varchar target_kind
+    uuid target_id
+    int8 expected_revision
+    int8 resulting_revision
+    bool coordination_required
+    int8 expected_school_revision
+    int8 resulting_school_revision
+    uuid actor_user_id
+    sm_channel channel
+    sm_operation_status status
+    varchar request_fingerprint
+    timestamptz requested_at
+    timestamptz resolved_at
+    text reason
+    varchar outcome_code
+    varchar authority_basis
+    uuid confirmation_id
+    timestamptz confirmed_at
+  }
+  public_student_enrollment {
+    uuid enrollment_id
+    uuid school_id
+    uuid student_id
+    varchar category_code
+    timestamptz started_at
+    timestamptz ended_at
+    sm_enrollment_status status
+    timestamptz status_changed_at
+    int8 revision
+    uuid last_operation_id
+  }
+  public_student_group_membership {
+    uuid membership_id
+    uuid school_id
+    uuid enrollment_id
+    uuid group_id
+    timestamptz joined_at
+    timestamptz left_at
+    uuid association_program_version_id
+    timestamptz association_verified_at
+    int8 revision
+    uuid last_operation_id
+  }
+  public_teacher_group_assignment {
+    uuid assignment_id
+    uuid school_id
+    uuid teacher_id
+    uuid group_id
+    timestamptz assigned_at
+    timestamptz ended_at
+    int8 revision
+    uuid last_operation_id
+  }
+  public_training_group {
+    uuid group_id
+    uuid school_id
+    uuid branch_id
+    varchar name
+    varchar category_code
+    timestamptz started_at
+    timestamptz ended_at
+    int8 revision
+    int8 membership_revision
+    uuid last_operation_id
+  }
+  public_school_operation o|--o{ public_membership_permission_grant : "membership_permission_grant_ended_operation_id_school_id_fkey"
+  public_student_enrollment ||--o{ public_enrollment_status_history : "enrollment_status_history_enrollment_id_school_id_fkey"
+  public_school_operation ||--o{ public_enrollment_status_history : "enrollment_status_history_operation_id_school_id_fkey"
+  public_student_enrollment ||--o{ public_student_group_membership : "student_group_membership_enrollment_id_school_id_fkey"
+  public_training_group ||--o{ public_student_group_membership : "student_group_membership_group_id_school_id_fkey"
+  public_school_operation ||--o{ public_student_group_membership : "student_group_membership_last_operation_id_school_id_fkey"
+  public_training_group ||--o{ public_teacher_group_assignment : "teacher_group_assignment_group_id_school_id_fkey"
+  public_school ||--o{ public_school_invitation : "school_invitation_school_id_fkey"
+  public_school_membership o|--o{ public_school_invitation : "school_invitation_issuer_membership_id_school_id_fkey"
+  public_school_operation ||--o{ public_school_invitation : "school_invitation_issued_operation_id_school_id_fkey"
+  public_school_operation o|--o{ public_school_invitation : "school_invitation_accepted_operation_id_school_id_fkey"
+  public_school_operation o|--o{ public_school_invitation : "school_invitation_revoked_operation_id_school_id_fkey"
+  public_school_membership o|--o{ public_school_invitation : "school_invitation_result_membership_id_school_id_fkey"
+  public_student_enrollment o|--o{ public_school_invitation : "school_invitation_result_enrollment_id_school_id_fkey"
+  public_school ||--o{ public_school_operation : "school_operation_school_id_fkey"
+  public_school ||--o{ public_branch : "branch_school_id_fkey"
+  public_school ||--o{ public_school_membership : "school_membership_school_id_fkey"
+  public_school ||--o{ public_student_enrollment : "student_enrollment_school_id_fkey"
+  public_school ||--o{ public_training_group : "training_group_school_id_fkey"
+  public_branch o|--o{ public_training_group : "training_group_branch_id_school_id_fkey"
+  public_school_operation ||--o{ public_branch : "branch_last_operation_id_school_id_fkey"
+  public_school_operation ||--o{ public_school_membership : "school_membership_last_operation_id_school_id_fkey"
+  public_school_operation ||--o{ public_student_enrollment : "student_enrollment_last_operation_id_school_id_fkey"
+  public_school_operation ||--o{ public_training_group : "training_group_last_operation_id_school_id_fkey"
+  public_school_membership ||--o{ public_membership_permission_grant : "membership_permission_grant_membership_id_school_id_fkey"
+  public_school_operation ||--o{ public_membership_permission_grant : "membership_permission_grant_granted_operation_id_school_id_fkey"
+  public_school_operation ||--o{ public_teacher_group_assignment : "teacher_group_assignment_last_operation_id_school_id_fkey"
+  public_training_group ||--o{ public_group_roster_revision : "group_roster_revision_group_id_school_id_fkey"
+  public_school_operation ||--o{ public_group_roster_revision : "group_roster_revision_operation_id_school_id_fkey"
+  public_group_roster_revision ||--o{ public_group_roster_member : "group_roster_member_group_id_school_id_membership_revision_fkey"
+  public_student_group_membership ||--o{ public_group_roster_member : "group_roster_member_membership_id_school_id_group_id_enrol_fkey"

@@ -1,0 +1,20 @@
+{
+  "headers": {
+    "eventId": "20000000-0000-4000-8000-000000000022",
+    "eventType": "LessonParticipantsChanged",
+    "eventVersion": 1,
+    "occurredAt": "2026-11-15T16:00:00Z",
+    "producer": "scheduling",
+    "correlationId": "corr-2026-11-15-001",
+    "aggregateId": "10000000-0000-4000-8000-000000000012",
+    "aggregateVersion": 4
+  },
+  "payload": {
+    "schoolId": "10000000-0000-4000-8000-000000000001",
+    "lessonId": "10000000-0000-4000-8000-000000000012",
+    "teacherId": "10000000-0000-4000-8000-000000000005",
+    "lessonKind": "Theory",
+    "groupId": "10000000-0000-4000-8000-000000000099",
+    "groupMembershipRevision": 2
+  }
+}

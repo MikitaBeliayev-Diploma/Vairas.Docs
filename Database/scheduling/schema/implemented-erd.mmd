@@ -1,0 +1,326 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_assessment_appointment {
+    uuid id
+    uuid school_id
+    lesson_kind kind
+    uuid enrollment_id
+    uuid student_id
+    uuid assessment_definition_id
+    uuid outstanding_requirement_id
+    varchar reason
+    uuid teacher_id
+    uuid vehicle_id
+    uuid branch_id
+    varchar category_code
+    timestamptz starts_at
+    timestamptz ends_at
+    lesson_status status
+    timestamptz created_at
+    uuid readiness_evaluation_id
+    int4 revision
+  }
+  public_candidate_lesson {
+    uuid id
+    uuid request_id
+    int4 request_revision
+    lesson_kind kind
+    uuid student_id
+    uuid enrollment_id
+    uuid group_id
+    uuid teacher_id
+    uuid vehicle_id
+    uuid branch_id
+    uuid series_id
+    timestamptz starts_at
+    timestamptz ends_at
+    varchar category_code
+  }
+  public_candidate_lesson_participant {
+    uuid candidate_lesson_id
+    uuid enrollment_id
+    uuid student_id
+    int8 membership_revision
+  }
+  public_gate_command {
+    uuid id
+    uuid school_id
+    text fingerprint
+    text kind
+    text result_json
+    int4 http_status
+  }
+  public_integration_inbox {
+    uuid event_id
+    varchar producer
+    varchar event_type
+    varchar fingerprint
+    varchar outcome
+    int4 reviews_raised
+    timestamptz processed_at
+  }
+  public_lesson {
+    uuid id
+    uuid school_id
+    lesson_kind kind
+    uuid branch_id
+    uuid teacher_id
+    uuid enrollment_id
+    uuid student_id
+    uuid vehicle_id
+    uuid group_id
+    int8 group_membership_revision
+    timestamptz starts_at
+    timestamptz ends_at
+    lesson_status status
+    int4 revision
+    uuid series_id
+    uuid source_candidate_id
+    timestamptz created_at
+    varchar category_code
+    timestamptz actual_start
+    timestamptz actual_end
+    varchar reason
+  }
+  public_lesson_change {
+    uuid id
+    uuid school_id
+    uuid lesson_id
+    uuid operation_id
+    int4 revision
+    lesson_status previous_status
+    timestamptz previous_start
+    timestamptz previous_end
+    uuid previous_teacher_id
+    uuid previous_vehicle_id
+    uuid previous_branch_id
+    uuid previous_series_id
+    int8 previous_group_membership_revision
+    timestamptz changed_at
+    timestamptz previous_actual_start
+    timestamptz previous_actual_end
+  }
+  public_lesson_participant {
+    uuid lesson_id
+    uuid enrollment_id
+    uuid student_id
+    int8 membership_revision
+    bool is_active
+  }
+  public_lesson_review {
+    uuid id
+    uuid school_id
+    varchar target_kind
+    uuid target_id
+    varchar reason_code
+    varchar subject_role
+    uuid subject_user_id
+    uuid source_event_id
+    timestamptz raised_at
+    timestamptz resolved_at
+    uuid resolved_by_user_id
+    varchar resolution_note
+  }
+  public_outbox_message {
+    uuid id
+    uuid school_id
+    uuid aggregate_id
+    int4 aggregate_version
+    text event_type
+    text payload
+    timestamptz occurred_at
+    timestamptz available_at
+    uuid lease_id
+    timestamptz lease_until
+    timestamptz published_at
+    int4 attempts
+  }
+  public_recurring_lesson_series {
+    uuid id
+    uuid school_id
+    lesson_kind kind
+    recurrence_frequency frequency
+    int4 recurrence_interval
+    _int2 weekdays
+    time local_start_time
+    int4 duration_minutes
+    varchar time_zone
+    date starts_on
+    date ends_on
+    int4 occurrence_count
+  }
+  public_reservation_claim {
+    uuid id
+    uuid operation_id
+    uuid lesson_id
+    uuid assessment_appointment_id
+    uuid school_id
+    varchar resource_kind
+    uuid resource_key
+    timestamptz starts_at
+    timestamptz ends_at
+    reservation_status status
+    timestamptz created_at
+    timestamptz released_at
+  }
+  public_scheduling_operation {
+    uuid id
+    uuid school_id
+    varchar action_type
+    uuid request_id
+    int4 request_revision
+    uuid actor_user_id
+    varchar channel
+    varchar reason
+    operation_status status
+    timestamptz started_at
+    timestamptz finished_at
+    uuid target_lesson_id
+    int4 expected_lesson_revision
+    uuid target_appointment_id
+    uuid result_lesson_id
+    uuid result_appointment_id
+    varchar outcome_code
+    timestamptz user_confirmed_at
+    varchar fingerprint
+    text result_json
+    int4 http_status
+  }
+  public_scheduling_operation_rule {
+    uuid operation_id
+    uuid rule_version_id
+  }
+  public_scheduling_request {
+    uuid id
+    int4 revision
+    uuid school_id
+    request_status status
+    date planning_start
+    date planning_end
+    uuid submitted_by_user_id
+    timestamptz submitted_at
+    timestamptz generated_at
+    uuid confirmed_operation_id
+    timestamptz confirmed_at
+    uuid created_by_user_id
+    timestamptz created_at
+    text inputs_json
+    text basis_json
+    int8 school_revision
+  }
+  public_scheduling_request_enrollment {
+    uuid request_id
+    int4 request_revision
+    uuid enrollment_id
+    uuid student_id
+    int8 enrollment_revision
+    uuid training_program_version_id
+    varchar category_code
+  }
+  public_scheduling_request_group {
+    uuid request_id
+    int4 request_revision
+    uuid group_id
+    uuid training_program_version_id
+    varchar category_code
+    int8 membership_revision
+  }
+  public_scheduling_request_resource {
+    uuid request_id
+    int4 request_revision
+    varchar resource_kind
+    uuid resource_id
+    int8 eligibility_revision
+  }
+  public_scheduling_request_rule {
+    uuid request_id
+    int4 request_revision
+    uuid rule_version_id
+  }
+  public_scheduling_request_window {
+    uuid id
+    uuid request_id
+    int4 request_revision
+    timestamptz starts_at
+    timestamptz ends_at
+  }
+  public_scheduling_rule_version {
+    uuid id
+    uuid rule_id
+    int4 revision
+    varchar source_kind
+    uuid school_id
+    varchar category_code
+    varchar rule_code
+    varchar severity
+    varchar override_policy
+    varchar scope_kind
+    uuid scope_resource_id
+    varchar decision_reason
+    numeric numeric_limit
+    varchar unit
+    timestamptz effective_from
+    timestamptz effective_to
+    varchar source_reference
+    varchar verification_status
+    timestamptz decided_at
+    uuid created_by_user_id
+    timestamptz created_at
+    uuid decided_by_user_id
+  }
+  public_school_barrier {
+    uuid school_id
+    int8 revision_floor
+    uuid pending_operation_id
+  }
+  public_school_transition {
+    uuid id
+    uuid school_id
+    int8 before_revision
+    int8 after_revision
+    text fingerprint
+    text payload_json
+    text status
+    timestamptz created_at
+  }
+  public_vehicle_block {
+    uuid id
+    uuid school_id
+    uuid vehicle_id
+    uuid operation_id
+    text reason
+    text status
+    timestamptz created_at
+  }
+  public_vehicle_guard {
+    uuid vehicle_id
+    uuid school_id
+  }
+  public_recurring_lesson_series o|--o{ public_candidate_lesson : "FK_candidate_lesson_recurring_lesson_series_series_id"
+  public_candidate_lesson ||--o{ public_candidate_lesson_participant : "FK_candidate_lesson_participant_candidate_lesson_candidate_les~"
+  public_candidate_lesson o|--o{ public_lesson : "FK_lesson_candidate_lesson_source_candidate_id"
+  public_recurring_lesson_series o|--o{ public_lesson : "FK_lesson_recurring_lesson_series_series_id_school_id_kind"
+  public_lesson ||--o{ public_lesson_participant : "FK_lesson_participant_lesson_lesson_id"
+  public_lesson ||--o{ public_lesson_change : "FK_lesson_change_lesson_lesson_id_school_id"
+  public_assessment_appointment o|--o{ public_reservation_claim : "FK_reservation_claim_assessment_appointment_assessment_appoint~"
+  public_lesson o|--o{ public_reservation_claim : "FK_reservation_claim_lesson_lesson_id_school_id"
+  public_assessment_appointment o|--o{ public_scheduling_operation : "FK_scheduling_operation_assessment_appointment_result_appointm~"
+  public_assessment_appointment o|--o{ public_scheduling_operation : "FK_scheduling_operation_assessment_appointment_target_appointm~"
+  public_lesson o|--o{ public_scheduling_operation : "FK_scheduling_operation_lesson_result_lesson_id_school_id"
+  public_lesson o|--o{ public_scheduling_operation : "FK_scheduling_operation_lesson_target_lesson_id_school_id"
+  public_scheduling_operation ||--o{ public_scheduling_operation_rule : "FK_scheduling_operation_rule_scheduling_operation_operation_id"
+  public_scheduling_rule_version ||--o{ public_scheduling_operation_rule : "FK_scheduling_operation_rule_scheduling_rule_version_rule_vers~"
+  public_scheduling_request ||--o{ public_scheduling_request_group : "FK_scheduling_request_group_scheduling_request_request_id_requ~"
+  public_scheduling_operation o|--o{ public_scheduling_request : "FK_scheduling_request_scheduling_operation_confirmed_operation~"
+  public_scheduling_request ||--o{ public_scheduling_request_enrollment : "FK_scheduling_request_enrollment_scheduling_request_request_id~"
+  public_scheduling_request ||--o{ public_scheduling_request_resource : "FK_scheduling_request_resource_scheduling_request_request_id_r~"
+  public_scheduling_request ||--o{ public_scheduling_request_rule : "FK_scheduling_request_rule_scheduling_request_request_id_reque~"
+  public_scheduling_rule_version ||--o{ public_scheduling_request_rule : "FK_scheduling_request_rule_scheduling_rule_version_rule_versio~"
+  public_scheduling_request ||--o{ public_scheduling_request_window : "FK_scheduling_request_window_scheduling_request_request_id_req~"
+  public_scheduling_request ||--o{ public_candidate_lesson : "FK_candidate_lesson_scheduling_request_request_id_request_revi~"
+  public_scheduling_operation ||--o{ public_lesson_change : "FK_lesson_change_scheduling_operation_operation_id_school_id"
+  public_scheduling_operation ||--o{ public_reservation_claim : "FK_reservation_claim_scheduling_operation_operation_id_school_~"
+  public_scheduling_request o|--o{ public_scheduling_operation : "FK_scheduling_operation_scheduling_request_request_id_request_~"

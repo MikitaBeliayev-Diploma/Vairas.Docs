@@ -1,564 +1,1416 @@
-openapi: 3.1.0
+openapi: 3.1.1
 info:
-  title: Vairas Vehicle Management API — Planned Vehicle State Change Saga
-  version: 0.2.0
-  description: 'PROPOSED contract, not an implemented API. Vehicle Management owns vehicle
-
-    status and coordinates planned StartMaintenance, Deactivate, and Reactivate
-
-    operations with Scheduling. Planned changes run asynchronously.
-
-    Emergency vehicle failures are deliberately outside this contract.
-
-    '
-tags:
-- name: Vehicle Operations
-- name: Vehicle Eligibility
-security:
-- bearerAuth: []
+  title: Vairas Vehicle Management API
+  description: Tenant-authorized fleet resources and durable planned state changes. Maintenance is reserved. Scheduling
+    gate is an external dependency; disabled coordination returns 503 before effects.
+  version: 1.0.0
+servers:
+- url: https://localhost:7400/
 paths:
-  /api/v1/vehicles/{vehicleId}/state-change-operations:
-    parameters:
-    - name: vehicleId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    post:
-      tags:
-      - Vehicle Operations
-      operationId: requestVehicleStateChange
-      summary: Initiate a durable vehicle state-change Saga
-      description: 'Writes the Saga request with a unique Idempotency-Key, then schedules the
-
-        orchestrator. Does NOT claim the state change has completed. StartMaintenance
-
-        must reference an existing scheduled Maintenance aggregate. For planned
-
-        availability reduction Scheduling must block bookings before Vehicle status
-
-        changes. An equivalent retry returns the same operation (202 if unfinished,
-
-        200 if terminal); reusing the same key with a different request returns 409.
-
-        '
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: Idempotency-Key
-        in: header
-        required: true
-        description: Unique per user/tenant/command intent; server binds key to request hash.
-        schema:
-          type: string
-          minLength: 8
-          maxLength: 128
-        example: synthetic-Idempotency-Key
-      - name: X-Correlation-ID
-        in: header
-        required: false
-        schema:
-          type: string
-          maxLength: 128
-        example: synthetic-X-Correlation-ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StateChangeRequest'
-            examples:
-              typical:
-                summary: Synthetic permitted request; credentials are environment placeholders.
-                value:
-                  operationType: StartMaintenance
-                  maintenanceId: 11111111-1111-4111-8111-111111111111
-      responses:
-        '202':
-          description: Accepted; operation is pending/in progress, not yet committed.
-          headers:
-            Location:
-              description: Relative URI of the operation status resource.
-              schema:
-                type: string
-            Retry-After:
-              description: Suggested number of seconds until status polling.
-              schema:
-                type: integer
-                minimum: 1
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StateChangeOperation'
-              examples:
-                typical:
-                  summary: Accepted; operation is pending/in progress, not yet committed.
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    vehicleId: 11111111-1111-4111-8111-111111111111
-                    operationType: StartMaintenance
-                    status: Pending
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-        '200':
-          description: Idempotent replay of a terminal operation result.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StateChangeOperation'
-              examples:
-                typical:
-                  summary: Idempotent replay of a terminal operation result.
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    vehicleId: 11111111-1111-4111-8111-111111111111
-                    operationType: StartMaintenance
-                    status: Pending
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-        '400':
-          description: Malformed request.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Malformed request.
-                status: 400
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '401':
-          description: Missing/invalid token.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Missing/invalid token.
-                status: 401
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '403':
-          description: Insufficient permission.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Insufficient permission.
-                status: 403
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '404':
-          description: Not found or intentionally concealed resource.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Not found or intentionally concealed resource.
-                status: 404
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '409':
-          description: Competing in-progress operation, idempotency mismatch, or state conflict.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Competing in-progress operation, idempotency mismatch, or state conflict.
-                status: 409
-                code: RESOURCE_CONFLICT
-                correlationId: integration-example-01
-        '422':
-          description: Business-state validation failure, e.g. maintenance is not scheduled.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Business-state validation failure, e.g. maintenance is not scheduled.
-                status: 422
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '429':
-          description: Too many requests.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Too many requests.
-                status: 429
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '503':
-          description: Temporarily unable to process request; query status before assuming rollback.
-          headers:
-            Retry-After:
-              schema:
-                type: integer
-                minimum: 1
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Temporarily unable to process request; query status before assuming rollback.
-                status: 503
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-      x-status: proposed
-      x-negative-request:
-        description: 'Missing required operationType: reject with 400 before business work.'
-        mediaType: application/json
-        value:
-          maintenanceId: 11111111-1111-4111-8111-111111111111
-        expectedStatus: 400
-  /api/v1/vehicles/{vehicleId}/state-change-operations/{operationId}:
-    parameters:
-    - name: vehicleId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    - name: operationId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
+  /internal/v1/vehicles/{vehicleId}/scheduling-eligibility:
     get:
       tags:
-      - Vehicle Operations
-      operationId: getVehicleStateChangeOperation
-      summary: Get the authoritative Saga state
-      description: 'Used by the UI after 202, disconnects, and timeouts. The response never
-
-        includes another tenant''s lesson IDs or student details.
-
-        '
+      - InternalVehicles
+      summary: Return an exact resource snapshot and explicit durable gate capability to Scheduling.
+      operationId: getSchedulingVehicleEligibility
       parameters:
-      - name: X-Correlation-ID
-        in: header
-        required: false
+      - name: vehicleId
+        in: path
+        required: true
         schema:
           type: string
-          maxLength: 128
-        example: synthetic-X-Correlation-ID
-      responses:
-        '200':
-          description: Current persisted operation state.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StateChangeOperation'
-              examples:
-                typical:
-                  summary: Current persisted operation state.
-                  value:
-                    operationId: 11111111-1111-4111-8111-111111111111
-                    vehicleId: 11111111-1111-4111-8111-111111111111
-                    operationType: StartMaintenance
-                    status: Pending
-                    createdAt: '2026-12-01T10:00:00Z'
-                    updatedAt: '2026-12-01T10:00:00Z'
-        '401':
-          description: Missing/invalid token.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Missing/invalid token.
-                status: 401
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '403':
-          description: Insufficient permission.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Insufficient permission.
-                status: 403
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '404':
-          description: Not found or intentionally concealed resource.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Not found or intentionally concealed resource.
-                status: 404
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '429':
-          description: Too many requests.
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Too many requests.
-                status: 429
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-        '503':
-          description: Temporarily unable to process request; query status before assuming rollback.
-          headers:
-            Retry-After:
-              schema:
-                type: integer
-                minimum: 1
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Temporarily unable to process request; query status before assuming rollback.
-                status: 503
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-      x-status: proposed
-  /internal/v1/vehicles/{vehicleId}/eligibility:
-    parameters:
-    - name: vehicleId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    get:
-      tags:
-      - Vehicle Eligibility
-      operationId: getVehicleEligibility
-      summary: Query operational suitability; NOT a booking reservation
-      description: 'Checks vehicle''s current status, category, assigned teacher and branch.
-
-        This preflight result does not reserve a vehicle and is insufficient by
-
-        itself to prevent races with later state changes. Scheduling must still
-
-        enforce its booking gate transaction.
-
-        '
-      security:
-      - workloadBearer: []
-      parameters:
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
       - name: branchId
         in: query
         required: true
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       - name: teacherId
         in: query
         required: true
         schema:
           type: string
           format: uuid
-        example: 11111111-1111-4111-8111-111111111111
       - name: category
         in: query
         required: true
         schema:
           type: string
-          minLength: 1
-        example: B
-      - name: X-Correlation-ID
-        in: header
-        required: false
-        schema:
-          type: string
-          maxLength: 128
-        example: synthetic-X-Correlation-ID
       responses:
         '200':
-          description: Suitability result (includes eligible=false; do not use 409 here).
+          description: OK
           content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SchedulingVehicleSnapshot'
             application/json:
               schema:
-                $ref: '#/components/schemas/VehicleEligibility'
-              examples:
-                typical:
-                  summary: Suitability result (includes eligible=false; do not use 409 here).
-                  value:
-                    vehicleId: 11111111-1111-4111-8111-111111111111
-                    eligible: true
-                    vehicleStatus: Active
-                    vehicleVersion: 1
+                $ref: '#/components/schemas/SchedulingVehicleSnapshot'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SchedulingVehicleSnapshot'
         '400':
-          description: Malformed request.
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Malformed request.
-                status: 400
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
+                type: object
         '401':
-          description: Missing/invalid token.
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Missing/invalid token.
-                status: 401
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
+                type: object
         '403':
-          description: Insufficient permission.
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Insufficient permission.
-                status: 403
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
+                type: object
         '404':
-          description: Not found or intentionally concealed resource.
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Not found or intentionally concealed resource.
-                status: 404
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
         '503':
-          description: Temporarily unable to process request; query status before assuming rollback.
-          headers:
-            Retry-After:
-              schema:
-                type: integer
-                minimum: 1
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem'
-              example:
-                type: LessonScheduled
-                title: Temporarily unable to process request; query status before assuming rollback.
-                status: 503
-                code: DEPENDENCY_UNAVAILABLE
-                correlationId: integration-example-01
-      x-status: proposed
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: End-user delegated token; tenant and resource authorization remains server-side.
-    workloadBearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: Service-to-service scoped token with appropriate audience and workload identity.
-  parameters:
-    VehicleId:
-      name: vehicleId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    OperationId:
-      name: operationId
-      in: path
-      required: true
-      schema:
-        type: string
-        format: uuid
-    IdempotencyKey:
-      name: Idempotency-Key
-      in: header
-      required: true
-      description: Unique per user/tenant/command intent; server binds key to request hash.
-      schema:
-        type: string
-        minLength: 8
-        maxLength: 128
-    CorrelationId:
-      name: X-Correlation-ID
-      in: header
-      required: false
-      schema:
-        type: string
-        maxLength: 128
-  schemas:
-    StateChangeRequest:
-      type: object
-      additionalProperties: false
-      required:
-      - operationType
-      properties:
-        operationType:
-          type: string
-          enum:
-          - StartMaintenance
-          - Deactivate
-          - Reactivate
-        maintenanceId:
+                type: object
+      security:
+      - workloadBearer: []
+  /internal/v1/vehicles/{vehicleId}/ownership:
+    get:
+      tags:
+      - InternalVehicles
+      summary: Verify tenant ownership before acquiring a durable Scheduling block.
+      operationId: getSchedulingVehicleOwnership
+      parameters:
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
           type: string
           format: uuid
-          description: Required for StartMaintenance; prohibited for other operations.
-      allOf:
-      - if:
-          properties:
-            operationType:
-              const: StartMaintenance
-          required:
-          - operationType
-        then:
-          required:
-          - maintenanceId
-        else:
-          not:
-            required:
-            - maintenanceId
-      description: State Change Request. See the operation descriptions for authorization and lifecycle constraints.
-    StateChangeOperation:
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/VehicleOwnershipSnapshot'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOwnershipSnapshot'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/VehicleOwnershipSnapshot'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - workloadBearer: []
+  /internal/v1/vehicles/{vehicleId}/eligibility:
+    get:
+      tags:
+      - InternalVehicles
+      summary: Check current status, category, exact teacher authority and branch; this is not a booking.
+      operationId: getVehicleEligibility
+      parameters:
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: branchId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: teacherId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: category
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/VehicleEligibilityResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleEligibilityResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/VehicleEligibilityResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - workloadBearer: []
+  /api/v1/vehicles/{vehicleId}/state-change-operations:
+    post:
+      tags:
+      - VehicleOperations
+      summary: Persist a planned deactivation or activation Saga; accepted does not mean completed.
+      operationId: requestVehicleStateChange
+      parameters:
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        description: 8..128 printable ASCII characters, scoped by actor, school and command; changed payload conflicts.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateChangeRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/StateChangeRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/StateChangeRequest'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: Authoritative operation status URL
+              schema:
+                type: string
+            Retry-After:
+              description: Polling interval in seconds
+              schema:
+                type: integer
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /api/v1/vehicles/{vehicleId}/state-change-operations/{operationId}:
+    get:
+      tags:
+      - VehicleOperations
+      summary: Read the authoritative persisted state after acceptance or an uncertain client timeout.
+      operationId: getVehicleStateChangeOperation
+      parameters:
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: operationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: schoolId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/StateChangeResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /api/v1/schools/{schoolId}/vehicles:
+    get:
+      tags:
+      - Vehicles
+      summary: List vehicles in the administrator's current school scope.
+      operationId: listVehicles
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: after
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: limit
+        in: query
+        schema:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int32
+          default: 50
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/VehicleListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/VehicleListResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+    post:
+      tags:
+      - Vehicles
+      summary: Create an inactive vehicle and its nonempty supported category collection atomically.
+      operationId: createVehicle
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        description: 8..128 printable ASCII characters, scoped by actor, school and command; changed payload conflicts.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateVehicleRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              description: Created resource URL
+              schema:
+                type: string
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /api/v1/schools/{schoolId}/vehicles/{vehicleId}:
+    get:
+      tags:
+      - Vehicles
+      summary: Read one vehicle under current school administrator authority.
+      operationId: getVehicle
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/VehicleResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+    patch:
+      tags:
+      - Vehicles
+      summary: Replace the descriptive fields with an explicit expected revision.
+      operationId: updateVehicle
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        description: 8..128 printable ASCII characters, scoped by actor, school and command; changed payload conflicts.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateVehicleRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /api/v1/schools/{schoolId}/vehicles/{vehicleId}/categories:
+    put:
+      tags:
+      - Vehicles
+      summary: Replace categories before first activation or after confirmed Scheduling blocking.
+      operationId: replaceVehicleCategories
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        description: 8..128 printable ASCII characters, scoped by actor, school and command; changed payload conflicts.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceCategoriesRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceCategoriesRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReplaceCategoriesRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /api/v1/schools/{schoolId}/vehicles/{vehicleId}/teacher-assignments:
+    put:
+      tags:
+      - Vehicles
+      summary: Replace teacher assignments, binding each teacher to the exact current school membership.
+      operationId: replaceVehicleTeacherAssignments
+      parameters:
+      - name: schoolId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Idempotency-Key
+        in: header
+        description: 8..128 printable ASCII characters, scoped by actor, school and command; changed payload conflicts.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceTeacherAssignmentsRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceTeacherAssignmentsRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReplaceTeacherAssignmentsRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/MutationResponse'
+        '400':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '401':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '403':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '404':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '409':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '415':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '422':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '500':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        '503':
+          description: ProblemDetails with stable code and correlationId; credentials and foreign resource details
+            are concealed.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+components:
+  schemas:
+    CreateVehicleRequest:
+      required:
+      - branchId
+      - registrationCountryCode
+      - registrationNumber
+      - manufacturer
+      - model
+      - manufactureYear
+      - transmission
+      - categories
       type: object
-      additionalProperties: false
+      properties:
+        branchId:
+          type: string
+          format: uuid
+        registrationCountryCode:
+          type: string
+        registrationNumber:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        manufactureYear:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int16
+        transmission:
+          $ref: '#/components/schemas/Transmission'
+        categories:
+          type: array
+          items:
+            type: string
+      description: Create an inactive vehicle with an explicit nonempty category set.
+    MutationResponse:
+      required:
+      - operationId
+      - resource
+      - replayed
+      type: object
+      properties:
+        operationId:
+          type: string
+          format: uuid
+        resource:
+          $ref: '#/components/schemas/VehicleResponse'
+        replayed:
+          type: boolean
+      description: Exact saved command result, including whether this was an authorized retry.
+    ReplaceCategoriesRequest:
+      required:
+      - expectedRevision
+      - categories
+      type: object
+      properties:
+        expectedRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        categories:
+          type: array
+          items:
+            type: string
+      description: Replace supported categories while the vehicle is safely outside operation.
+    ReplaceTeacherAssignmentsRequest:
+      required:
+      - expectedRevision
+      - teacherIds
+      type: object
+      properties:
+        expectedRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        teacherIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      description: Replace teacher assignments; the server resolves exact current memberships.
+    SagaStatus:
+      enum:
+      - Pending
+      - Blocking
+      - SchedulingBlocked
+      - ApplyingVehicleState
+      - ReleasingBlock
+      - Completed
+      - Rejected
+      - NeedsRecovery
+    SchedulingVehicleSnapshot:
+      required:
+      - vehicleId
+      - schoolId
+      - teacherId
+      - branchId
+      - category
+      - revision
+      - eligible
+      - gateSupported
+      - validUntil
+      type: object
+      properties:
+        vehicleId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        teacherId:
+          type: string
+          format: uuid
+        branchId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        eligible:
+          type: boolean
+        gateSupported:
+          type: boolean
+        validUntil:
+          type: string
+          format: date-time
+      description: Exact short-lived source snapshot; reservation decisions remain in Scheduling.
+    StateChangeRequest:
+      required:
+      - operationType
+      - expectedVehicleRevision
+      - reason
+      type: object
+      properties:
+        operationType:
+          $ref: '#/components/schemas/StateChangeType'
+        expectedVehicleRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        reason:
+          type: string
+      description: Request a durable planned status change with optimistic concurrency.
+    StateChangeResponse:
       required:
       - operationId
       - vehicleId
       - operationType
       - status
+      - blockId
+      - resultVehicleStatus
+      - errorCode
       - createdAt
       - updatedAt
+      type: object
       properties:
         operationId:
           type: string
@@ -567,49 +1419,96 @@ components:
           type: string
           format: uuid
         operationType:
-          type: string
-          enum:
-          - StartMaintenance
-          - Deactivate
-          - Reactivate
+          $ref: '#/components/schemas/StateChangeType'
         status:
-          type: string
-          enum:
-          - Pending
-          - Blocking
-          - SchedulingBlocked
-          - ApplyingVehicleState
-          - ReleasingBlock
-          - Completed
-          - Rejected
-          - NeedsRecovery
+          $ref: '#/components/schemas/SagaStatus'
         blockId:
-          type: string
+          type:
+          - 'null'
+          - string
           format: uuid
         resultVehicleStatus:
-          type: string
-          enum:
-          - Active
-          - Inactive
-          - UnderMaintenance
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/VehicleStatus'
         errorCode:
-          type: string
-          description: Stable, non-sensitive machine-readable result code on rejection/recovery.
+          type:
+          - 'null'
+          - string
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
-      description: State Change Operation. See the operation descriptions for authorization and lifecycle constraints.
-    VehicleEligibility:
+      description: Persisted status of one state-change Saga; 202 means processing, not completion.
+    StateChangeType:
+      enum:
+      - Deactivate
+      - Reactivate
+    TeacherAssignmentResponse:
+      required:
+      - teacherId
+      - schoolMembershipId
+      - assignedAt
       type: object
-      additionalProperties: false
+      properties:
+        teacherId:
+          type: string
+          format: uuid
+        schoolMembershipId:
+          type: string
+          format: uuid
+        assignedAt:
+          type: string
+          format: date-time
+      description: One current vehicle teacher assignment and its exact authority basis.
+    Transmission:
+      enum:
+      - Manual
+      - Automatic
+    UpdateVehicleRequest:
+      required:
+      - expectedRevision
+      - registrationCountryCode
+      - registrationNumber
+      - manufacturer
+      - model
+      - manufactureYear
+      - transmission
+      type: object
+      properties:
+        expectedRevision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        registrationCountryCode:
+          type: string
+        registrationNumber:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        manufactureYear:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int16
+        transmission:
+          $ref: '#/components/schemas/Transmission'
+      description: Update descriptive fields; school, branch and operational status cannot be patched.
+    VehicleEligibilityResponse:
       required:
       - vehicleId
       - eligible
       - vehicleStatus
       - vehicleVersion
+      - reasons
+      type: object
       properties:
         vehicleId:
           type: string
@@ -617,99 +1516,136 @@ components:
         eligible:
           type: boolean
         vehicleStatus:
-          type: string
-          enum:
-          - Active
-          - Inactive
-          - UnderMaintenance
+          $ref: '#/components/schemas/VehicleStatus'
         vehicleVersion:
-          type: integer
-          minimum: 0
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
         reasons:
           type: array
           items:
             type: string
-            enum:
-            - STATUS_NOT_ACTIVE
-            - CATEGORY_NOT_SUPPORTED
-            - TEACHER_NOT_ASSIGNED
-            - BRANCH_MISMATCH
-      description: Vehicle Eligibility. See the operation descriptions for authorization and lifecycle constraints.
-    Problem:
-      type: object
-      additionalProperties: true
+      description: Current operational preflight; never a reservation or a reusable admission permit.
+    VehicleListResponse:
       required:
-      - type
-      - title
-      - status
-      - code
-      - correlationId
+      - items
+      - nextCursor
+      type: object
       properties:
-        type:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/VehicleResponse'
+        nextCursor:
+          type:
+          - 'null'
+          - string
+          format: uuid
+      description: Bounded vehicle page with an exclusive UUID cursor.
+    VehicleOwnershipSnapshot:
+      required:
+      - vehicleId
+      - schoolId
+      - revision
+      - gateSupported
+      - validUntil
+      type: object
+      properties:
+        vehicleId:
           type: string
-          format: uri-reference
-        title:
+          format: uuid
+        schoolId:
           type: string
+          format: uuid
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        gateSupported:
+          type: boolean
+        validUntil:
+          type: string
+          format: date-time
+      description: Minimal verified ownership for the Scheduling vehicle gate.
+    VehicleResponse:
+      required:
+      - vehicleId
+      - schoolId
+      - branchId
+      - registrationCountryCode
+      - registrationNumber
+      - manufacturer
+      - model
+      - manufactureYear
+      - transmission
+      - status
+      - revision
+      - categories
+      - teacherAssignments
+      type: object
+      properties:
+        vehicleId:
+          type: string
+          format: uuid
+        schoolId:
+          type: string
+          format: uuid
+        branchId:
+          type: string
+          format: uuid
+        registrationCountryCode:
+          type: string
+        registrationNumber:
+          type: string
+        manufacturer:
+          type: string
+        model:
+          type: string
+        manufactureYear:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int16
+        transmission:
+          $ref: '#/components/schemas/Transmission'
         status:
-          type: integer
-        code:
-          type: string
-        correlationId:
-          type: string
-        detail:
-          type: string
-      description: Problem. See the operation descriptions for authorization and lifecycle constraints.
-  responses:
-    BadRequest:
-      description: Malformed request.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Unauthorized:
-      description: Missing/invalid token.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Forbidden:
-      description: Insufficient permission.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    NotFound:
-      description: Not found or intentionally concealed resource.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Conflict:
-      description: Competing in-progress operation, idempotency mismatch, or state conflict.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Unprocessable:
-      description: Business-state validation failure, e.g. maintenance is not scheduled.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    RateLimited:
-      description: Too many requests.
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
-    Unavailable:
-      description: Temporarily unable to process request; query status before assuming rollback.
-      headers:
-        Retry-After:
-          schema:
-            type: integer
-            minimum: 1
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/Problem'
+          $ref: '#/components/schemas/VehicleStatus'
+        revision:
+          pattern: ^-?(?:0|[1-9]\d*)$
+          type:
+          - integer
+          - string
+          format: int64
+        categories:
+          type: array
+          items:
+            type: string
+        teacherAssignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeacherAssignmentResponse'
+      description: Authorized vehicle representation; no scheduling reservations are owned here.
+    VehicleStatus:
+      enum:
+      - Active
+      - Inactive
+      - UnderMaintenance
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    workloadBearer:
+      type: http
+      description: vehicles.eligibility.read scope and configured workload allowlist.
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+- name: InternalVehicles
+- name: VehicleOperations
+- name: Vehicles

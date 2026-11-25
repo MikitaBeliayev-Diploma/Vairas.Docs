@@ -1,8 +1,10 @@
+> Baseline design reference. The [2026-11-24 implementation extension](implementation.md) records nine added columns, six reliability tables and current deployment/verification boundaries. The current combined schema is [DBML](../schema/schema.dbml).
+
 # Scheduling — Logical relational schema
 
 Authority: Owner-adopted D-044; scheduling-refined is NOT silently adopted. [Canonical DBML](../schema/schema.dbml).
 
-The [Mermaid diagram](../schema/database-erd.md) shows keys/FKs and representative attributes; full attributes/defaults/classification are in data-dictionary.md. 
+The [Mermaid diagram](../schema/database-erd.md) shows keys/FKs and representative attributes; full attributes/defaults/classification are in data-dictionary.md.
 
 Physical count: 17 domain tables, 175 columns, 25 local FK declarations. EF migration history, where present, is technical metadata, not a new aggregate.
 

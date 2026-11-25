@@ -1,5 +1,7 @@
 # Microservices Architecture
 
+Current implementation: [Implemented architecture](IMPLEMENTED-ARCHITECTURE.md). It supersedes implementation-status statements below. All 11 services exist in `Backend`; local verification is recorded in [Final Verification](../Final-Verification/MASTER-CHECKLIST.md). The older diagrams and Azure/Foundry descriptions below are preserved as design history, not claims of deployed functionality. Fleet maintenance and production deployment remain outside the approved scope. MCP is internal and is not exposed as a browser `/mcp` Gateway route.
+
 Architecture documentation for **Vairas: SaaS Platform for Driving School Training Process Management with an MCP-Based AI Assistant**.
 
 **Status:** Proposed architecture. These documents describe design decisions and do not establish implementation or deployment completion.

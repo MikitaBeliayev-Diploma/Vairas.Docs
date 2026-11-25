@@ -1,0 +1,1629 @@
+{
+  "database": "vairas_authentication",
+  "owningContext": "authentication",
+  "columns": [
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 1,
+      "column_name": "MigrationId",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 150
+    },
+    {
+      "table_schema": "public",
+      "table_name": "__EFMigrationsHistory",
+      "ordinal_position": 2,
+      "column_name": "ProductVersion",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 32
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 1,
+      "column_name": "challenge_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 3,
+      "column_name": "purpose",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 4,
+      "column_name": "login_email",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 254
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 5,
+      "column_name": "credential_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 6,
+      "column_name": "secret_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 7,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 8,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 9,
+      "column_name": "consumed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "account_challenge",
+      "ordinal_position": 10,
+      "column_name": "invalidated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 1,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 3,
+      "column_name": "source_session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 4,
+      "column_name": "target_session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 5,
+      "column_name": "fingerprint",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 6,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_operation",
+      "ordinal_position": 7,
+      "column_name": "outcome_status",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 1,
+      "column_name": "session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 3,
+      "column_name": "auth_method",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 4,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 5,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 6,
+      "column_name": "revoked_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "auth_session",
+      "ordinal_position": 7,
+      "column_name": "revocation_reason",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 40
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 1,
+      "column_name": "delivery_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 2,
+      "column_name": "challenge_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 3,
+      "column_name": "protected_payload",
+      "udt_name": "text",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 4,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 5,
+      "column_name": "attempts",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 6,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 7,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 8,
+      "column_name": "next_attempt_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 9,
+      "column_name": "lease_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 10,
+      "column_name": "leased_until",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "challenge_delivery",
+      "ordinal_position": 11,
+      "column_name": "last_error_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "public",
+      "table_name": "external_identity",
+      "ordinal_position": 1,
+      "column_name": "external_identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "external_identity",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "external_identity",
+      "ordinal_position": 3,
+      "column_name": "issuer",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 512
+    },
+    {
+      "table_schema": "public",
+      "table_name": "external_identity",
+      "ordinal_position": 4,
+      "column_name": "subject",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 255
+    },
+    {
+      "table_schema": "public",
+      "table_name": "external_identity",
+      "ordinal_position": 5,
+      "column_name": "linked_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 1,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 2,
+      "column_name": "login_email",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 254
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 3,
+      "column_name": "email_verified_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 4,
+      "column_name": "security_state",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'Enabled'::character varying",
+      "character_maximum_length": 16
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 5,
+      "column_name": "credential_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "identity",
+      "ordinal_position": 6,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 1,
+      "column_name": "request_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 2,
+      "column_name": "purpose",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 8
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 3,
+      "column_name": "issuer",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 512
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 4,
+      "column_name": "state_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 5,
+      "column_name": "browser_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 6,
+      "column_name": "nonce_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 7,
+      "column_name": "pkce_verifier_ciphertext",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 8,
+      "column_name": "redirect_uri",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 1024
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 9,
+      "column_name": "link_identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 10,
+      "column_name": "link_session_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 11,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 12,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "oidc_request",
+      "ordinal_position": 13,
+      "column_name": "consumed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "password_credential",
+      "ordinal_position": 1,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "password_credential",
+      "ordinal_position": 2,
+      "column_name": "password_hash",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "password_credential",
+      "ordinal_position": 3,
+      "column_name": "changed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 1,
+      "column_name": "refresh_token_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 2,
+      "column_name": "session_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 3,
+      "column_name": "parent_token_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 4,
+      "column_name": "secret_digest",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 5,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 6,
+      "column_name": "expires_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 7,
+      "column_name": "consumed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "refresh_token",
+      "ordinal_position": 8,
+      "column_name": "revoked_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 1,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 2,
+      "column_name": "identity_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 3,
+      "column_name": "session_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 4,
+      "column_name": "event_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 48
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 5,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 48
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 6,
+      "column_name": "correlation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "public",
+      "table_name": "security_event",
+      "ordinal_position": 7,
+      "column_name": "occurred_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "clock_timestamp()",
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "conname": "PK___EFMigrationsHistory",
+      "contype": "p",
+      "definition": "PRIMARY KEY (\"MigrationId\")"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "account_challenge_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (identity_id) REFERENCES identity(identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "account_challenge_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (challenge_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "account_challenge_secret_digest_key",
+      "contype": "u",
+      "definition": "UNIQUE (secret_digest)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_1",
+      "contype": "c",
+      "definition": "CHECK (((purpose)::text = ANY ((ARRAY['VerifyEmail'::character varying, 'ResetPassword'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_2",
+      "contype": "c",
+      "definition": "CHECK ((credential_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_3",
+      "contype": "c",
+      "definition": "CHECK (((secret_digest)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_4",
+      "contype": "c",
+      "definition": "CHECK ((expires_at > created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_5",
+      "contype": "c",
+      "definition": "CHECK (((consumed_at IS NULL) OR (consumed_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "conname": "ck_account_challenge_6",
+      "contype": "c",
+      "definition": "CHECK (((invalidated_at IS NULL) OR (invalidated_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_operation",
+      "conname": "auth_operation_fingerprint_check",
+      "contype": "c",
+      "definition": "CHECK (((fingerprint)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_operation",
+      "conname": "auth_operation_outcome_status_check",
+      "contype": "c",
+      "definition": "CHECK ((outcome_status = ANY (ARRAY[200, 404])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_operation",
+      "conname": "auth_operation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (operation_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_operation",
+      "conname": "auth_operation_source_session_id_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (source_session_id, identity_id) REFERENCES auth_session(session_id, identity_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "auth_session_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (identity_id) REFERENCES identity(identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "auth_session_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (session_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "ck_auth_session_1",
+      "contype": "c",
+      "definition": "CHECK (((auth_method)::text = ANY ((ARRAY['Password'::character varying, 'Oidc'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "ck_auth_session_2",
+      "contype": "c",
+      "definition": "CHECK ((expires_at > created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "ck_auth_session_3",
+      "contype": "c",
+      "definition": "CHECK (((revoked_at IS NULL) = (revocation_reason IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "conname": "ck_auth_session_4",
+      "contype": "c",
+      "definition": "CHECK (((revoked_at IS NULL) OR (revoked_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_attempts_check",
+      "contype": "c",
+      "definition": "CHECK ((attempts >= 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_challenge_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (challenge_id) REFERENCES account_challenge(challenge_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_challenge_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (challenge_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_check",
+      "contype": "c",
+      "definition": "CHECK ((expires_at > created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_check1",
+      "contype": "c",
+      "definition": "CHECK (((lease_id IS NULL) = (leased_until IS NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_check2",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text = 'Sending'::text) = (lease_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_check3",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text <> ALL ((ARRAY['Pending'::character varying, 'Sending'::character varying])::text[])) OR (protected_payload IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (delivery_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "conname": "challenge_delivery_status_check",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Pending'::character varying, 'Sending'::character varying, 'Sent'::character varying, 'Failed'::character varying, 'Unknown'::character varying, 'Superseded'::character varying, 'Expired'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "external_identity",
+      "conname": "ck_external_identity_1",
+      "contype": "c",
+      "definition": "CHECK (((length((issuer)::text) > 0) AND (length((subject)::text) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "external_identity",
+      "conname": "external_identity_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (identity_id) REFERENCES identity(identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "external_identity",
+      "conname": "external_identity_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (external_identity_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "ck_identity_1",
+      "contype": "c",
+      "definition": "CHECK (((security_state)::text = ANY ((ARRAY['Enabled'::character varying, 'Disabled'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "ck_identity_2",
+      "contype": "c",
+      "definition": "CHECK ((credential_revision > 0))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "ck_identity_3",
+      "contype": "c",
+      "definition": "CHECK (((login_email IS NULL) OR ((length((login_email)::text) > 3) AND ((login_email)::text = lower(btrim((login_email)::text))) AND ((login_email)::text ~ '^[!-~]+@[!-~]+$'::text))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "ck_identity_4",
+      "contype": "c",
+      "definition": "CHECK (((email_verified_at IS NULL) OR ((login_email IS NOT NULL) AND (email_verified_at >= created_at))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "identity_login_email_key",
+      "contype": "u",
+      "definition": "UNIQUE (login_email)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "conname": "identity_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (identity_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_1",
+      "contype": "c",
+      "definition": "CHECK (((purpose)::text = ANY ((ARRAY['Login'::character varying, 'Link'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_2",
+      "contype": "c",
+      "definition": "CHECK (((((purpose)::text = 'Login'::text) AND (link_identity_id IS NULL) AND (link_session_id IS NULL)) OR (((purpose)::text = 'Link'::text) AND (link_identity_id IS NOT NULL) AND (link_session_id IS NOT NULL))))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_3",
+      "contype": "c",
+      "definition": "CHECK ((((state_digest)::text ~ '^[0-9a-f]{64}$'::text) AND ((browser_digest)::text ~ '^[0-9a-f]{64}$'::text) AND ((nonce_digest)::text ~ '^[0-9a-f]{64}$'::text)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_4",
+      "contype": "c",
+      "definition": "CHECK (((length((issuer)::text) > 0) AND (length(pkce_verifier_ciphertext) > 0) AND (length((redirect_uri)::text) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_5",
+      "contype": "c",
+      "definition": "CHECK ((expires_at > created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "ck_oidc_request_6",
+      "contype": "c",
+      "definition": "CHECK (((consumed_at IS NULL) OR (consumed_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "oidc_request_link_session_id_link_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (link_session_id, link_identity_id) REFERENCES auth_session(session_id, identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "oidc_request_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (request_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "conname": "oidc_request_state_digest_key",
+      "contype": "u",
+      "definition": "UNIQUE (state_digest)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "password_credential",
+      "conname": "ck_password_credential_1",
+      "contype": "c",
+      "definition": "CHECK (((length(password_hash) > 30) AND (password_hash ~~ '$argon2id$%'::text)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "password_credential",
+      "conname": "password_credential_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (identity_id) REFERENCES identity(identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "password_credential",
+      "conname": "password_credential_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (identity_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "ck_refresh_token_1",
+      "contype": "c",
+      "definition": "CHECK (((secret_digest)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "ck_refresh_token_2",
+      "contype": "c",
+      "definition": "CHECK ((expires_at > created_at))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "ck_refresh_token_3",
+      "contype": "c",
+      "definition": "CHECK (((parent_token_id IS NULL) OR (parent_token_id <> refresh_token_id)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "ck_refresh_token_4",
+      "contype": "c",
+      "definition": "CHECK (((consumed_at IS NULL) OR (consumed_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "ck_refresh_token_5",
+      "contype": "c",
+      "definition": "CHECK (((revoked_at IS NULL) OR (revoked_at >= created_at)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "refresh_token_parent_token_id_session_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (parent_token_id, session_id) REFERENCES refresh_token(refresh_token_id, session_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "refresh_token_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (refresh_token_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "refresh_token_secret_digest_key",
+      "contype": "u",
+      "definition": "UNIQUE (secret_digest)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "conname": "refresh_token_session_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (session_id) REFERENCES auth_session(session_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "conname": "ck_security_event_1",
+      "contype": "c",
+      "definition": "CHECK (((session_id IS NULL) OR (identity_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "conname": "ck_security_event_2",
+      "contype": "c",
+      "definition": "CHECK (((length((event_type)::text) > 0) AND (length((outcome_code)::text) > 0)))"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "conname": "security_event_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (identity_id) REFERENCES identity(identity_id) DEFERRABLE"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "conname": "security_event_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (event_id)"
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "conname": "security_event_session_id_identity_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (session_id, identity_id) REFERENCES auth_session(session_id, identity_id) DEFERRABLE"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "public",
+      "tablename": "__EFMigrationsHistory",
+      "indexname": "PK___EFMigrationsHistory",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX \"PK___EFMigrationsHistory\" ON public.\"__EFMigrationsHistory\" USING btree (\"MigrationId\")"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "account_challenge",
+      "indexname": "account_challenge_identity_id_purpose_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX account_challenge_identity_id_purpose_idx ON public.account_challenge USING btree (identity_id, purpose)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "account_challenge",
+      "indexname": "account_challenge_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX account_challenge_pkey ON public.account_challenge USING btree (challenge_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "account_challenge",
+      "indexname": "account_challenge_secret_digest_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX account_challenge_secret_digest_key ON public.account_challenge USING btree (secret_digest)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "account_challenge",
+      "indexname": "ux_challenge_live",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX ux_challenge_live ON public.account_challenge USING btree (identity_id, purpose) WHERE ((consumed_at IS NULL) AND (invalidated_at IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "auth_operation",
+      "indexname": "auth_operation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX auth_operation_pkey ON public.auth_operation USING btree (operation_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "auth_session",
+      "indexname": "auth_session_identity_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX auth_session_identity_id_idx ON public.auth_session USING btree (identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "auth_session",
+      "indexname": "auth_session_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX auth_session_pkey ON public.auth_session USING btree (session_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "auth_session",
+      "indexname": "auth_session_session_id_identity_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX auth_session_session_id_identity_id_idx ON public.auth_session USING btree (session_id, identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "challenge_delivery",
+      "indexname": "challenge_delivery_challenge_id_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX challenge_delivery_challenge_id_key ON public.challenge_delivery USING btree (challenge_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "challenge_delivery",
+      "indexname": "challenge_delivery_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX challenge_delivery_pkey ON public.challenge_delivery USING btree (delivery_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "challenge_delivery",
+      "indexname": "ix_delivery_pending",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX ix_delivery_pending ON public.challenge_delivery USING btree (next_attempt_at) WHERE ((status)::text = 'Pending'::text)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "external_identity",
+      "indexname": "external_identity_issuer_subject_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX external_identity_issuer_subject_idx ON public.external_identity USING btree (issuer, subject)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "external_identity",
+      "indexname": "external_identity_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX external_identity_pkey ON public.external_identity USING btree (external_identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "identity",
+      "indexname": "identity_login_email_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX identity_login_email_key ON public.identity USING btree (login_email)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "identity",
+      "indexname": "identity_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX identity_pkey ON public.identity USING btree (identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "oidc_request",
+      "indexname": "oidc_request_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX oidc_request_pkey ON public.oidc_request USING btree (request_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "oidc_request",
+      "indexname": "oidc_request_state_digest_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX oidc_request_state_digest_key ON public.oidc_request USING btree (state_digest)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "password_credential",
+      "indexname": "password_credential_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX password_credential_pkey ON public.password_credential USING btree (identity_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "refresh_token_parent_token_id_session_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX refresh_token_parent_token_id_session_id_idx ON public.refresh_token USING btree (parent_token_id, session_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "refresh_token_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX refresh_token_pkey ON public.refresh_token USING btree (refresh_token_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "refresh_token_refresh_token_id_session_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX refresh_token_refresh_token_id_session_id_idx ON public.refresh_token USING btree (refresh_token_id, session_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "refresh_token_secret_digest_key",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX refresh_token_secret_digest_key ON public.refresh_token USING btree (secret_digest)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "refresh_token_session_id_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX refresh_token_session_id_idx ON public.refresh_token USING btree (session_id)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "ux_refresh_live",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX ux_refresh_live ON public.refresh_token USING btree (session_id) WHERE ((consumed_at IS NULL) AND (revoked_at IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "refresh_token",
+      "indexname": "ux_refresh_root",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX ux_refresh_root ON public.refresh_token USING btree (session_id) WHERE (parent_token_id IS NULL)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "security_event",
+      "indexname": "security_event_identity_id_occurred_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX security_event_identity_id_occurred_at_idx ON public.security_event USING btree (identity_id, occurred_at)"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "security_event",
+      "indexname": "security_event_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX security_event_pkey ON public.security_event USING btree (event_id)"
+    }
+  ],
+  "policies": [],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "public",
+      "table_name": "__EFMigrationsHistory",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "identity",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "external_identity",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_session",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "password_credential",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "refresh_token",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "account_challenge",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "oidc_request",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "security_event",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "auth_operation",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "public",
+      "table_name": "challenge_delivery",
+      "enabled": false,
+      "forced": false
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "public",
+      "child_table": "external_identity",
+      "parent_schema": "public",
+      "parent_table": "identity",
+      "conname": "external_identity_identity_id_fkey",
+      "child_columns": [
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "auth_session",
+      "parent_schema": "public",
+      "parent_table": "identity",
+      "conname": "auth_session_identity_id_fkey",
+      "child_columns": [
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "password_credential",
+      "parent_schema": "public",
+      "parent_table": "identity",
+      "conname": "password_credential_identity_id_fkey",
+      "child_columns": [
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "refresh_token",
+      "parent_schema": "public",
+      "parent_table": "refresh_token",
+      "conname": "refresh_token_parent_token_id_session_id_fkey",
+      "child_columns": [
+        "parent_token_id",
+        "session_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "refresh_token",
+      "parent_schema": "public",
+      "parent_table": "auth_session",
+      "conname": "refresh_token_session_id_fkey",
+      "child_columns": [
+        "session_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "account_challenge",
+      "parent_schema": "public",
+      "parent_table": "identity",
+      "conname": "account_challenge_identity_id_fkey",
+      "child_columns": [
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "oidc_request",
+      "parent_schema": "public",
+      "parent_table": "auth_session",
+      "conname": "oidc_request_link_session_id_link_identity_id_fkey",
+      "child_columns": [
+        "link_session_id",
+        "link_identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "security_event",
+      "parent_schema": "public",
+      "parent_table": "auth_session",
+      "conname": "security_event_session_id_identity_id_fkey",
+      "child_columns": [
+        "session_id",
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "security_event",
+      "parent_schema": "public",
+      "parent_table": "identity",
+      "conname": "security_event_identity_id_fkey",
+      "child_columns": [
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "auth_operation",
+      "parent_schema": "public",
+      "parent_table": "auth_session",
+      "conname": "auth_operation_source_session_id_identity_id_fkey",
+      "child_columns": [
+        "source_session_id",
+        "identity_id"
+      ]
+    },
+    {
+      "child_schema": "public",
+      "child_table": "challenge_delivery",
+      "parent_schema": "public",
+      "parent_table": "account_challenge",
+      "conname": "challenge_delivery_challenge_id_fkey",
+      "child_columns": [
+        "challenge_id"
+      ]
+    }
+  ]
+}

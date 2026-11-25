@@ -1,0 +1,1451 @@
+{
+  "database": "vairas_notifications",
+  "owningContext": "notifications",
+  "columns": [
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 2,
+      "column_name": "notification_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 3,
+      "column_name": "recipient_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 4,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 5,
+      "column_name": "template_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 6,
+      "column_name": "notification_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 40
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 7,
+      "column_name": "channel",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'Email'::character varying",
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 8,
+      "column_name": "subject",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 9,
+      "column_name": "body",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 10,
+      "column_name": "destination_address",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 254
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 11,
+      "column_name": "contact_revision",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 100
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 12,
+      "column_name": "source_context",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 40
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 13,
+      "column_name": "source_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 14,
+      "column_name": "source_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 15,
+      "column_name": "source_event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 16,
+      "column_name": "dispatch_key",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 17,
+      "column_name": "scheduled_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 18,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'Pending'::character varying",
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 19,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 20,
+      "column_name": "attempt_count",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 21,
+      "column_name": "next_attempt_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 22,
+      "column_name": "sent_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 23,
+      "column_name": "cancelled_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 24,
+      "column_name": "failure_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 25,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 26,
+      "column_name": "updated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 27,
+      "column_name": "correlation_id",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'legacy'::character varying",
+      "character_maximum_length": 128
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification",
+      "ordinal_position": 28,
+      "column_name": "content_purged_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 2,
+      "column_name": "attempt_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 3,
+      "column_name": "notification_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 4,
+      "column_name": "attempt_no",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 5,
+      "column_name": "provider_key",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 6,
+      "column_name": "provider_message_id",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 200
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 7,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'Started'::character varying",
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 8,
+      "column_name": "started_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 9,
+      "column_name": "finished_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "ordinal_position": 10,
+      "column_name": "error_code",
+      "udt_name": "varchar",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 2,
+      "column_name": "producer",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 40
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 3,
+      "column_name": "event_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 4,
+      "column_name": "payload_hash",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 5,
+      "column_name": "source_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 6,
+      "column_name": "source_revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 7,
+      "column_name": "outcome",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 8,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 9,
+      "column_name": "received_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_inbox",
+      "ordinal_position": 10,
+      "column_name": "processed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 2,
+      "column_name": "operation_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 3,
+      "column_name": "actor_user_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 4,
+      "column_name": "channel",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 5,
+      "column_name": "command_name",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 6,
+      "column_name": "target_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 7,
+      "column_name": "request_hash",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 64
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 8,
+      "column_name": "authority_basis",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 9,
+      "column_name": "confirmation_id",
+      "udt_name": "uuid",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 10,
+      "column_name": "confirmed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 11,
+      "column_name": "outcome",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 12,
+      "column_name": "outcome_code",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 80
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 13,
+      "column_name": "resulting_revision",
+      "udt_name": "int8",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 14,
+      "column_name": "recorded_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_operation",
+      "ordinal_position": 15,
+      "column_name": "response_json",
+      "udt_name": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 1,
+      "column_name": "run_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 2,
+      "column_name": "cutoff",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 3,
+      "column_name": "affected",
+      "udt_name": "int4",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 4,
+      "column_name": "executed_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 5,
+      "column_name": "executed_by",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_retention_run",
+      "ordinal_position": 6,
+      "column_name": "reason",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 2,
+      "column_name": "template_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 3,
+      "column_name": "notification_type",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 40
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 4,
+      "column_name": "subject_template",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 500
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 5,
+      "column_name": "body_template",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 6,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": "'Active'::character varying",
+      "character_maximum_length": 12
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 7,
+      "column_name": "revision",
+      "udt_name": "int8",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 8,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_template",
+      "ordinal_position": 9,
+      "column_name": "updated_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_work",
+      "ordinal_position": 1,
+      "column_name": "school_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_work",
+      "ordinal_position": 2,
+      "column_name": "notification_id",
+      "udt_name": "uuid",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_work",
+      "ordinal_position": 3,
+      "column_name": "status",
+      "udt_name": "varchar",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": 20
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_work",
+      "ordinal_position": 4,
+      "column_name": "available_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "notification_work",
+      "ordinal_position": 5,
+      "column_name": "created_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "schema_history",
+      "ordinal_position": 1,
+      "column_name": "version",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "schema_history",
+      "ordinal_position": 2,
+      "column_name": "checksum",
+      "udt_name": "text",
+      "is_nullable": "NO",
+      "column_default": null,
+      "character_maximum_length": null
+    },
+    {
+      "table_schema": "notifications",
+      "table_name": "schema_history",
+      "ordinal_position": 3,
+      "column_name": "applied_at",
+      "udt_name": "timestamptz",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "character_maximum_length": null
+    }
+  ],
+  "constraints": [
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_attempt_required",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text <> ALL ((ARRAY['Sending'::character varying, 'Sent'::character varying, 'DeliveryUnknown'::character varying])::text[])) OR (attempt_count > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_cancel_pair",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text = 'Cancelled'::text) = (cancelled_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_cancel_time",
+      "contype": "c",
+      "definition": "CHECK (((cancelled_at IS NULL) OR (cancelled_at >= created_at)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_channel",
+      "contype": "c",
+      "definition": "CHECK (((channel)::text = 'Email'::text))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_content",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM subject)) > 0) AND (length(TRIM(BOTH FROM body)) > 0) AND (length(TRIM(BOTH FROM destination_address)) > 0) AND (length(TRIM(BOTH FROM contact_revision)) > 0) AND (length(TRIM(BOTH FROM dispatch_key)) > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_retry_time",
+      "contype": "c",
+      "definition": "CHECK (((next_attempt_at IS NULL) OR (((status)::text = 'Pending'::text) AND (next_attempt_at >= created_at))))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_revisions",
+      "contype": "c",
+      "definition": "CHECK (((revision > 0) AND (source_revision > 0) AND (attempt_count >= 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_sent_pair",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text = 'Sent'::text) = (sent_at IS NOT NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_sent_time",
+      "contype": "c",
+      "definition": "CHECK (((sent_at IS NULL) OR (sent_at >= created_at)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_source",
+      "contype": "c",
+      "definition": "CHECK (((source_context)::text = ANY ((ARRAY['Scheduling'::character varying, 'LearningTracking'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_status",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Pending'::character varying, 'Sending'::character varying, 'Sent'::character varying, 'Failed'::character varying, 'Cancelled'::character varying, 'DeliveryUnknown'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_template_pair",
+      "contype": "c",
+      "definition": "CHECK ((((template_id IS NULL) AND (template_revision IS NULL)) OR ((template_id IS NOT NULL) AND (template_revision IS NOT NULL) AND (template_revision > 0))))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_time",
+      "contype": "c",
+      "definition": "CHECK (((updated_at >= created_at) AND (scheduled_at >= created_at)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "n_type",
+      "contype": "c",
+      "definition": "CHECK (((notification_type)::text = ANY ((ARRAY['LessonScheduled'::character varying, 'LessonRescheduled'::character varying, 'LessonCancelled'::character varying, 'LessonReminder'::character varying, 'AssessmentPassed'::character varying, 'AssessmentFailed'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "notification_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, notification_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "conname": "notification_school_id_template_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, template_id) REFERENCES notifications.notification_template(school_id, template_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "nda_finished",
+      "contype": "c",
+      "definition": "CHECK ((((status)::text = 'Started'::text) = (finished_at IS NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "nda_identity",
+      "contype": "c",
+      "definition": "CHECK (((attempt_no > 0) AND (length(TRIM(BOTH FROM provider_key)) > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "nda_status",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Started'::character varying, 'Accepted'::character varying, 'Rejected'::character varying, 'Unknown'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "nda_time",
+      "contype": "c",
+      "definition": "CHECK (((finished_at IS NULL) OR (finished_at >= started_at)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "notification_delivery_attempt_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, attempt_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "conname": "notification_delivery_attempt_school_id_notification_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, notification_id) REFERENCES notifications.notification(school_id, notification_id) ON DELETE RESTRICT DEFERRABLE"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "conname": "ni_hash",
+      "contype": "c",
+      "definition": "CHECK (((payload_hash)::text ~ '^[0-9a-f]{64}$'::text))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "conname": "ni_outcome",
+      "contype": "c",
+      "definition": "CHECK ((((outcome)::text = ANY ((ARRAY['Applied'::character varying, 'Ignored'::character varying, 'Rejected'::character varying])::text[])) AND (length(TRIM(BOTH FROM outcome_code)) > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "conname": "ni_source",
+      "contype": "c",
+      "definition": "CHECK ((((producer)::text = ANY ((ARRAY['Scheduling'::character varying, 'LearningTracking'::character varying])::text[])) AND (source_revision > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "conname": "ni_time",
+      "contype": "c",
+      "definition": "CHECK ((processed_at >= received_at))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "conname": "notification_inbox_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, producer, event_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_basis",
+      "contype": "c",
+      "definition": "CHECK ((((request_hash)::text ~ '^[0-9a-f]{64}$'::text) AND (length(TRIM(BOTH FROM command_name)) > 0) AND (length(TRIM(BOTH FROM authority_basis)) > 0) AND (length(TRIM(BOTH FROM outcome_code)) > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_confirmation_pair",
+      "contype": "c",
+      "definition": "CHECK (((confirmation_id IS NULL) = (confirmed_at IS NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_mcp_confirmation",
+      "contype": "c",
+      "definition": "CHECK ((((channel)::text <> 'MCP'::text) OR ((outcome)::text <> 'Applied'::text) OR (confirmation_id IS NOT NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_response",
+      "contype": "c",
+      "definition": "CHECK ((((outcome)::text <> 'Applied'::text) OR (response_json IS NOT NULL)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_revision",
+      "contype": "c",
+      "definition": "CHECK (((resulting_revision IS NULL) OR (resulting_revision > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "no_values",
+      "contype": "c",
+      "definition": "CHECK ((((channel)::text = ANY ((ARRAY['Web'::character varying, 'MCP'::character varying])::text[])) AND ((outcome)::text = ANY ((ARRAY['Applied'::character varying, 'Rejected'::character varying])::text[]))))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "conname": "notification_operation_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, operation_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_retention_run",
+      "conname": "notification_retention_run_affected_check",
+      "contype": "c",
+      "definition": "CHECK ((affected >= 0))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_retention_run",
+      "conname": "notification_retention_run_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (run_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_retention_run",
+      "conname": "notification_retention_run_reason_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM reason)) > 0))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "conname": "notification_template_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, template_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "conname": "nt_content",
+      "contype": "c",
+      "definition": "CHECK (((length(TRIM(BOTH FROM subject_template)) > 0) AND (length(TRIM(BOTH FROM body_template)) > 0)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "conname": "nt_revision_time",
+      "contype": "c",
+      "definition": "CHECK (((revision > 0) AND (updated_at >= created_at)))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "conname": "nt_status",
+      "contype": "c",
+      "definition": "CHECK (((status)::text = ANY ((ARRAY['Active'::character varying, 'Archived'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "conname": "nt_type",
+      "contype": "c",
+      "definition": "CHECK (((notification_type)::text = ANY ((ARRAY['LessonScheduled'::character varying, 'LessonRescheduled'::character varying, 'LessonCancelled'::character varying, 'LessonReminder'::character varying, 'AssessmentPassed'::character varying, 'AssessmentFailed'::character varying])::text[])))"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_work",
+      "conname": "notification_work_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (school_id, notification_id)"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_work",
+      "conname": "notification_work_school_id_notification_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (school_id, notification_id) REFERENCES notifications.notification(school_id, notification_id) ON DELETE CASCADE"
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "schema_history",
+      "conname": "schema_history_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (version)"
+    }
+  ],
+  "indexes": [
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "indexname": "notification_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_pkey ON notifications.notification USING btree (school_id, notification_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "indexname": "notification_school_id_recipient_user_id_channel_dispatch_k_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_school_id_recipient_user_id_channel_dispatch_k_idx ON notifications.notification USING btree (school_id, recipient_user_id, channel, dispatch_key)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "indexname": "notification_school_id_recipient_user_id_created_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX notification_school_id_recipient_user_id_created_at_idx ON notifications.notification USING btree (school_id, recipient_user_id, created_at)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "indexname": "notification_school_id_source_context_source_id_source_revi_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX notification_school_id_source_context_source_id_source_revi_idx ON notifications.notification USING btree (school_id, source_context, source_id, source_revision)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "indexname": "notification_status_next_attempt_at_scheduled_at_idx",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX notification_status_next_attempt_at_scheduled_at_idx ON notifications.notification USING btree (status, next_attempt_at, scheduled_at)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_delivery_attempt",
+      "indexname": "nda_one_unresolved",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX nda_one_unresolved ON notifications.notification_delivery_attempt USING btree (school_id, notification_id) WHERE ((status)::text = ANY ((ARRAY['Started'::character varying, 'Unknown'::character varying])::text[]))"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_delivery_attempt",
+      "indexname": "notification_delivery_attempt_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_delivery_attempt_pkey ON notifications.notification_delivery_attempt USING btree (school_id, attempt_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_delivery_attempt",
+      "indexname": "notification_delivery_attempt_school_id_notification_id_att_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_delivery_attempt_school_id_notification_id_att_idx ON notifications.notification_delivery_attempt USING btree (school_id, notification_id, attempt_no)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_delivery_attempt",
+      "indexname": "notification_delivery_attempt_school_id_provider_key_idx",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_delivery_attempt_school_id_provider_key_idx ON notifications.notification_delivery_attempt USING btree (school_id, provider_key)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_inbox",
+      "indexname": "notification_inbox_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_inbox_pkey ON notifications.notification_inbox USING btree (school_id, producer, event_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_operation",
+      "indexname": "notification_operation_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_operation_pkey ON notifications.notification_operation USING btree (school_id, operation_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_retention_run",
+      "indexname": "notification_retention_run_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_retention_run_pkey ON notifications.notification_retention_run USING btree (run_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_template",
+      "indexname": "notification_template_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_template_pkey ON notifications.notification_template USING btree (school_id, template_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_template",
+      "indexname": "nt_one_active",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX nt_one_active ON notifications.notification_template USING btree (school_id, notification_type) WHERE ((status)::text = 'Active'::text)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_work",
+      "indexname": "notification_work_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX notification_work_pkey ON notifications.notification_work USING btree (school_id, notification_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_work",
+      "indexname": "nw_due",
+      "tablespace": null,
+      "indexdef": "CREATE INDEX nw_due ON notifications.notification_work USING btree (available_at, school_id, notification_id)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "schema_history",
+      "indexname": "schema_history_pkey",
+      "tablespace": null,
+      "indexdef": "CREATE UNIQUE INDEX schema_history_pkey ON notifications.schema_history USING btree (version)"
+    }
+  ],
+  "policies": [
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_template",
+      "policyname": "tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_operation",
+      "policyname": "tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification",
+      "policyname": "tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_delivery_attempt",
+      "policyname": "tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)"
+    },
+    {
+      "schemaname": "notifications",
+      "tablename": "notification_inbox",
+      "policyname": "tenant",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "ALL",
+      "qual": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)",
+      "with_check": "(school_id = (NULLIF(current_setting('app.school_id'::text, true), ''::text))::uuid)"
+    }
+  ],
+  "rowLevelSecurity": [
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_template",
+      "enabled": true,
+      "forced": true
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "schema_history",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_operation",
+      "enabled": true,
+      "forced": true
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification",
+      "enabled": true,
+      "forced": true
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_work",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_retention_run",
+      "enabled": false,
+      "forced": false
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_delivery_attempt",
+      "enabled": true,
+      "forced": true
+    },
+    {
+      "schema_name": "notifications",
+      "table_name": "notification_inbox",
+      "enabled": true,
+      "forced": true
+    }
+  ],
+  "relationships": [
+    {
+      "child_schema": "notifications",
+      "child_table": "notification_delivery_attempt",
+      "parent_schema": "notifications",
+      "parent_table": "notification",
+      "conname": "notification_delivery_attempt_school_id_notification_id_fkey",
+      "child_columns": [
+        "school_id",
+        "notification_id"
+      ]
+    },
+    {
+      "child_schema": "notifications",
+      "child_table": "notification",
+      "parent_schema": "notifications",
+      "parent_table": "notification_template",
+      "conname": "notification_school_id_template_id_fkey",
+      "child_columns": [
+        "school_id",
+        "template_id"
+      ]
+    },
+    {
+      "child_schema": "notifications",
+      "child_table": "notification_work",
+      "parent_schema": "notifications",
+      "parent_table": "notification",
+      "conname": "notification_work_school_id_notification_id_fkey",
+      "child_columns": [
+        "school_id",
+        "notification_id"
+      ]
+    }
+  ]
+}

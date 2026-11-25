@@ -1,0 +1,104 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_action_confirmation {
+    uuid school_id
+    uuid conversation_id
+    uuid invocation_id
+    uuid confirmed_by_user_id
+    bpchar confirmed_digest
+    timestamptz confirmed_at
+  }
+  public_ai_model_deployment {
+    uuid id
+    varchar provider
+    varchar model_name
+    varchar model_version
+    varchar deployment_name
+    varchar region
+    varchar endpoint_config_key
+    varchar credential_secret_ref
+    int4 configuration_version
+    bool enabled
+    timestamptz created_at
+  }
+  public_assistant_run {
+    uuid school_id
+    uuid conversation_id
+    uuid id
+    uuid trigger_message_id
+    uuid response_message_id
+    int4 attempt_no
+    uuid model_deployment_id
+    varchar prompt_version
+    run_status status
+    int8 revision
+    int8 input_tokens
+    int8 output_tokens
+    varchar error_code
+    timestamptz created_at
+    timestamptz started_at
+    timestamptz finished_at
+    varchar execution_profile
+    timestamptz deadline_at
+  }
+  public_chat_message {
+    uuid school_id
+    uuid conversation_id
+    uuid id
+    int8 sequence_no
+    message_role role
+    text content
+    uuid client_request_id
+    timestamptz created_at
+  }
+  public_conversation {
+    uuid school_id
+    uuid id
+    uuid owner_user_id
+    varchar title
+    conversation_status status
+    int8 revision
+    timestamptz created_at
+    timestamptz archived_at
+    uuid creation_request_id
+    varchar access_stamp
+    int8 archive_expected_revision
+    uuid archive_request_id
+    varchar execution_profile
+  }
+  public_tool_invocation {
+    uuid school_id
+    uuid conversation_id
+    uuid id
+    uuid run_id
+    int4 sequence_no
+    varchar tool_name
+    varchar tool_contract_version
+    tool_effect effect
+    varchar target_context
+    jsonb canonical_arguments
+    jsonb preview
+    jsonb expected_source_revisions
+    bpchar action_digest
+    timestamptz expires_at
+    uuid operation_id
+    invocation_status status
+    int8 revision
+    varchar result_reference
+    jsonb result_summary
+    varchar error_code
+    timestamptz created_at
+    timestamptz started_at
+    timestamptz finished_at
+    timestamptz recovery_after
+  }
+  public_conversation ||--o{ public_chat_message : "chat_message_school_id_conversation_id_fkey"
+  public_conversation ||--o{ public_assistant_run : "assistant_run_school_id_conversation_id_fkey"
+  public_chat_message ||--o{ public_assistant_run : "assistant_run_school_id_conversation_id_trigger_message_id_fkey"
+  public_chat_message o|--o{ public_assistant_run : "assistant_run_school_id_conversation_id_response_message_i_fkey"
+  public_ai_model_deployment ||--o{ public_assistant_run : "assistant_run_model_deployment_id_fkey"
+  public_assistant_run ||--o{ public_tool_invocation : "tool_invocation_school_id_conversation_id_run_id_fkey"
+  public_tool_invocation ||--o{ public_action_confirmation : "action_confirmation_school_id_conversation_id_invocation_i_fkey"

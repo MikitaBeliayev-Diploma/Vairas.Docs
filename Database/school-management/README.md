@@ -29,3 +29,7 @@ psql "$MIGRATION_DSN" -v ON_ERROR_STOP=1 -c "SET vairas.demo = on" -f seeds/seed
 Initial DDL is for an empty database. Run seeds only against an isolated demo database. Fixed vocabularies are defined by enums/CHECK constraints; synthetic business configuration is in the demo seed where applicable.
 
 [Database overview](../README.md)
+
+## Scheduling coordination implementation
+
+The original thirteen-table design is retained. The executable Backend adds one technical coordination table; [the explicit extension and migration prerequisites](docs/scheduling-coordination.md) distinguish canonical design installation from EF-managed service deployment.

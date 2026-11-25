@@ -1,0 +1,245 @@
+erDiagram
+  public___EFMigrationsHistory {
+    varchar MigrationId
+    varchar ProductVersion
+  }
+  public_contract_signed_copy {
+    uuid signed_copy_id
+    uuid school_id
+    uuid contract_id
+    int4 copy_no
+    uuid file_id
+    bool is_current
+    timestamptz declared_signed_at
+    timestamptz recorded_at
+    uuid recorded_by
+    text basis
+  }
+  public_document_job {
+    uuid id
+    uuid school_id
+    uuid enrollment_id
+    uuid actor_id
+    uuid identity_id
+    uuid session_id
+    uuid template_version_id
+    uuid snapshot_id
+    uuid replaces_contract_id
+    text source_snapshot_version
+    text kind
+    text status
+    uuid document_id
+    text error_code
+    int4 attempts
+    timestamptz next_attempt_at
+    timestamptz lease_until
+    uuid lease_id
+    timestamptz created_at
+    text missing_items_json
+    uuid result_version_id
+  }
+  public_document_review {
+    uuid id
+    uuid school_id
+    uuid document_version_id
+    uuid actor_id
+    timestamptz reviewed_at
+    text reason
+  }
+  public_document_template {
+    uuid template_id
+    uuid school_id
+    varchar kind
+    varchar name
+    uuid active_version_id
+    int8 revision
+  }
+  public_document_version {
+    uuid document_version_id
+    uuid school_id
+    uuid document_id
+    uuid enrollment_id
+    int4 version_no
+    uuid template_version_id
+    uuid evidence_snapshot_id
+    int8 dependency_revision
+    varchar evidence_status
+    uuid rendered_file_id
+    uuid basis_file_id
+    varchar basis_schema_version
+    varchar renderer_version
+    varchar state
+    int8 revision
+    uuid generated_by
+    timestamptz generated_at
+  }
+  public_download_grant {
+    uuid id
+    uuid school_id
+    uuid actor_id
+    uuid document_id
+    uuid file_id
+    uuid version_id
+    bool historical
+    timestamptz expires_at
+    uuid signed_copy_id
+  }
+  public_evidence_checkpoint {
+    uuid school_id
+    uuid enrollment_id
+    int8 dependency_revision
+    uuid last_change_id
+    timestamptz observed_at
+  }
+  public_file_object {
+    uuid file_id
+    uuid school_id
+    varchar storage_key
+    varchar purpose
+    varchar sha256
+    int8 byte_length
+    varchar media_type
+    varchar scan_status
+    uuid uploaded_by
+    timestamptz uploaded_at
+  }
+  public_inbox_message {
+    uuid id
+    uuid school_id
+    text fingerprint
+    timestamptz processed_at
+  }
+  public_operation_outcome {
+    uuid id
+    uuid school_id
+    text response_json
+  }
+  public_operation_receipt {
+    uuid command_id
+    uuid school_id
+    uuid actor_id
+    uuid template_id
+    uuid template_version_id
+    varchar operation
+    varchar request_digest
+    varchar status
+    uuid contract_id
+    uuid document_id
+    uuid document_version_id
+    varchar outcome_code
+    timestamptz created_at
+    timestamptz completed_at
+  }
+  public_publication_decision {
+    uuid id
+    uuid school_id
+    uuid document_version_id
+    uuid actor_id
+    uuid identity_id
+    uuid session_id
+    int8 expected_revision
+    int8 expected_version_revision
+    text artifact_digest
+    text status
+    text reason
+    timestamptz created_at
+    timestamptz decided_at
+  }
+  public_rendered_artifact {
+    uuid id
+    uuid school_id
+    uuid contract_id
+    uuid document_version_id
+    uuid file_id
+    text format
+  }
+  public_state_event {
+    uuid event_id
+    uuid school_id
+    uuid template_id
+    uuid template_version_id
+    uuid signed_copy_id
+    varchar action
+    uuid contract_id
+    uuid document_id
+    uuid document_version_id
+    int8 sequence_no
+    varchar from_state
+    varchar to_state
+    uuid actor_id
+    timestamptz occurred_at
+    text reason
+    uuid command_id
+  }
+  public_template_version {
+    uuid template_version_id
+    uuid school_id
+    uuid template_id
+    int4 version_no
+    varchar status
+    uuid file_id
+    uuid created_by
+    timestamptz created_at
+  }
+  public_training_contract {
+    uuid contract_id
+    uuid school_id
+    uuid enrollment_id
+    uuid student_id
+    uuid template_version_id
+    uuid generated_file_id
+    uuid basis_file_id
+    varchar basis_schema_version
+    varchar status
+    uuid replaces_contract_id
+    uuid generated_by
+    timestamptz generated_at
+    int8 revision
+  }
+  public_training_document {
+    uuid document_id
+    uuid school_id
+    uuid enrollment_id
+    varchar kind
+    int8 revision
+    uuid current_version_id
+  }
+  public_template_version ||--o{ public_document_version : "document_version_school_id_template_version_id_fkey"
+  public_file_object ||--o{ public_document_version : "document_version_school_id_rendered_file_id_fkey"
+  public_file_object ||--o{ public_contract_signed_copy : "contract_signed_copy_school_id_file_id_fkey"
+  public_training_document ||--o{ public_document_version : "document_version_school_id_document_id_enrollment_id_fkey"
+  public_document_template ||--o{ public_template_version : "template_version_school_id_template_id_fkey"
+  public_template_version o|--o{ public_document_template : "document_template_school_id_template_id_active_version_id_fkey"
+  public_file_object ||--o{ public_template_version : "template_version_school_id_file_id_fkey"
+  public_file_object ||--o{ public_training_contract : "training_contract_school_id_generated_file_id_fkey"
+  public_file_object ||--o{ public_training_contract : "training_contract_school_id_basis_file_id_fkey"
+  public_template_version ||--o{ public_training_contract : "training_contract_school_id_template_version_id_fkey"
+  public_training_contract o|--o{ public_training_contract : "training_contract_school_id_enrollment_id_replaces_contrac_fkey"
+  public_training_contract ||--o{ public_contract_signed_copy : "contract_signed_copy_school_id_contract_id_fkey"
+  public_file_object ||--o{ public_document_version : "document_version_school_id_basis_file_id_fkey"
+  public_training_contract o|--o{ public_state_event : "state_event_school_id_contract_id_fkey"
+  public_document_version o|--o{ public_state_event : "state_event_school_id_document_version_id_fkey"
+  public_training_contract o|--o{ public_operation_receipt : "operation_receipt_school_id_contract_id_fkey"
+  public_document_version o|--o{ public_operation_receipt : "operation_receipt_school_id_document_version_id_fkey"
+  public_document_version o|--o{ public_training_document : "training_document_school_id_document_id_current_version_id_fkey"
+  public_document_template o|--o{ public_state_event : "state_event_school_id_template_id_fkey"
+  public_template_version o|--o{ public_state_event : "state_event_school_id_template_id_template_version_id_fkey"
+  public_contract_signed_copy o|--o{ public_state_event : "state_event_school_id_contract_id_signed_copy_id_fkey"
+  public_operation_receipt ||--o{ public_state_event : "state_event_school_id_command_id_fkey"
+  public_document_template o|--o{ public_operation_receipt : "operation_receipt_school_id_template_id_fkey"
+  public_template_version o|--o{ public_operation_receipt : "operation_receipt_school_id_template_id_template_version_i_fkey"
+  public_training_document o|--o{ public_state_event : "state_event_school_id_document_id_fkey"
+  public_training_document o|--o{ public_operation_receipt : "operation_receipt_school_id_document_id_fkey"
+  public_operation_receipt ||--o{ public_document_job : "document_job_school_id_id_fkey"
+  public_template_version ||--o{ public_document_job : "document_job_school_id_template_version_id_fkey"
+  public_operation_receipt ||--o{ public_operation_outcome : "operation_outcome_school_id_id_fkey"
+  public_training_contract o|--o{ public_rendered_artifact : "rendered_artifact_school_id_contract_id_fkey"
+  public_document_version o|--o{ public_rendered_artifact : "rendered_artifact_school_id_document_version_id_fkey"
+  public_file_object ||--o{ public_rendered_artifact : "rendered_artifact_school_id_file_id_fkey"
+  public_operation_receipt ||--o{ public_publication_decision : "publication_decision_school_id_id_fkey"
+  public_document_version ||--o{ public_publication_decision : "publication_decision_school_id_document_version_id_fkey"
+  public_file_object ||--o{ public_download_grant : "download_grant_school_id_file_id_fkey"
+  public_document_version ||--o{ public_document_review : "document_review_school_id_document_version_id_fkey"
+  public_document_version o|--o{ public_document_job : "dm_job_result_version"
+  public_document_version o|--o{ public_download_grant : "dm_download_version"
+  public_contract_signed_copy o|--o{ public_download_grant : "dm_download_signed_copy"
